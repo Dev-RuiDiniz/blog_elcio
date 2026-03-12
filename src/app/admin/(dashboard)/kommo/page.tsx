@@ -27,14 +27,22 @@ interface KommoSettings {
   statusName: string | null;
 }
 
+interface SyncResult {
+  mode: string;
+  contacts: { processed: number; synced: number; errored: number; skipped: number };
+  clients: { processed: number; synced: number; errored: number; skipped: number };
+}
+
 export default function KommoPage() {
   const [settings, setSettings] = useState<KommoSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [authorizing, setAuthorizing] = useState(false);
   const [loadingPipelines, setLoadingPipelines] = useState(false);
+  const [syncing, setSyncing] = useState(false);
   const [pipelines, setPipelines] = useState<Pipeline[]>([]);
   const [authCode, setAuthCode] = useState("");
+  const [syncResult, setSyncResult] = useState<SyncResult | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // Form state
@@ -167,6 +175,27 @@ export default function KommoPage() {
     });
   };
 
+  const handleSync = async (mode: "incremental" | "full") => {
+    setSyncing(true);
+    setMessage(null);
+    try {
+      const res = await fetch(`/api/admin/crm/sync?mode=${mode}`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSyncResult(data);
+        setMessage({ type: "success", text: "Sincronização CRM + Kommo concluída." });
+      } else {
+        setMessage({ type: "error", text: data.error || "Erro ao sincronizar CRM + Kommo" });
+      }
+    } catch (error) {
+      setMessage({ type: "error", text: "Erro ao sincronizar CRM + Kommo" });
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -214,6 +243,31 @@ export default function KommoPage() {
             />
           </div>
         </div>
+
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Button variant="outline" onClick={() => handleSync("incremental")} disabled={syncing}>
+            {syncing ? "Sincronizando..." : "Sincronizar CRM (incremental)"}
+          </Button>
+          <Button variant="outline" onClick={() => handleSync("full")} disabled={syncing}>
+            {syncing ? "Sincronizando..." : "Sincronizar CRM (full)"}
+          </Button>
+        </div>
+
+        {syncResult && (
+          <div className="mt-4 p-3 bg-zinc-50 dark:bg-zinc-800 rounded-lg text-sm">
+            <p className="font-medium text-zinc-900 dark:text-white mb-2">
+              Resultado da sincronização ({syncResult.mode})
+            </p>
+            <p className="text-zinc-700 dark:text-zinc-300">
+              Contatos: processados {syncResult.contacts.processed} | sincronizados {syncResult.contacts.synced} |
+              erros {syncResult.contacts.errored} | ignorados {syncResult.contacts.skipped}
+            </p>
+            <p className="text-zinc-700 dark:text-zinc-300">
+              Clientes: processados {syncResult.clients.processed} | sincronizados {syncResult.clients.synced} |
+              erros {syncResult.clients.errored} | ignorados {syncResult.clients.skipped}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Credenciais */}
