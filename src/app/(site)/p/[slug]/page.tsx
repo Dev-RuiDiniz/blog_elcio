@@ -60,7 +60,10 @@ export async function generateMetadata({
   }
 
   const title = page.metaTitle || page.title || page.name;
-  const description = page.metaDescription || page.description || `Conheça ${page.name}.`;
+  const description =
+    page.metaDescription ||
+    page.description ||
+    `Conheça ${page.name} e solicite consultoria comercial com catálogo técnico.`;
   const keywords = page.metaKeywords
     ? page.metaKeywords.split(",").map((item) => item.trim()).filter(Boolean)
     : undefined;
