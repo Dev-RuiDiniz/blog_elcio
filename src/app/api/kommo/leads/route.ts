@@ -18,13 +18,23 @@ interface LeadPayload {
   originPage?: string;
 }
 
+function normalizeContextToken(value: string | undefined, fallback: string) {
+  const normalized = (value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-_/ ]/g, "")
+    .replace(/\s+/g, "-");
+  return normalized || fallback;
+}
+
 function buildLeadContext(payload: LeadPayload) {
   const companySlug = normalizeCompanySlug(payload.companySlug);
   const companyName =
     (payload.companyName || "").trim() || getCompanyNameFromSlug(companySlug) || "Não informada";
-  const originPage = (payload.originPage || "").trim() || "site";
-  const interestType = (payload.interestType || "").trim() || "consultoria-catalogo";
-  const source = (payload.source || "").trim() || `Site - ${originPage} - ${interestType}`;
+  const originPage = normalizeContextToken(payload.originPage, "site");
+  const interestType = normalizeContextToken(payload.interestType, "consultoria-catalogo");
+  const source = `Site - ${originPage} - ${interestType}`;
+  const sourceLabel = (payload.source || "").trim();
 
   return {
     companySlug,
@@ -32,6 +42,7 @@ function buildLeadContext(payload: LeadPayload) {
     originPage,
     interestType,
     source,
+    sourceLabel,
   };
 }
 
@@ -44,6 +55,7 @@ function buildLeadNote(payload: LeadPayload, context: ReturnType<typeof buildLea
     `🔖 Slug Empresa: ${context.companySlug || "Não informado"}`,
     `🎯 Interesse: ${context.interestType}`,
     `🌐 Página: ${context.originPage}`,
+    `🧭 Rótulo do formulário: ${context.sourceLabel || "Não informado"}`,
     "",
     "💬 Mensagem:",
     payload.message || "Sem mensagem adicional",
@@ -88,6 +100,18 @@ function invalidPayload(payload: LeadPayload) {
   if (!payload?.name || payload.name.trim().length < 2) return "Nome é obrigatório";
   if (!payload?.email && !payload?.phone) return "Informe e-mail ou telefone";
   return "";
+}
+
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) return error.message;
+  return String(error);
+}
+
+async function trySendFallback(payload: LeadPayload, context: ReturnType<typeof buildLeadContext>) {
+  return sendFallbackEmail(payload, context).catch((error) => ({
+    sent: false,
+    reason: getErrorMessage(error),
+  }));
 }
 
 async function createContactInKommo(baseUrl: string, accessToken: string, payload: LeadPayload) {
@@ -144,16 +168,14 @@ export async function POST(request: NextRequest) {
       settings && settings.enabled && settings.accessToken && settings.subdomain;
 
     if (!kommoReady) {
-      const fallbackResult = await sendFallbackEmail(payload, context).catch((error) => ({
-        sent: false,
-        reason: error instanceof Error ? error.message : String(error),
-      }));
+      const fallbackResult = await trySendFallback(payload, context);
 
       if (fallbackResult.sent) {
         return NextResponse.json({
           success: true,
           message: "Lead recebido via fallback de e-mail",
           fallback: "email",
+          source: context.source,
         });
       }
 
@@ -166,81 +188,100 @@ export async function POST(request: NextRequest) {
     const baseUrl = `https://${settings.subdomain}.kommo.com`;
     const accessToken = settings.accessToken;
 
-    const contactId = await createContactInKommo(baseUrl, accessToken, payload);
+    try {
+      const contactId = await createContactInKommo(baseUrl, accessToken, payload);
 
-    const leadPayload: Record<string, unknown>[] = [
-      {
-        name: `${context.source} - ${payload.name}`,
-        ...(settings.pipelineId && { pipeline_id: settings.pipelineId }),
-        ...(contactId && {
-          _embedded: {
-            contacts: [{ id: contactId }],
-          },
-        }),
-      },
-    ];
+      const leadPayload: Record<string, unknown>[] = [
+        {
+          name: `${context.source} - ${payload.name}`,
+          ...(settings.pipelineId && { pipeline_id: settings.pipelineId }),
+          ...(contactId && {
+            _embedded: {
+              contacts: [{ id: contactId }],
+            },
+          }),
+        },
+      ];
 
-    const leadResponse = await fetch(`${baseUrl}/api/v4/leads`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(leadPayload),
-    });
-
-    if (!leadResponse.ok) {
-      const errorText = await leadResponse.text();
-      const fallbackResult = await sendFallbackEmail(payload, context).catch((error) => ({
-        sent: false,
-        reason: error instanceof Error ? error.message : String(error),
-      }));
-
-      if (fallbackResult.sent) {
-        return NextResponse.json({
-          success: true,
-          message: "Lead recebido via fallback de e-mail",
-          fallback: "email",
-          kommoError: errorText,
-        });
-      }
-
-      return NextResponse.json(
-        { error: "Erro ao criar lead no CRM", details: errorText },
-        { status: 500 }
-      );
-    }
-
-    const leadData = await leadResponse.json();
-    const leadId = leadData._embedded?.leads?.[0]?.id;
-
-    if (leadId) {
-      await fetch(`${baseUrl}/api/v4/leads/${leadId}/notes`, {
+      const leadResponse = await fetch(`${baseUrl}/api/v4/leads`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify([
-          {
-            note_type: "common",
-            params: {
-              text: noteText,
-            },
-          },
-        ]),
-      }).catch(() => {
-        // não bloqueia sucesso do lead se nota falhar
+        body: JSON.stringify(leadPayload),
       });
-    }
 
-    return NextResponse.json({
-      success: true,
-      message: "Lead criado com sucesso",
-      leadId,
-      contactId,
-      source: context.source,
-    });
+      if (!leadResponse.ok) {
+        const errorText = await leadResponse.text();
+        const fallbackResult = await trySendFallback(payload, context);
+
+        if (fallbackResult.sent) {
+          return NextResponse.json({
+            success: true,
+            message: "Lead recebido via fallback de e-mail",
+            fallback: "email",
+            kommoError: errorText,
+            source: context.source,
+          });
+        }
+
+        return NextResponse.json(
+          { error: "Erro ao criar lead no CRM", details: errorText },
+          { status: 500 }
+        );
+      }
+
+      const leadData = await leadResponse.json();
+      const leadId = leadData._embedded?.leads?.[0]?.id;
+
+      if (leadId) {
+        await fetch(`${baseUrl}/api/v4/leads/${leadId}/notes`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify([
+            {
+              note_type: "common",
+              params: {
+                text: noteText,
+              },
+            },
+          ]),
+        }).catch(() => {
+          // não bloqueia sucesso do lead se nota falhar
+        });
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: "Lead criado com sucesso",
+        leadId,
+        contactId,
+        source: context.source,
+      });
+    } catch (kommoError) {
+      const fallbackResult = await trySendFallback(payload, context);
+      if (fallbackResult.sent) {
+        return NextResponse.json({
+          success: true,
+          message: "Lead recebido via fallback de e-mail",
+          fallback: "email",
+          kommoError: getErrorMessage(kommoError),
+          source: context.source,
+        });
+      }
+
+      return NextResponse.json(
+        {
+          error: "Erro ao integrar com Kommo",
+          details: getErrorMessage(kommoError),
+        },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error("Error creating lead:", error);
     return NextResponse.json(
