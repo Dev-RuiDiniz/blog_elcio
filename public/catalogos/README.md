@@ -2,11 +2,11 @@
 
 Mapeamento de origem para nomes publicos estaveis:
 
-- `Apresentação DEST DORMER PRAMET.pdf` -> `dest-dormer-pramet.pdf`
-- `Apresentação Fecial - 2025.pdf` -> `fecial.pdf`
-- `CATALOGO produtos SOLUFIL- 2025.pdf` -> `solufil.pdf`
+- `Dormer_Pramet.pdf` -> `dormer-pramet.pdf`
+- `Fecial.pdf` -> `fecial.pdf`
+- `Solofil.pdf` -> `solofil.pdf`
 - `Deltajet.pdf` -> `deltajet.pdf`
-- `FOLDER F1300.pdf` -> `f1300.pdf`
-- `Apresenta.pdf` -> `apresenta-provisorio.pdf`
+- `Nord_drivesystems.pdf` -> `nord-drivesystems.pdf`
+- `Mercosul_motores.pdf` -> `mercosul-motores.pdf`
 
 Esses arquivos devem ser referenciados pelo front via `/catalogos/<arquivo>.pdf`.

@@ -16,7 +16,7 @@ Este repositório será adaptado como site de apresentação comercial do Elcio,
 - Arquitetura: CMS dinâmico.
 - CTA principal: `consultoria-catalogo` via formulário + CRM.
 - WhatsApp como canal de apoio.
-- 6ª empresa mantida com nome provisório (`Apresenta`) até validação de naming.
+- Portfólio consolidado com 6 empresas nomeadas a partir dos PDFs da raiz.
 
 ## Estratégia de Execução
 - Implementação em tarefas pequenas.
@@ -25,5 +25,4 @@ Este repositório será adaptado como site de apresentação comercial do Elcio,
 - Não incluir alterações locais não relacionadas (working tree existente).
 
 ## Observações Técnicas
-- Há pendência conhecida de `prisma/schema.prisma` ausente no repositório base.
-- Caso bloqueie build/deploy, tratar como subtarefa técnica específica ao final da trilha.
+- `prisma/schema.prisma` já está versionado no repositório.

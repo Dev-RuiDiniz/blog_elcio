@@ -1,4 +1,4 @@
-# Solufil
+# Solofil
 
 ## Visão Geral
 - [INFERIDO] Catálogo de produtos para aplicações de filtragem e processos industriais.

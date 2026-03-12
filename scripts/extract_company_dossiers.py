@@ -39,21 +39,21 @@ class CompanySource:
 
 COMPANIES: List[CompanySource] = [
     CompanySource(
-        slug="dest-dormer-pramet",
-        name="DEST DORMER PRAMET",
-        pdf_name="Apresentação DEST DORMER PRAMET.pdf",
+        slug="dormer-pramet",
+        name="Dormer Pramet",
+        pdf_name="Dormer_Pramet.pdf",
         teaser="Soluções industriais com foco em performance, precisão e produtividade.",
     ),
     CompanySource(
         slug="fecial",
         name="Fecial",
-        pdf_name="Apresentação Fecial - 2025.pdf",
+        pdf_name="Fecial.pdf",
         teaser="Ferramentas e insertos especiais com desenvolvimento técnico consolidado.",
     ),
     CompanySource(
-        slug="solufil",
-        name="Solufil",
-        pdf_name="CATALOGO produtos SOLUFIL- 2025.pdf",
+        slug="solofil",
+        name="Solofil",
+        pdf_name="Solofil.pdf",
         teaser="Catálogo de produtos para aplicações de filtragem e processos industriais.",
     ),
     CompanySource(
@@ -63,16 +63,16 @@ COMPANIES: List[CompanySource] = [
         teaser="Tecnologia aplicada para eficiência operacional em ambientes industriais.",
     ),
     CompanySource(
-        slug="f1300",
-        name="F1300",
-        pdf_name="FOLDER F1300.pdf",
+        slug="nord-drivesystems",
+        name="NORD DRIVESYSTEMS",
+        pdf_name="Nord_drivesystems.pdf",
         teaser="Acionamentos completos com foco em robustez e confiabilidade técnica.",
     ),
     CompanySource(
-        slug="apresenta",
-        name="Apresenta (provisório)",
-        pdf_name="Apresenta.pdf",
-        teaser="Apresentação institucional provisória para ajuste de naming no novo site.",
+        slug="mercosul-motores",
+        name="Mercosul Motores",
+        pdf_name="Mercosul_motores.pdf",
+        teaser="Soluções em motores com foco em eficiência energética e aplicação industrial.",
     ),
 ]
 

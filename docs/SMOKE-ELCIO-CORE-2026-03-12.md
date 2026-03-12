@@ -10,12 +10,12 @@ Validar o núcleo público consolidado após a migração para o cliente atual.
 - `/marcas`
 - `/blog`
 - `/contato`
-- `/p/dest-dormer-pramet`
+- `/p/dormer-pramet`
 - `/p/fecial`
-- `/p/solufil`
+- `/p/solofil`
 - `/p/deltajet`
-- `/p/f1300`
-- `/p/apresenta`
+- `/p/nord-drivesystems`
+- `/p/mercosul-motores`
 
 Status: **OK**
 

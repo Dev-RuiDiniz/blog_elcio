@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaInstagram, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
-import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
+import { COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 const linkGroups = [
   {
@@ -18,14 +18,10 @@ const linkGroups = [
   },
   {
     title: "Empresas",
-    links: [
-      { href: "/p/dest-dormer-pramet", label: "DEST DORMER PRAMET" },
-      { href: "/p/fecial", label: "Fecial" },
-      { href: "/p/solufil", label: "Solufil" },
-      { href: "/p/deltajet", label: "Deltajet" },
-      { href: "/p/f1300", label: "F1300" },
-      { href: "/p/apresenta", label: "Apresenta (provisório)" },
-    ],
+    links: COMPANY_OPTIONS.map((company) => ({
+      href: `/p/${company.slug}`,
+      label: company.name,
+    })),
   },
   {
     title: "Conversão",

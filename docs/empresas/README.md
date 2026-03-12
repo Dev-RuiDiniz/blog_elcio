@@ -3,12 +3,12 @@
 Este diretório consolida os materiais extraídos dos PDFs da raiz do projeto.
 
 ## Arquivos
-- [DEST DORMER PRAMET](./dest-dormer-pramet.md) - extração nativa: `30` páginas, OCR: `1` páginas
+- [Dormer Pramet](./dormer-pramet.md) - extração nativa: `30` páginas, OCR: `1` páginas
 - [Fecial](./fecial.md) - extração nativa: `7` páginas, OCR: `0` páginas
-- [Solufil](./solufil.md) - extração nativa: `0` páginas, OCR: `6` páginas
+- [Solofil](./solofil.md) - extração nativa: `0` páginas, OCR: `6` páginas
 - [Deltajet](./deltajet.md) - extração nativa: `0` páginas, OCR: `2` páginas
-- [F1300](./f1300.md) - extração nativa: `16` páginas, OCR: `0` páginas
-- [Apresenta (provisório)](./apresenta.md) - extração nativa: `7` páginas, OCR: `6` páginas
+- [NORD DRIVESYSTEMS](./nord-drivesystems.md) - extração nativa: `16` páginas, OCR: `0` páginas
+- [Mercosul Motores](./mercosul-motores.md) - extração nativa: `7` páginas, OCR: `6` páginas
 - [Fontes de Imagens Oficiais](./IMAGENS-OFICIAIS.md)
 
 ## Regras de Leitura

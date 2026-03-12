@@ -1,7 +1,7 @@
-# Apresenta (provisório)
+# Mercosul Motores
 
 ## Visão Geral
-- [INFERIDO] Apresentação institucional provisória para ajuste de naming no novo site.
+- [INFERIDO] Apresentação institucional da Mercosul Motores para apoio comercial no novo site.
 - [INFERIDO] Empresa tratada como opção de portfólio no atendimento consultivo do Elcio.
 
 ## Linhas de Produto/Serviço

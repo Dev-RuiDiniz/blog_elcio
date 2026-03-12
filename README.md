@@ -114,6 +114,13 @@ URL local: `http://localhost:3003`
 
 - Arquivos em `docs/empresas/*.md`
 - Índice consolidado: `docs/empresas/README.md`
+- Empresas atuais do portfólio:
+  - `dormer-pramet`
+  - `fecial`
+  - `solofil`
+  - `deltajet`
+  - `nord-drivesystems`
+  - `mercosul-motores`
 
 ## Scripts
 

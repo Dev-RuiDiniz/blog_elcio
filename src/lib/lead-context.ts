@@ -12,22 +12,29 @@ export interface CompanyOption {
 
 export const DEFAULT_WHATSAPP_PHONE = "5512991588460";
 
+const LEGACY_COMPANY_SLUGS: Record<string, string> = {
+  "dest-dormer-pramet": "dormer-pramet",
+  solufil: "solofil",
+  f1300: "nord-drivesystems",
+  apresenta: "mercosul-motores",
+};
+
 export const COMPANY_OPTIONS: CompanyOption[] = [
   {
-    slug: "dest-dormer-pramet",
-    name: "DEST DORMER PRAMET",
-    fileName: "Apresentação DEST DORMER PRAMET.pdf",
-    pdfPublicPath: "/catalogos/dest-dormer-pramet.pdf",
-    logoPublicPath: "/images/empresas/dest-dormer-pramet/logo.svg",
-    coverPublicPath: "/images/empresas/dest-dormer-pramet/cover.jpg",
+    slug: "dormer-pramet",
+    name: "Dormer Pramet",
+    fileName: "Dormer_Pramet.pdf",
+    pdfPublicPath: "/catalogos/dormer-pramet.pdf",
+    logoPublicPath: "/images/empresas/dormer-pramet/logo.svg",
+    coverPublicPath: "/images/empresas/dormer-pramet/cover.jpg",
     teaser: "Soluções industriais com foco em performance, precisão e produtividade.",
-    ctaSource: "empresa-dest-dormer-pramet",
+    ctaSource: "empresa-dormer-pramet",
     order: 1,
   },
   {
     slug: "fecial",
     name: "Fecial",
-    fileName: "Apresentação Fecial - 2025.pdf",
+    fileName: "Fecial.pdf",
     pdfPublicPath: "/catalogos/fecial.pdf",
     logoPublicPath: "/images/empresas/fecial/logo.png",
     coverPublicPath: "/images/empresas/fecial/cover.jpg",
@@ -36,14 +43,14 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     order: 2,
   },
   {
-    slug: "solufil",
-    name: "Solufil",
-    fileName: "CATALOGO produtos SOLUFIL- 2025.pdf",
-    pdfPublicPath: "/catalogos/solufil.pdf",
-    logoPublicPath: "/images/empresas/solufil/logo.png",
-    coverPublicPath: "/images/empresas/solufil/cover.jpg",
+    slug: "solofil",
+    name: "Solofil",
+    fileName: "Solofil.pdf",
+    pdfPublicPath: "/catalogos/solofil.pdf",
+    logoPublicPath: "/images/empresas/solofil/logo.png",
+    coverPublicPath: "/images/empresas/solofil/cover.jpg",
     teaser: "Catálogo de produtos para aplicações de filtragem e processos industriais.",
-    ctaSource: "empresa-solufil",
+    ctaSource: "empresa-solofil",
     order: 3,
   },
   {
@@ -58,32 +65,33 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     order: 4,
   },
   {
-    slug: "f1300",
-    name: "F1300",
-    fileName: "FOLDER F1300.pdf",
-    pdfPublicPath: "/catalogos/f1300.pdf",
-    logoPublicPath: "/images/empresas/f1300/logo.svg",
-    coverPublicPath: "/images/empresas/f1300/cover.jpg",
+    slug: "nord-drivesystems",
+    name: "NORD DRIVESYSTEMS",
+    fileName: "Nord_drivesystems.pdf",
+    pdfPublicPath: "/catalogos/nord-drivesystems.pdf",
+    logoPublicPath: "/images/empresas/nord-drivesystems/logo.svg",
+    coverPublicPath: "/images/empresas/nord-drivesystems/cover.jpg",
     teaser: "Acionamentos completos com foco em robustez e confiabilidade técnica.",
-    ctaSource: "empresa-f1300",
+    ctaSource: "empresa-nord-drivesystems",
     order: 5,
   },
   {
-    slug: "apresenta",
-    name: "Apresenta (provisório)",
-    fileName: "Apresenta.pdf",
-    pdfPublicPath: "/catalogos/apresenta-provisorio.pdf",
-    logoPublicPath: "/images/empresas/apresenta/logo.svg",
-    coverPublicPath: "/images/empresas/apresenta/cover.png",
-    teaser: "Apresentação institucional provisória para ajuste de naming no CMS.",
-    ctaSource: "empresa-apresenta",
+    slug: "mercosul-motores",
+    name: "Mercosul Motores",
+    fileName: "Mercosul_motores.pdf",
+    pdfPublicPath: "/catalogos/mercosul-motores.pdf",
+    logoPublicPath: "/images/empresas/mercosul-motores/logo.svg",
+    coverPublicPath: "/images/empresas/mercosul-motores/cover.png",
+    teaser: "Soluções em motores com foco em eficiência energética e aplicação industrial.",
+    ctaSource: "empresa-mercosul-motores",
     order: 6,
   },
 ];
 
 export function normalizeCompanySlug(value?: string | null): string {
   if (!value) return "";
-  const normalized = value.trim().toLowerCase();
+  const normalizedInput = value.trim().toLowerCase();
+  const normalized = LEGACY_COMPANY_SLUGS[normalizedInput] || normalizedInput;
   return COMPANY_OPTIONS.some((company) => company.slug === normalized) ? normalized : "";
 }
 

@@ -1,4 +1,4 @@
-# F1300
+# NORD DRIVESYSTEMS
 
 ## Visão Geral
 - [INFERIDO] Acionamentos completos com foco em robustez e confiabilidade técnica.

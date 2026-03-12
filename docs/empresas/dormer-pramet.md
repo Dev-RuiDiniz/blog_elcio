@@ -1,4 +1,4 @@
-# DEST DORMER PRAMET
+# Dormer Pramet
 
 ## Visão Geral
 - [INFERIDO] Soluções industriais com foco em performance, precisão e produtividade.
