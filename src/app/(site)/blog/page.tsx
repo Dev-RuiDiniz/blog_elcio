@@ -136,8 +136,10 @@ function BlogContent() {
   const showFeatured = settings.showFeatured !== false;
   const featuredPost = showFeatured ? filteredPosts[0] : null;
   const otherPosts = showFeatured ? filteredPosts.slice(1) : filteredPosts;
+  const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
   const selectedCompanySlug = normalizeCompanySlug(leadForm.companySlug);
   const selectedCompanyName = getCompanyNameFromSlug(selectedCompanySlug);
+  const ctaOrigin = selectedCompanySlug ? `${selectedCompanySlug}-blog-cta` : "blog-cta";
 
   const handleLeadSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -152,12 +154,14 @@ function BlogContent() {
           name: leadForm.name,
           email: leadForm.email,
           phone: leadForm.phone,
-          source: "CTA Blog",
+          source: "CTA Blog - Elcio",
           companySlug: selectedCompanySlug,
           companyName: selectedCompanyName,
           interestType: "consultoria-catalogo",
-          originPage: "blog",
-          message: "Lead originado no CTA do blog para consultoria + catálogo.",
+          originPage: ctaOrigin,
+          message: selectedCompanyName
+            ? `Lead originado no CTA do blog para consultoria + catálogo. Empresa de interesse: ${selectedCompanyName}.`
+            : "Lead originado no CTA do blog para consultoria + catálogo.",
         }),
       });
 
@@ -190,11 +194,11 @@ function BlogContent() {
               {settings.heroBadge || "Blog"}
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-semibold text-black mb-6">
-              {settings.heroTitle || "Insights & Tendências"}
+              {settings.heroTitle || "Blog Comercial do Elcio"}
             </h1>
             <p className="text-lg text-gray-600 leading-relaxed">
               {settings.heroDescription ||
-                "Conteúdo de autoridade para apoiar decisões comerciais e técnicas com mais clareza."}
+                "Conteúdo de autoridade para acelerar decisões comerciais, comparação de fornecedores e abertura de atendimento técnico."}
             </p>
           </motion.div>
         </div>
@@ -358,12 +362,17 @@ function BlogContent() {
           <div className="container mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">
-                {settings.ctaTitle || "Consultoria + Catálogo no seu contexto"}
+                {settings.ctaTitle || "Feche sua jornada com Consultoria + Catálogo"}
               </h2>
               <p className="text-gray-400 mb-8">
                 {settings.ctaDescription ||
-                  "Envie seu contato e receba apoio comercial para entender as empresas representadas e escolher a melhor solução."}
+                  "Depois de ler os conteúdos, envie seu contato para receber orientação comercial do Elcio e direcionamento para a empresa mais aderente."}
               </p>
+              {selectedCompanyName && (
+                <p className="text-sm text-gray-500 mb-6">
+                  Empresa selecionada: {selectedCompanyName}
+                </p>
+              )}
 
               {leadSuccess ? (
                 <div className="max-w-md mx-auto text-center">
@@ -419,7 +428,7 @@ function BlogContent() {
                       <option value={NONE_VALUE} className="text-black">
                         Empresa de interesse (opcional)
                       </option>
-                      {COMPANY_OPTIONS.map((company) => (
+                      {orderedCompanies.map((company) => (
                         <option key={company.slug} value={company.slug} className="text-black">
                           {company.name}
                         </option>
@@ -442,7 +451,7 @@ function BlogContent() {
                   href={buildContactHref({
                     assunto: "consultoria-catalogo",
                     empresa: selectedCompanySlug,
-                    origem: "blog-cta",
+                    origem: ctaOrigin,
                   })}
                   className="px-6 py-3 border border-white/30 hover:bg-white/10 transition-colors"
                 >
@@ -452,7 +461,7 @@ function BlogContent() {
                   href={buildWhatsappHref({
                     assunto: "consultoria-catalogo",
                     empresa: selectedCompanySlug,
-                    origem: "blog-cta",
+                    origem: ctaOrigin,
                   })}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -460,6 +469,12 @@ function BlogContent() {
                 >
                   Falar no WhatsApp
                 </a>
+                <Link
+                  href="/marcas"
+                  className="px-6 py-3 border border-white/30 hover:bg-white/10 transition-colors"
+                >
+                  Ver as 6 empresas
+                </Link>
               </div>
             </div>
           </div>
