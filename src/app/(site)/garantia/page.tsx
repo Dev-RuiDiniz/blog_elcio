@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { HiArrowRight, HiOutlineShieldCheck, HiOutlineClock, HiOutlineDocumentText, HiOutlinePhone } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
+import { buildContactHref } from "@/lib/lead-context";
 
 interface PageBlock {
   id: string;
@@ -166,7 +167,12 @@ export default function GarantiaPage() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button size="lg" className="bg-white text-black hover:bg-gray-100" asChild>
-                <Link href={(ctaBlock.buttonLink as string) || "/contato"}>
+                <Link
+                  href={
+                    (ctaBlock.buttonLink as string) ||
+                    buildContactHref({ assunto: "consultoria-catalogo", origem: "garantia-cta" })
+                  }
+                >
                   {(ctaBlock.buttonText as string) || "Solicitar Suporte"}
                   <HiArrowRight className="ml-2 w-4 h-4" />
                 </Link>

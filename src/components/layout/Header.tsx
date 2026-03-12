@@ -80,7 +80,10 @@ export function Header() {
   const isHome = pathname === "/";
   const showDarkElements = isScrolled || !isHome;
 
-  const navLinks = config?.navLinks || defaultNavLinks;
+  const navLinks = (config?.navLinks || defaultNavLinks).map((link) => ({
+    ...link,
+    href: normalizeCtaHref(link.href, "header-menu"),
+  }));
   const ctaButtons = (config?.ctaButtons || defaultCtaButtons).map((button) => ({
     ...button,
     href: normalizeCtaHref(button.href, "header"),

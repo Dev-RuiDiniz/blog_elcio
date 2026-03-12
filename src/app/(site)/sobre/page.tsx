@@ -9,6 +9,7 @@ import {
   HiOutlineSparkles
 } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
+import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 interface PageBlock {
   id: string;
@@ -78,7 +79,12 @@ export default function SobrePage() {
                   className="border-black text-black hover:bg-black hover:text-white transition-all duration-300"
                   asChild
                 >
-                  <Link href={(heroBlock.secondaryLink as string) || "/contato"}>
+                  <Link
+                    href={
+                      (heroBlock.secondaryLink as string) ||
+                      buildContactHref({ assunto: "consultoria-catalogo", origem: "sobre-hero" })
+                    }
+                  >
                     {(heroBlock.secondaryButtonText as string) || "Falar Conosco"}
                   </Link>
                 </Button>
@@ -310,7 +316,12 @@ export default function SobrePage() {
                 className="bg-black text-white hover:bg-gray-800 transition-all duration-300"
                 asChild
               >
-                <Link href={(ctaBlock.buttonLink as string) || "/contato"}>
+                <Link
+                  href={
+                    (ctaBlock.buttonLink as string) ||
+                    buildContactHref({ assunto: "consultoria-catalogo", origem: "sobre-cta" })
+                  }
+                >
                   {(ctaBlock.buttonText as string) || "Entrar em Contato"}
                 </Link>
               </Button>
@@ -321,7 +332,10 @@ export default function SobrePage() {
                 asChild
               >
                 <a
-                  href={(ctaBlock.secondaryLink as string) || "https://wa.me/5511981982279"}
+                  href={
+                    (ctaBlock.secondaryLink as string) ||
+                    buildWhatsappHref({ assunto: "consultoria-catalogo", origem: "sobre-cta" })
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >

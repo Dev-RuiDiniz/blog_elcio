@@ -15,6 +15,32 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").trim();
 }
 
+function resolveContactHref(href: string | undefined, origem: string) {
+  if (!href) {
+    return buildContactHref({ assunto: "consultoria-catalogo", origem });
+  }
+
+  if (!href.startsWith("/contato")) {
+    return href;
+  }
+
+  const queryIndex = href.indexOf("?");
+  if (queryIndex < 0) {
+    return buildContactHref({ assunto: "consultoria-catalogo", origem });
+  }
+
+  const params = new URLSearchParams(href.slice(queryIndex + 1));
+  const assunto = params.get("assunto");
+  const empresa = params.get("empresa");
+  const origemParam = params.get("origem") || origem;
+
+  return buildContactHref({
+    assunto: !assunto || assunto === "catalogo" ? "consultoria-catalogo" : assunto,
+    empresa,
+    origem: origemParam,
+  });
+}
+
 interface Block {
   id: string;
   type: string;
@@ -876,7 +902,7 @@ function MalettiPartnershipBlock({ content }: { content: Record<string, unknown>
                 </Link>
               )}
               {(content.button2Text as string) && (
-                <Link href={(content.button2Link as string) || "/contato"}>
+                <Link href={resolveContactHref(content.button2Link as string, "home-partnership")}>
                   <Button size="lg" variant="outline" className="border-white/30 text-white bg-transparent hover:bg-white/10 transition-all duration-300">
                     {content.button2Text as string}
                   </Button>
@@ -1517,10 +1543,7 @@ function ProductsCTABlock({ content }: { content: Record<string, unknown> }) {
             {(content.secondaryButtonText as string) && (
               <Button size="lg" variant="outline" className="border-white/30 text-white bg-transparent hover:bg-white/10" asChild>
                 <a
-                  href={
-                    (content.secondaryLink as string) ||
-                    buildContactHref({ assunto: "consultoria-catalogo", origem: "products-cta" })
-                  }
+                  href={resolveContactHref(content.secondaryLink as string, "products-cta")}
                 >
                   {content.secondaryButtonText as string}
                 </a>
@@ -1653,12 +1676,7 @@ function BrandsCTABlock({ content }: { content: Record<string, unknown> }) {
             )}
             {(content.secondaryButtonText as string) && (
               <Button size="lg" variant="outline" className="border-white/30 text-white bg-transparent hover:bg-white/10 transition-all duration-300" asChild>
-                <Link
-                  href={
-                    (content.secondaryLink as string) ||
-                    buildContactHref({ assunto: "consultoria-catalogo", origem: "brands-cta" })
-                  }
-                >
+                <Link href={resolveContactHref(content.secondaryLink as string, "brands-cta")}>
                   {content.secondaryButtonText as string}
                 </Link>
               </Button>
@@ -1691,7 +1709,9 @@ function AboutHeroBlock({ content }: { content: Record<string, unknown> }) {
               )}
               {(content.secondaryButtonText as string) && (
                 <Button size="lg" variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>
-                  <Link href={(content.secondaryLink as string) || "/contato"}>{content.secondaryButtonText as string}</Link>
+                  <Link href={resolveContactHref(content.secondaryLink as string, "about-hero")}>
+                    {content.secondaryButtonText as string}
+                  </Link>
                 </Button>
               )}
             </div>
@@ -1817,12 +1837,7 @@ function AboutCTABlock({ content }: { content: Record<string, unknown> }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {(content.buttonText as string) && (
               <Button size="lg" className="bg-black text-white hover:bg-gray-800 transition-all duration-300" asChild>
-                <Link
-                  href={
-                    (content.buttonLink as string) ||
-                    buildContactHref({ assunto: "consultoria-catalogo", origem: "about-cta" })
-                  }
-                >
+                <Link href={resolveContactHref(content.buttonLink as string, "about-cta")}>
                   {content.buttonText as string}
                 </Link>
               </Button>

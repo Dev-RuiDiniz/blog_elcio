@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { HiArrowRight, HiOutlineCollection } from "react-icons/hi";
+import { buildContactHref } from "@/lib/lead-context";
 
 interface Category {
   id: string;
@@ -181,7 +182,7 @@ export default function CategoriasPage() {
                 Ver Todos os Produtos
               </Link>
               <Link
-                href="/contato"
+                href={buildContactHref({ assunto: "consultoria-catalogo", origem: "categorias-cta" })}
                 className="px-8 py-3 border border-white/30 text-white hover:bg-white/10 transition-colors"
               >
                 Falar com Especialista

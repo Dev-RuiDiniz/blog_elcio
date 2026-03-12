@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiChevronDown, HiOutlineSearch, HiArrowRight } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
+import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 interface PageBlock {
   id: string;
@@ -239,7 +240,12 @@ export default function FAQPage() {
                 className="bg-white text-black hover:bg-gray-100"
                 asChild
               >
-                <Link href={(ctaBlock.buttonLink as string) || "/contato"}>
+                <Link
+                  href={
+                    (ctaBlock.buttonLink as string) ||
+                    buildContactHref({ assunto: "consultoria-catalogo", origem: "faq-cta" })
+                  }
+                >
                   {(ctaBlock.buttonText as string) || "Falar Conosco"}
                   <HiArrowRight className="ml-2 w-4 h-4" />
                 </Link>
@@ -251,7 +257,10 @@ export default function FAQPage() {
                 asChild
               >
                 <a
-                  href={(ctaBlock.whatsappLink as string) || "https://wa.me/5511981982279"}
+                  href={
+                    (ctaBlock.whatsappLink as string) ||
+                    buildWhatsappHref({ assunto: "consultoria-catalogo", origem: "faq-cta" })
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >

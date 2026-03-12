@@ -6,6 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { HiArrowRight } from "react-icons/hi";
 import Link from "next/link";
+import { buildContactHref } from "@/lib/lead-context";
 
 interface SectionData {
   title: string;
@@ -41,7 +42,7 @@ const defaultData: SectionData = {
     button1Text: "Conhecer a Maletti",
     button1Link: "/maletti",
     button2Text: "Agendar Visita",
-    button2Link: "/contato",
+    button2Link: buildContactHref({ assunto: "consultoria-catalogo", origem: "home-partnership" }),
   },
 };
 

@@ -30,6 +30,7 @@ import {
 } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { VisualBlockEditor } from "@/components/admin/visual-editor/VisualBlockEditor";
+import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 interface PageBlock {
   id?: string;
@@ -301,7 +302,7 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           button1Text: "Conhecer a Maletti",
           button1Link: "/maletti",
           button2Text: "Agendar Visita",
-          button2Link: "/contato",
+          button2Link: buildContactHref({ assunto: "consultoria-catalogo", origem: "home-partnership" }),
         };
       case "maintenance-preview":
         return {
@@ -365,7 +366,7 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           title: "Pronto para começar?",
           description: "Entre em contato conosco",
           buttonText: "Fale Conosco",
-          buttonLink: "/contato",
+          buttonLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "cta" }),
           background: "black",
         };
       case "cards":
@@ -406,9 +407,9 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           title: "Não encontrou sua resposta?",
           description: "Entre em contato conosco e nossa equipe terá prazer em ajudá-lo.",
           buttonText: "Falar Conosco",
-          buttonLink: "/contato",
+          buttonLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "faq-cta" }),
           whatsappText: "WhatsApp",
-          whatsappLink: "https://wa.me/5511981982279",
+          whatsappLink: buildWhatsappHref({ assunto: "consultoria-catalogo", origem: "faq-cta" }),
         };
       case "garantia-hero":
         return {
@@ -437,7 +438,7 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           title: "Precisa acionar a garantia?",
           description: "Entre em contato com nosso suporte técnico.",
           buttonText: "Solicitar Suporte",
-          buttonLink: "/contato",
+          buttonLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "garantia-cta" }),
           secondaryText: "Manutenção",
           secondaryLink: "/manutencao",
         };
@@ -471,7 +472,10 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
             { label: "Marcas", href: "/marcas" },
             { label: "Sobre", href: "/sobre" },
             { label: "Blog", href: "/blog" },
-            { label: "Contato", href: "/contato" },
+            {
+              label: "Contato",
+              href: buildContactHref({ assunto: "consultoria-catalogo", origem: "404-quick-links" }),
+            },
           ],
           footerText: "",
         };

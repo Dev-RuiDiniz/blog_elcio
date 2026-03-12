@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { buildContactHref } from "@/lib/lead-context";
+import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -237,9 +237,9 @@ async function seedSobre() {
           title: "Pronto para transformar seu salão?",
           description: "Entre em contato conosco e descubra como os produtos Maletti podem elevar o padrão do seu negócio.",
           buttonText: "Entrar em Contato",
-          buttonLink: "/contato",
+          buttonLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "sobre-cta" }),
           secondaryButtonText: "WhatsApp",
-          secondaryLink: "https://wa.me/5511981982279",
+          secondaryLink: buildWhatsappHref({ assunto: "consultoria-catalogo", origem: "sobre-cta" }),
         },
       },
     ];
