@@ -13,8 +13,9 @@ function getCompanyBlocks(company: (typeof COMPANY_OPTIONS)[number]): SeedBlock[
   const contatoLink = buildContactHref({
     assunto: "consultoria-catalogo",
     empresa: company.slug,
-    origem: `p-${company.slug}`,
+    origem: company.ctaSource,
   });
+  const catalogoLink = company.pdfPublicPath;
 
   return [
     {
@@ -30,8 +31,8 @@ function getCompanyBlocks(company: (typeof COMPANY_OPTIONS)[number]): SeedBlock[
         image: "/images/site/DK3E3179-MOD.jpg",
         button1Text: "Quero Consultoria + Catálogo",
         button1Link: contatoLink,
-        button2Text: "Ver Outras Empresas",
-        button2Link: "/marcas",
+        button2Text: "Baixar Catálogo",
+        button2Link: catalogoLink,
         overlay: 58,
         align: "left",
       },
@@ -88,7 +89,7 @@ function getCompanyBlocks(company: (typeof COMPANY_OPTIONS)[number]): SeedBlock[
             image: "/images/site/Total-Body-356.jpg",
             title: "Catálogo da Empresa",
             description: `Material de referência: ${company.fileName}`,
-            link: contatoLink,
+            link: catalogoLink,
           },
           {
             image: "/images/site/Shirobody_showroom.jpg",
@@ -99,8 +100,8 @@ function getCompanyBlocks(company: (typeof COMPANY_OPTIONS)[number]): SeedBlock[
           {
             image: "/images/site/heaven2.jpg",
             title: "Próximos Passos",
-            description: "Definição de escopo, cotação e encaminhamento de primeiro atendimento.",
-            link: contatoLink,
+            description: "Conheça também as demais empresas representadas e compare caminhos de atendimento.",
+            link: "/marcas",
           },
         ],
       },
@@ -125,7 +126,9 @@ export async function GET() {
   try {
     const results = [];
 
-    for (const company of COMPANY_OPTIONS) {
+    const companies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
+
+    for (const company of companies) {
       const page = await prisma.page.upsert({
         where: { slug: company.slug },
         update: {
@@ -134,7 +137,7 @@ export async function GET() {
           description: company.teaser,
           published: true,
           metaTitle: `${company.name} | Consultoria + Catálogo`,
-          metaDescription: company.teaser,
+          metaDescription: `${company.teaser} Solicite consultoria comercial e catálogo técnico com o Elcio.`,
         },
         create: {
           name: company.name,
@@ -143,7 +146,7 @@ export async function GET() {
           description: company.teaser,
           published: true,
           metaTitle: `${company.name} | Consultoria + Catálogo`,
-          metaDescription: company.teaser,
+          metaDescription: `${company.teaser} Solicite consultoria comercial e catálogo técnico com o Elcio.`,
         },
       });
 
