@@ -53,8 +53,9 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const isHome = pathname === "/";
-  const showDarkElements = isScrolled || !isHome;
+  const hasDarkHeroAtTop =
+    pathname === "/marcas" || pathname.startsWith("/p/");
+  const showDarkElements = isScrolled || !hasDarkHeroAtTop;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
