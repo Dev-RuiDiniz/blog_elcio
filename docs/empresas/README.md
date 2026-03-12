@@ -9,6 +9,7 @@ Este diretório consolida os materiais extraídos dos PDFs da raiz do projeto.
 - [Deltajet](./deltajet.md) - extração nativa: `0` páginas, OCR: `2` páginas
 - [F1300](./f1300.md) - extração nativa: `16` páginas, OCR: `0` páginas
 - [Apresenta (provisório)](./apresenta.md) - extração nativa: `7` páginas, OCR: `6` páginas
+- [Fontes de Imagens Oficiais](./IMAGENS-OFICIAIS.md)
 
 ## Regras de Leitura
 - Itens marcados com `[EXTRAÍDO]` vieram diretamente do conteúdo textual/ocr dos PDFs.
