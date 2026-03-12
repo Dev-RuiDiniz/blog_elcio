@@ -2,6 +2,12 @@
 
 Site de apresentação comercial do cliente Elcio, com foco em funil de `Consultoria + Catálogo` para 6 empresas representadas.
 
+## Contatos oficiais
+
+- E-mail: `vendas@raemtools.com.br`
+- WhatsApp: `+55 12 99158-8460`
+- Localidade: `Taubaté - SP`
+
 ## Escopo atual
 
 Núcleo público ativo:
@@ -112,6 +118,7 @@ Status local:
 - O repositório não contém `prisma/schema.prisma`.
 - Sem o schema, `pnpm build` pode falhar em `prisma generate`.
 - Algumas rotinas de seed que dependem de banco real podem falhar no fallback local de Prisma.
+- Em ambiente local sem Prisma gerado, `src/lib/prisma.ts` usa fallback mock para manter o front funcional.
 
 ## Scripts
 
