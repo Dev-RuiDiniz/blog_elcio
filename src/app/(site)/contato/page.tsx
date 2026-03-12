@@ -34,6 +34,21 @@ import {
 } from "@/lib/lead-context";
 
 const NONE_VALUE = "none";
+const DEFAULT_SUBJECT = "consultoria-catalogo";
+const ALLOWED_SUBJECTS = new Set([
+  "consultoria-catalogo",
+  "catalogo",
+  "orcamento",
+  "duvidas",
+  "visita",
+  "outros",
+]);
+
+function normalizeAssunto(value?: string | null): string {
+  if (!value) return DEFAULT_SUBJECT;
+  const normalized = value.trim().toLowerCase();
+  return ALLOWED_SUBJECTS.has(normalized) ? normalized : DEFAULT_SUBJECT;
+}
 
 const contactSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -80,9 +95,14 @@ const contactOptions = [
 
 function ContatoContent() {
   const searchParams = useSearchParams();
-  const assuntoParam = searchParams.get("assunto");
+  const assuntoParam = normalizeAssunto(searchParams.get("assunto"));
   const empresaParam = normalizeCompanySlug(searchParams.get("empresa"));
-  const origemParam = searchParams.get("origem") || "contato";
+  const origemParam = (searchParams.get("origem") || "contato").trim() || "contato";
+  const originContext =
+    origemParam === "contato" || origemParam.startsWith("contato-")
+      ? origemParam
+      : `contato-${origemParam}`;
+  const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
 
   const [activeForm, setActiveForm] = useState<"contact" | "catalog">(
     assuntoParam === "catalogo" ? "catalog" : "contact"
@@ -98,7 +118,7 @@ function ContatoContent() {
       phone: "",
       city: "",
       companySlug: empresaParam || "",
-      subject: "consultoria-catalogo",
+      subject: assuntoParam === "catalogo" ? DEFAULT_SUBJECT : assuntoParam,
       message: "",
     },
   });
@@ -118,10 +138,11 @@ function ContatoContent() {
   useEffect(() => {
     if (assuntoParam === "catalogo") {
       setActiveForm("catalog");
+      contactForm.setValue("subject", DEFAULT_SUBJECT);
     }
-    if (assuntoParam === "consultoria-catalogo") {
+    if (assuntoParam !== "catalogo") {
       setActiveForm("contact");
-      contactForm.setValue("subject", "consultoria-catalogo");
+      contactForm.setValue("subject", assuntoParam);
     }
   }, [assuntoParam, contactForm]);
 
@@ -144,8 +165,9 @@ function ContatoContent() {
     try {
       const companySlug = normalizeCompanySlug(data.companySlug) || empresaParam;
       const companyName = getCompanyNameFromSlug(companySlug);
-      const interestType = data.subject || "consultoria-catalogo";
-      const source = `Formulário Contato - ${origemParam}`;
+      const normalizedSubject = normalizeAssunto(data.subject);
+      const interestType = normalizedSubject === "catalogo" ? DEFAULT_SUBJECT : normalizedSubject;
+      const source = `Formulário Contato - ${originContext}`;
 
       const response = await fetch("/api/kommo/leads", {
         method: "POST",
@@ -158,7 +180,7 @@ function ContatoContent() {
           companySlug,
           companyName,
           interestType,
-          originPage: origemParam,
+          originPage: originContext,
           message: `Assunto: ${interestType}\nCidade: ${data.city || "Não informada"}\nEmpresa: ${companyName || "Não informada"}\n\n${data.message}`,
         }),
       });
@@ -178,7 +200,7 @@ function ContatoContent() {
     try {
       const companySlug = normalizeCompanySlug(data.companySlug) || empresaParam;
       const companyName = getCompanyNameFromSlug(companySlug);
-      const source = `Formulário Catálogo - ${origemParam}`;
+      const source = `Formulário Catálogo - ${originContext}`;
 
       const response = await fetch("/api/kommo/leads", {
         method: "POST",
@@ -190,8 +212,8 @@ function ContatoContent() {
           source,
           companySlug,
           companyName,
-          interestType: "catalogo",
-          originPage: origemParam,
+          interestType: DEFAULT_SUBJECT,
+          originPage: originContext,
           message: `Tipo de Negócio: ${data.businessType || "Não informado"}\nCidade: ${data.city || "Não informada"}\nEmpresa: ${companyName || "Não informada"}\n\nSolicitou catálogo com apoio comercial.`,
         }),
       });
@@ -207,9 +229,9 @@ function ContatoContent() {
   };
 
   const whatsappHref = buildWhatsappHref({
-    assunto: "consultoria-catalogo",
+    assunto: DEFAULT_SUBJECT,
     empresa: selectedCompanySlug,
-    origem: origemParam,
+    origem: originContext,
     extraMessage: selectedCompanyName
       ? `Gostaria de atendimento para ${selectedCompanyName}.`
       : "Gostaria de atendimento comercial.",
@@ -235,9 +257,9 @@ function ContatoContent() {
               Centralize o atendimento com o Elcio para receber catálogo técnico,
               orientação comercial e encaminhamento rápido da sua demanda.
             </p>
-            {(empresaParam || origemParam !== "contato") && (
+            {(empresaParam || originContext !== "contato") && (
               <p className="text-sm text-gray-500 mt-4">
-                Contexto: {selectedCompanyName || "Empresa não definida"} | Origem: {origemParam}
+                Contexto: {selectedCompanyName || "Empresa não definida"} | Origem: {originContext}
               </p>
             )}
           </motion.div>
@@ -380,7 +402,7 @@ function ContatoContent() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value={NONE_VALUE}>Não definir agora</SelectItem>
-                        {COMPANY_OPTIONS.map((company) => (
+                        {orderedCompanies.map((company) => (
                           <SelectItem key={company.slug} value={company.slug}>
                             {company.name}
                           </SelectItem>
@@ -479,7 +501,7 @@ function ContatoContent() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value={NONE_VALUE}>Não definir agora</SelectItem>
-                        {COMPANY_OPTIONS.map((company) => (
+                        {orderedCompanies.map((company) => (
                           <SelectItem key={company.slug} value={company.slug}>
                             {company.name}
                           </SelectItem>
@@ -594,9 +616,9 @@ function ContatoContent() {
                   <Button size="lg" variant="outline" className="w-full border-white/30 text-white bg-transparent hover:bg-white/10" asChild>
                     <a
                       href={buildContactHref({
-                        assunto: "consultoria-catalogo",
+                        assunto: DEFAULT_SUBJECT,
                         empresa: selectedCompanySlug,
-                        origem: "contato-sidebar",
+                        origem: `${originContext}-sidebar`,
                       })}
                     >
                       Reabrir com contexto
