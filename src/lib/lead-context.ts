@@ -2,7 +2,10 @@ export interface CompanyOption {
   slug: string;
   name: string;
   fileName: string;
+  pdfPublicPath: string;
   teaser: string;
+  ctaSource: string;
+  order: number;
 }
 
 export const COMPANY_OPTIONS: CompanyOption[] = [
@@ -10,37 +13,55 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     slug: "dest-dormer-pramet",
     name: "DEST DORMER PRAMET",
     fileName: "Apresentação DEST DORMER PRAMET.pdf",
+    pdfPublicPath: "/catalogos/dest-dormer-pramet.pdf",
     teaser: "Soluções industriais com foco em performance, precisão e produtividade.",
+    ctaSource: "empresa-dest-dormer-pramet",
+    order: 1,
   },
   {
     slug: "fecial",
     name: "Fecial",
     fileName: "Apresentação Fecial - 2025.pdf",
+    pdfPublicPath: "/catalogos/fecial.pdf",
     teaser: "Ferramentas e insertos especiais com desenvolvimento técnico consolidado.",
+    ctaSource: "empresa-fecial",
+    order: 2,
   },
   {
     slug: "solufil",
     name: "Solufil",
     fileName: "CATALOGO produtos SOLUFIL- 2025.pdf",
+    pdfPublicPath: "/catalogos/solufil.pdf",
     teaser: "Catálogo de produtos para aplicações de filtragem e processos industriais.",
+    ctaSource: "empresa-solufil",
+    order: 3,
   },
   {
     slug: "deltajet",
     name: "Deltajet",
     fileName: "Deltajet.pdf",
+    pdfPublicPath: "/catalogos/deltajet.pdf",
     teaser: "Tecnologia aplicada para eficiência operacional em ambientes industriais.",
+    ctaSource: "empresa-deltajet",
+    order: 4,
   },
   {
     slug: "f1300",
     name: "F1300",
     fileName: "FOLDER F1300.pdf",
+    pdfPublicPath: "/catalogos/f1300.pdf",
     teaser: "Acionamentos completos com foco em robustez e confiabilidade técnica.",
+    ctaSource: "empresa-f1300",
+    order: 5,
   },
   {
     slug: "apresenta",
     name: "Apresenta (provisório)",
     fileName: "Apresenta.pdf",
+    pdfPublicPath: "/catalogos/apresenta-provisorio.pdf",
     teaser: "Apresentação institucional provisória para ajuste de naming no CMS.",
+    ctaSource: "empresa-apresenta",
+    order: 6,
   },
 ];
 
@@ -54,6 +75,16 @@ export function getCompanyNameFromSlug(value?: string | null): string {
   const slug = normalizeCompanySlug(value);
   if (!slug) return "";
   return COMPANY_OPTIONS.find((company) => company.slug === slug)?.name || "";
+}
+
+export function getCompanyBySlug(value?: string | null): CompanyOption | null {
+  const slug = normalizeCompanySlug(value);
+  if (!slug) return null;
+  return COMPANY_OPTIONS.find((company) => company.slug === slug) || null;
+}
+
+export function getCompanyCatalogHref(value?: string | null): string {
+  return getCompanyBySlug(value)?.pdfPublicPath || "";
 }
 
 export function buildContactHref({
