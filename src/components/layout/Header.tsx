@@ -179,9 +179,9 @@ export function Header() {
 
                 <div className="mt-auto pb-12">
                   <div className="mb-8 space-y-2 text-white/60 text-sm">
-                    <p>contato@elcio-representacao.com.br</p>
-                    <p>(00) 00000-0000</p>
-                    <p>Brasil</p>
+                    <p>vendas@raemtools.com.br</p>
+                    <p>+55 12 99158-8460</p>
+                    <p>Taubaté - SP</p>
                   </div>
                   <div className="flex flex-col gap-3">
                     {ctaButtons.map((button) => {

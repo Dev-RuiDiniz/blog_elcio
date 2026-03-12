@@ -72,22 +72,22 @@ export function Footer() {
 
               <div className="space-y-3">
                 <a
-                  href="mailto:contato@elcio-representacao.com.br"
+                  href="mailto:vendas@raemtools.com.br"
                   className="flex items-center gap-3 text-zinc-400 hover:text-white transition-colors text-sm"
                 >
                   <HiOutlineMail className="w-5 h-5" />
-                  contato@elcio-representacao.com.br
+                  vendas@raemtools.com.br
                 </a>
                 <a
-                  href="tel:+550000000000"
+                  href="tel:+5512991588460"
                   className="flex items-center gap-3 text-zinc-400 hover:text-white transition-colors text-sm"
                 >
                   <HiOutlinePhone className="w-5 h-5" />
-                  (00) 00000-0000
+                  +55 12 99158-8460
                 </a>
                 <div className="flex items-center gap-3 text-zinc-400 text-sm">
                   <HiOutlineLocationMarker className="w-5 h-5" />
-                  Brasil
+                  Taubaté - SP
                 </div>
               </div>
             </motion.div>

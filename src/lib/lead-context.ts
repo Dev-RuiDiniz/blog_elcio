@@ -10,7 +10,7 @@ export interface CompanyOption {
   order: number;
 }
 
-export const DEFAULT_WHATSAPP_PHONE = "5500000000000";
+export const DEFAULT_WHATSAPP_PHONE = "5512991588460";
 
 export const COMPANY_OPTIONS: CompanyOption[] = [
   {

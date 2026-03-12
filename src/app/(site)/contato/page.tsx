@@ -565,8 +565,8 @@ function ContatoContent() {
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">Telefone / WhatsApp</h3>
-                      <a href="tel:+550000000000" className="text-zinc-400 hover:text-white transition-colors">
-                        (00) 00000-0000
+                      <a href="tel:+5512991588460" className="text-zinc-400 hover:text-white transition-colors">
+                        +55 12 99158-8460
                       </a>
                     </div>
                   </div>
@@ -578,10 +578,10 @@ function ContatoContent() {
                     <div>
                       <h3 className="font-medium mb-1">E-mail</h3>
                       <a
-                        href="mailto:contato@elcio-representacao.com.br"
+                        href="mailto:vendas@raemtools.com.br"
                         className="text-zinc-400 hover:text-white transition-colors"
                       >
-                        contato@elcio-representacao.com.br
+                        vendas@raemtools.com.br
                       </a>
                     </div>
                   </div>
@@ -593,7 +593,7 @@ function ContatoContent() {
                     <div>
                       <h3 className="font-medium mb-1">Atendimento</h3>
                       <p className="text-zinc-400">
-                        Brasil
+                        Taubaté - SP
                         <br />
                         Comercial remoto e sob agendamento
                       </p>

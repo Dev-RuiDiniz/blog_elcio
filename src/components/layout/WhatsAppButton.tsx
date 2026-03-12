@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
+import { DEFAULT_WHATSAPP_PHONE } from "@/lib/lead-context";
 
 interface WhatsAppButtonProps {
   phoneNumber?: string;
@@ -9,10 +10,10 @@ interface WhatsAppButtonProps {
 }
 
 export function WhatsAppButton({
-  phoneNumber = "5500000000000",
+  phoneNumber = DEFAULT_WHATSAPP_PHONE,
   message = "Olá! Quero consultoria e catálogo. Vim pelo site institucional.",
 }: WhatsAppButtonProps) {
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
 
   return (
     <motion.a
@@ -38,7 +39,7 @@ export function WhatsAppButton({
         whileHover={{ opacity: 1, x: 0 }}
         className="absolute right-full mr-3 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
       >
-        Fale conosco
+        Fale no WhatsApp
       </motion.span>
     </motion.a>
   );
