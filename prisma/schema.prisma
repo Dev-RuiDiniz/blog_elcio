@@ -94,10 +94,13 @@ model User {
   name                String?
   role                Role     @default(ADMIN)
   isActive            Boolean  @default(true)
+  mustChangePassword  Boolean  @default(false)
   lastLoginAt         DateTime?
   passwordChangedAt   DateTime?
   failedLoginAttempts Int      @default(0)
   lockedUntil         DateTime?
+  resetToken          String?  @unique
+  resetTokenExpiresAt DateTime?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   ownedContacts       Contact[]            @relation("ContactOwner")

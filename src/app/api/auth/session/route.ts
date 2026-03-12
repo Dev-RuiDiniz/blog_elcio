@@ -17,6 +17,7 @@ export async function GET() {
       email: session.email,
       name: session.name,
       role: session.role,
+      mustChangePassword: session.mustChangePassword,
     });
   } catch (error) {
     console.error("Session error:", error);

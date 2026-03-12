@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
+import crypto from "node:crypto";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
@@ -13,36 +13,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
 
+    // Sempre responder sucesso para evitar enumeração de usuários
     if (!user) {
-      return NextResponse.json(
-        { error: "Email não encontrado" },
-        { status: 404 }
-      );
+      return NextResponse.json({
+        success: true,
+        message: "Se o e-mail existir, você receberá instruções para redefinir a senha.",
+      });
     }
 
-    // Gera uma nova senha aleatória
-    const newPassword = Math.random().toString(36).slice(-8);
-    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const resetTokenExpiresAt = new Date(Date.now() + 30 * 60 * 1000);
 
-    // Atualiza a senha no banco
     await prisma.user.update({
-      where: { email },
-      data: { password: hashedPassword },
+      where: { id: user.id },
+      data: {
+        resetToken,
+        resetTokenExpiresAt,
+      },
     });
 
-    // TODO: Configurar SMTP e enviar email com a nova senha
-    // Por enquanto, apenas loga a nova senha no console (remover em produção)
-    console.log(`Nova senha para ${email}: ${newPassword}`);
+    // Integração de envio de e-mail pode consumir este token.
+    // Em ambiente local de desenvolvimento, o token é logado para teste controlado.
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`[auth] reset token for ${user.email}: ${resetToken}`);
+    }
 
     return NextResponse.json({
       success: true,
-      message: "Nova senha gerada com sucesso",
-      // Em produção, remover isso - só para teste
-      tempPassword: newPassword,
+      message: "Se o e-mail existir, você receberá instruções para redefinir a senha.",
     });
   } catch (error) {
     console.error("Forgot password error:", error);
