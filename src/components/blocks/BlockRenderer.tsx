@@ -8,7 +8,14 @@ import { HiArrowRight, HiPlay, HiChevronLeft, HiChevronRight, HiOutlineShieldChe
 import { HiOutlineWrenchScrewdriver, HiOutlineClock, HiOutlineCheckCircle } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
+import {
+  COMPANY_CARD_IMAGE_CLASS,
+  COMPANY_CARD_IMAGE_QUALITY,
+  COMPANY_CARD_IMAGE_SIZES,
+  buildContactHref,
+  buildWhatsappHref,
+  isCompanyAssetPath,
+} from "@/lib/lead-context";
 
 function stripHtml(html: string): string {
   if (!html) return "";
@@ -525,47 +532,58 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
         )}
 
         <div className={`grid grid-cols-1 ${colsClass} gap-6`}>
-          {cards.map((card, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white overflow-hidden group"
-            >
-              {card.image && (
-                <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200 overflow-hidden">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className={`transition-transform duration-700 ${
-                      card.image.startsWith("/images/empresas/")
-                        ? "object-contain p-4 md:p-5"
-                        : "object-cover group-hover:scale-105"
+          {cards.map((card, index) => {
+            const isCompanyImage = isCompanyAssetPath(card.image);
+
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white overflow-hidden group"
+              >
+                {card.image && (
+                  <div
+                    className={`relative overflow-hidden ${
+                      isCompanyImage
+                        ? "aspect-[2/1] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200"
+                        : "aspect-[4/3] bg-zinc-100"
                     }`}
-                  />
-                </div>
-              )}
-              <div className="p-6">
-                <h3 className="text-xl font-serif font-semibold text-zinc-900 mb-2">
-                  {card.title}
-                </h3>
-                <p className="text-zinc-600 mb-4">{card.description}</p>
-                {card.link && (
-                  <Link
-                    href={card.link}
-                    className="text-sm font-medium text-zinc-900 hover:underline inline-flex items-center"
                   >
-                    Saiba mais
-                    <HiArrowRight className="ml-1 w-3 h-3" />
-                  </Link>
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      fill
+                      quality={isCompanyImage ? COMPANY_CARD_IMAGE_QUALITY : 85}
+                      sizes={isCompanyImage ? COMPANY_CARD_IMAGE_SIZES : "100vw"}
+                      className={`transition-transform duration-700 ${
+                        isCompanyImage
+                          ? COMPANY_CARD_IMAGE_CLASS
+                          : "object-cover group-hover:scale-105"
+                      }`}
+                    />
+                  </div>
                 )}
-              </div>
-            </motion.div>
-          ))}
+                <div className="p-6">
+                  <h3 className="text-xl font-serif font-semibold text-zinc-900 mb-2">
+                    {card.title}
+                  </h3>
+                  <p className="text-zinc-600 mb-4">{card.description}</p>
+                  {card.link && (
+                    <Link
+                      href={card.link}
+                      className="text-sm font-medium text-zinc-900 hover:underline inline-flex items-center"
+                    >
+                      Saiba mais
+                      <HiArrowRight className="ml-1 w-3 h-3" />
+                    </Link>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

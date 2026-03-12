@@ -11,6 +11,11 @@ export interface CompanyOption {
 }
 
 export const DEFAULT_WHATSAPP_PHONE = "5512991588460";
+export const COMPANY_CARD_IMAGE_SIZES = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw";
+export const COMPANY_CARD_IMAGE_QUALITY = 92;
+export const COMPANY_CARD_CONTAINER_CLASS =
+  "relative aspect-[2/1] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200";
+export const COMPANY_CARD_IMAGE_CLASS = "object-contain p-3 md:p-4";
 
 const LEGACY_COMPANY_SLUGS: Record<string, string> = {
   "dest-dormer-pramet": "dormer-pramet",
@@ -109,6 +114,11 @@ export function getCompanyBySlug(value?: string | null): CompanyOption | null {
 
 export function getCompanyCatalogHref(value?: string | null): string {
   return getCompanyBySlug(value)?.pdfPublicPath || "";
+}
+
+export function isCompanyAssetPath(path?: string | null): boolean {
+  if (!path) return false;
+  return path.startsWith("/images/empresas/");
 }
 
 export function buildContactHref({

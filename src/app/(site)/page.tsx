@@ -2,7 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { HiArrowRight } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
-import { COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
+import {
+  COMPANY_CARD_CONTAINER_CLASS,
+  COMPANY_CARD_IMAGE_CLASS,
+  COMPANY_CARD_IMAGE_QUALITY,
+  COMPANY_CARD_IMAGE_SIZES,
+  COMPANY_OPTIONS,
+  buildContactHref,
+  buildWhatsappHref,
+} from "@/lib/lead-context";
 
 const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
 
@@ -65,15 +73,17 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {orderedCompanies.map((company) => (
+            {orderedCompanies.map((company, index) => (
               <article key={company.slug} className="border border-zinc-200 bg-zinc-50/70 overflow-hidden flex flex-col">
-                <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200">
+                <div className={COMPANY_CARD_CONTAINER_CLASS}>
                   <Image
                     src={company.coverPublicPath}
                     alt={`Imagem oficial da ${company.name}`}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain p-4 md:p-5"
+                    priority={index < 2}
+                    quality={COMPANY_CARD_IMAGE_QUALITY}
+                    sizes={COMPANY_CARD_IMAGE_SIZES}
+                    className={COMPANY_CARD_IMAGE_CLASS}
                   />
                   <div className="absolute top-4 left-4 bg-white/95 px-3 py-2">
                     <Image

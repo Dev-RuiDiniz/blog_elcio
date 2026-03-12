@@ -6,7 +6,15 @@ import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { HiArrowRight } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
-import { COMPANY_OPTIONS, buildContactHref, getCompanyCatalogHref } from "@/lib/lead-context";
+import {
+  COMPANY_CARD_CONTAINER_CLASS,
+  COMPANY_CARD_IMAGE_CLASS,
+  COMPANY_CARD_IMAGE_QUALITY,
+  COMPANY_CARD_IMAGE_SIZES,
+  COMPANY_OPTIONS,
+  buildContactHref,
+  getCompanyCatalogHref,
+} from "@/lib/lead-context";
 
 interface PageBlock {
   id: string;
@@ -114,13 +122,15 @@ export default function MarcasPage() {
                 transition={{ duration: 0.45, delay: index * 0.08 }}
                 className="border border-zinc-200 bg-zinc-50/60 h-full flex flex-col overflow-hidden"
               >
-                <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200">
+                <div className={COMPANY_CARD_CONTAINER_CLASS}>
                   <Image
                     src={company.coverPublicPath}
                     alt={`Imagem oficial da ${company.name}`}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain p-4 md:p-5"
+                    priority={index < 2}
+                    quality={COMPANY_CARD_IMAGE_QUALITY}
+                    sizes={COMPANY_CARD_IMAGE_SIZES}
+                    className={COMPANY_CARD_IMAGE_CLASS}
                   />
                   <div className="absolute top-4 left-4 bg-white/95 px-3 py-2">
                     <Image
