@@ -247,18 +247,18 @@ function ContatoContent() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
               Consultoria + Catálogo
             </span>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-black mb-6">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-zinc-900 mb-6">
               Primeiro Contato Comercial
             </h1>
-            <p className="text-gray-600 text-lg leading-relaxed">
+            <p className="text-zinc-600 text-lg leading-relaxed">
               Centralize o atendimento com o Elcio para receber catálogo técnico,
               orientação comercial e encaminhamento rápido da sua demanda.
             </p>
             {(empresaParam || originContext !== "contato") && (
-              <p className="text-sm text-gray-500 mt-4">
+              <p className="text-sm text-zinc-500 mt-4">
                 Contexto: {selectedCompanyName || "Empresa não definida"} | Origem: {originContext}
               </p>
             )}
@@ -266,7 +266,7 @@ function ContatoContent() {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-zinc-50">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {contactOptions.map((option, index) => (
@@ -279,14 +279,14 @@ function ContatoContent() {
                   setActiveForm(option.action === "catalog" ? "catalog" : "contact");
                   setSubmitSuccess(false);
                 }}
-                className="flex items-start gap-4 p-6 bg-white border border-gray-100 hover:border-black hover:shadow-md transition-all text-left group"
+                className="flex items-start gap-4 p-6 bg-white border border-zinc-200 hover:border-zinc-700 hover:shadow-md transition-all text-left group"
               >
-                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gray-100 group-hover:bg-black group-hover:text-white transition-all">
+                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-zinc-100 group-hover:bg-zinc-900 group-hover:text-white transition-all">
                   <option.icon className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-black mb-1">{option.title}</h3>
-                  <p className="text-gray-500 text-sm">{option.description}</p>
+                  <h3 className="font-semibold text-zinc-900 mb-1">{option.title}</h3>
+                  <p className="text-zinc-500 text-sm">{option.description}</p>
                 </div>
               </motion.button>
             ))}
@@ -310,8 +310,8 @@ function ContatoContent() {
                   }}
                   className={`px-6 py-3 text-sm font-medium transition-all ${
                     activeForm === "contact"
-                      ? "bg-black text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-zinc-900 text-white"
+                      : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
                   }`}
                 >
                   Consultoria Comercial
@@ -323,8 +323,8 @@ function ContatoContent() {
                   }}
                   className={`px-6 py-3 text-sm font-medium transition-all ${
                     activeForm === "catalog"
-                      ? "bg-black text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-zinc-900 text-white"
+                      : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
                   }`}
                 >
                   Receber Catálogo
@@ -335,23 +335,23 @@ function ContatoContent() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-gray-50 p-12 text-center"
+                  className="bg-zinc-50 p-12 text-center"
                 >
-                  <div className="w-16 h-16 mx-auto mb-6 bg-black text-white rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto mb-6 bg-zinc-900 text-white rounded-full flex items-center justify-center">
                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-serif font-semibold text-black mb-3">
+                  <h3 className="text-2xl font-serif font-semibold text-zinc-900 mb-3">
                     Solicitação Enviada
                   </h3>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-zinc-600 mb-6">
                     Recebemos seus dados e retornaremos com o primeiro atendimento em breve.
                   </p>
                   <Button
                     onClick={() => setSubmitSuccess(false)}
                     variant="outline"
-                    className="border-black text-black hover:bg-black hover:text-white"
+                    className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white"
                   >
                     Enviar nova solicitação
                   </Button>
@@ -449,7 +449,7 @@ function ContatoContent() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-black text-white hover:bg-gray-800"
+                    className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Enviando..." : "Solicitar Consultoria"}
@@ -535,13 +535,13 @@ function ContatoContent() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-black text-white hover:bg-gray-800"
+                    className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Enviando..." : "Receber Catálogo"}
                   </Button>
 
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-xs text-zinc-500 text-center">
                     Ao enviar, você concorda em receber contato comercial para continuidade do atendimento.
                   </p>
                 </form>
@@ -553,7 +553,7 @@ function ContatoContent() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.55, delay: 0.1 }}
             >
-              <div className="bg-black text-white p-10 lg:p-12 h-full">
+              <div className="bg-zinc-900 text-white p-10 lg:p-12 h-full">
                 <h2 className="text-2xl font-serif font-semibold mb-8">
                   Canal Comercial
                 </h2>
@@ -565,7 +565,7 @@ function ContatoContent() {
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">Telefone / WhatsApp</h3>
-                      <a href="tel:+550000000000" className="text-gray-400 hover:text-white transition-colors">
+                      <a href="tel:+550000000000" className="text-zinc-400 hover:text-white transition-colors">
                         (00) 00000-0000
                       </a>
                     </div>
@@ -579,7 +579,7 @@ function ContatoContent() {
                       <h3 className="font-medium mb-1">E-mail</h3>
                       <a
                         href="mailto:contato@elcio-representacao.com.br"
-                        className="text-gray-400 hover:text-white transition-colors"
+                        className="text-zinc-400 hover:text-white transition-colors"
                       >
                         contato@elcio-representacao.com.br
                       </a>
@@ -592,7 +592,7 @@ function ContatoContent() {
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">Atendimento</h3>
-                      <p className="text-gray-400">
+                      <p className="text-zinc-400">
                         Brasil
                         <br />
                         Comercial remoto e sob agendamento
@@ -603,7 +603,7 @@ function ContatoContent() {
 
                 <div className="mt-12 pt-8 border-t border-white/10">
                   <h3 className="font-medium mb-4">Fluxo recomendado</h3>
-                  <div className="space-y-2 text-gray-400 text-sm">
+                  <div className="space-y-2 text-zinc-400 text-sm">
                     <p>1. Informe empresa e contexto</p>
                     <p>2. Receba catálogo e direcionamento</p>
                     <p>3. Avance para proposta comercial</p>
@@ -611,7 +611,7 @@ function ContatoContent() {
                 </div>
 
                 <div className="mt-12 space-y-3">
-                  <Button size="lg" className="w-full bg-white text-black hover:bg-gray-100" asChild>
+                  <Button size="lg" className="w-full bg-white text-zinc-900 hover:bg-zinc-100" asChild>
                     <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                       Falar no WhatsApp
                     </a>

@@ -153,7 +153,7 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
   }[align] || "text-center items-center";
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-900">
       {(content.image as string) && (
         <div className="absolute inset-0">
           <Image
@@ -166,7 +166,7 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
             quality={85}
           />
           <div
-            className="absolute inset-0 bg-black"
+            className="absolute inset-0 bg-zinc-900"
             style={{ opacity: overlay / 100 }}
           />
         </div>
@@ -186,7 +186,7 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
           )}
 
           {(content.subtitle as string) && (
-            <p className="text-lg md:text-xl text-gray-300 mb-4">
+            <p className="text-lg md:text-xl text-zinc-300 mb-4">
               {content.subtitle as string}
             </p>
           )}
@@ -196,7 +196,7 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
           </h1>
 
           {(content.description as string) && (
-            <p className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed">
+            <p className="text-lg md:text-xl text-zinc-300 mb-10 leading-relaxed">
               {content.description as string}
             </p>
           )}
@@ -205,7 +205,7 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
             {(content.button1Text as string) && (
               <Button
                 size="lg"
-                className="bg-white text-black hover:bg-gray-100"
+                className="bg-white text-zinc-900 hover:bg-zinc-100"
                 asChild
               >
                 <Link href={(content.button1Link as string) || "#"}>
@@ -241,8 +241,8 @@ function TextBlock({ content }: { content: Record<string, unknown> }) {
 
   const bgClass = {
     white: "bg-white text-gray-900",
-    gray: "bg-gray-50 text-gray-900",
-    black: "bg-black text-white",
+    gray: "bg-zinc-50 text-gray-900",
+    black: "bg-zinc-900 text-white",
   }[background] || "bg-white text-gray-900";
 
   const alignClass = {
@@ -261,7 +261,7 @@ function TextBlock({ content }: { content: Record<string, unknown> }) {
           className={`max-w-4xl ${alignClass}`}
         >
           {(content.subtitle as string) && (
-            <span className={`text-sm uppercase tracking-[0.2em] ${background === "black" ? "text-gray-400" : "text-gray-500"} mb-4 block`}>
+            <span className={`text-sm uppercase tracking-[0.2em] ${background === "black" ? "text-zinc-400" : "text-zinc-500"} mb-4 block`}>
               {content.subtitle as string}
             </span>
           )}
@@ -274,7 +274,7 @@ function TextBlock({ content }: { content: Record<string, unknown> }) {
 
           {(content.content as string) && (
             <div
-              className={`text-lg leading-relaxed ${background === "black" ? "text-gray-300" : "text-gray-600"}`}
+              className={`text-lg leading-relaxed ${background === "black" ? "text-zinc-300" : "text-zinc-600"}`}
               dangerouslySetInnerHTML={{ __html: (content.content as string).replace(/\n/g, "<br/>") }}
             />
           )}
@@ -306,11 +306,11 @@ function GalleryBlock({ content }: { content: Record<string, unknown> }) {
             className="text-center mb-12"
           >
             {(content.subtitle as string) && (
-              <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
+              <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
                 {content.subtitle as string}
               </span>
             )}
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black">
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">
               {content.title as string}
             </h2>
           </motion.div>
@@ -324,7 +324,7 @@ function GalleryBlock({ content }: { content: Record<string, unknown> }) {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="relative aspect-square bg-gray-100 overflow-hidden group"
+              className="relative aspect-square bg-zinc-100 overflow-hidden group"
             >
               <Image
                 src={img}
@@ -358,14 +358,14 @@ function VideoBlock({ content }: { content: Record<string, unknown> }) {
   };
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         {(content.title as string) && (
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-serif font-semibold text-black text-center mb-12"
+            className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900 text-center mb-12"
           >
             {content.title as string}
           </motion.h2>
@@ -375,7 +375,7 @@ function VideoBlock({ content }: { content: Record<string, unknown> }) {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="relative aspect-video bg-black overflow-hidden"
+          className="relative aspect-video bg-zinc-900 overflow-hidden"
         >
           <iframe
             src={getEmbedUrl(url)}
@@ -411,11 +411,11 @@ function FeaturesBlock({ content }: { content: Record<string, unknown> }) {
             className="text-center mb-16"
           >
             {(content.subtitle as string) && (
-              <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
+              <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
                 {content.subtitle as string}
               </span>
             )}
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black">
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">
               {content.title as string}
             </h2>
           </motion.div>
@@ -429,15 +429,15 @@ function FeaturesBlock({ content }: { content: Record<string, unknown> }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="text-center p-8 bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="text-center p-8 bg-zinc-50 hover:bg-zinc-100 transition-colors"
             >
-              <div className="w-12 h-12 mx-auto mb-4 bg-black text-white flex items-center justify-center">
+              <div className="w-12 h-12 mx-auto mb-4 bg-zinc-900 text-white flex items-center justify-center">
                 <span className="text-xl">★</span>
               </div>
-              <h3 className="text-xl font-serif font-semibold text-black mb-3">
+              <h3 className="text-xl font-serif font-semibold text-zinc-900 mb-3">
                 {item.title}
               </h3>
-              <p className="text-gray-600">{item.description}</p>
+              <p className="text-zinc-600">{item.description}</p>
             </motion.div>
           ))}
         </div>
@@ -451,14 +451,14 @@ function CTABlock({ content }: { content: Record<string, unknown> }) {
   const background = (content.background as string) || "black";
 
   const bgClass = {
-    white: "bg-white text-black",
-    gray: "bg-gray-100 text-black",
-    black: "bg-black text-white",
-  }[background] || "bg-black text-white";
+    white: "bg-white text-zinc-900",
+    gray: "bg-zinc-100 text-zinc-900",
+    black: "bg-zinc-900 text-white",
+  }[background] || "bg-zinc-900 text-white";
 
   const btnClass = background === "black"
-    ? "bg-white text-black hover:bg-gray-100"
-    : "bg-black text-white hover:bg-gray-800";
+    ? "bg-white text-zinc-900 hover:bg-zinc-100"
+    : "bg-zinc-900 text-white hover:bg-zinc-800";
 
   return (
     <section className={`py-24 ${bgClass}`}>
@@ -473,7 +473,7 @@ function CTABlock({ content }: { content: Record<string, unknown> }) {
           </h2>
 
           {(content.description as string) && (
-            <p className={`text-lg mb-8 ${background === "black" ? "text-gray-400" : "text-gray-600"}`}>
+            <p className={`text-lg mb-8 ${background === "black" ? "text-zinc-400" : "text-zinc-600"}`}>
               {content.description as string}
             </p>
           )}
@@ -504,7 +504,7 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
   }[columns] || "md:grid-cols-3";
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         {(content.title as string) && (
           <motion.div
@@ -514,11 +514,11 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
             className="text-center mb-16"
           >
             {(content.subtitle as string) && (
-              <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
+              <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
                 {content.subtitle as string}
               </span>
             )}
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black">
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">
               {content.title as string}
             </h2>
           </motion.div>
@@ -535,7 +535,7 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
               className="bg-white overflow-hidden group"
             >
               {card.image && (
-                <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
+                <div className="relative aspect-[4/3] bg-zinc-100 overflow-hidden">
                   <Image
                     src={card.image}
                     alt={card.title}
@@ -545,14 +545,14 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
                 </div>
               )}
               <div className="p-6">
-                <h3 className="text-xl font-serif font-semibold text-black mb-2">
+                <h3 className="text-xl font-serif font-semibold text-zinc-900 mb-2">
                   {card.title}
                 </h3>
-                <p className="text-gray-600 mb-4">{card.description}</p>
+                <p className="text-zinc-600 mb-4">{card.description}</p>
                 {card.link && (
                   <Link
                     href={card.link}
-                    className="text-sm font-medium text-black hover:underline inline-flex items-center"
+                    className="text-sm font-medium text-zinc-900 hover:underline inline-flex items-center"
                   >
                     Saiba mais
                     <HiArrowRight className="ml-1 w-3 h-3" />
@@ -602,7 +602,7 @@ function HeroSliderBlock({ content }: { content: Record<string, unknown> }) {
   if (!currentBanner) return null;
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+    <section className="relative h-screen w-full overflow-hidden bg-zinc-900">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -623,7 +623,7 @@ function HeroSliderBlock({ content }: { content: Record<string, unknown> }) {
               quality={85}
             />
           )}
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-zinc-900/45" />
         </motion.div>
       </AnimatePresence>
 
@@ -656,7 +656,7 @@ function HeroSliderBlock({ content }: { content: Record<string, unknown> }) {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-4">
             {currentBanner.button1Text && currentBanner.button1Link && (
               <Link href={currentBanner.button1Link}>
-                <Button size="lg" className="bg-white text-black hover:bg-gray-100 transition-all duration-300 group px-8">
+                <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300 group px-8">
                   {currentBanner.button1Text}
                   <HiArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -664,7 +664,7 @@ function HeroSliderBlock({ content }: { content: Record<string, unknown> }) {
             )}
             {currentBanner.button2Text && currentBanner.button2Link && (
               <Link href={currentBanner.button2Link}>
-                <Button size="lg" variant="outline" className="border-white/80 text-white bg-transparent hover:bg-white hover:text-black transition-all duration-300 group px-8">
+                <Button size="lg" variant="outline" className="border-white/80 text-white bg-transparent hover:bg-white hover:text-zinc-900 transition-all duration-300 group px-8">
                   <HiPlay className="mr-2 w-5 h-5" />
                   {currentBanner.button2Text}
                 </Button>
@@ -729,25 +729,25 @@ function FeaturedProductsBlock({ content }: { content: Record<string, unknown> }
       <div className="container mx-auto px-6 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
               {(content.subtitle as string) || "Coleção"}
             </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-semibold text-black">
+            <h2 className="text-3xl md:text-4xl font-serif font-semibold text-zinc-900">
               {(content.title as string) || "Produtos em Destaque"}
             </h2>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }} className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <button onClick={() => scroll("left")} className="w-12 h-12 flex items-center justify-center border border-black/20 hover:bg-black hover:text-white hover:border-black transition-all duration-300">
+              <button onClick={() => scroll("left")} className="w-12 h-12 flex items-center justify-center border border-zinc-700/20 hover:bg-zinc-900 hover:text-white hover:border-zinc-700 transition-all duration-300">
                 <HiChevronLeft className="w-5 h-5" />
               </button>
-              <button onClick={() => scroll("right")} className="w-12 h-12 flex items-center justify-center border border-black/20 hover:bg-black hover:text-white hover:border-black transition-all duration-300">
+              <button onClick={() => scroll("right")} className="w-12 h-12 flex items-center justify-center border border-zinc-700/20 hover:bg-zinc-900 hover:text-white hover:border-zinc-700 transition-all duration-300">
                 <HiChevronRight className="w-5 h-5" />
               </button>
             </div>
             <Link href="/produtos">
-              <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300 group">
+              <Button variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300 group">
                 Ver todos
                 <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -758,18 +758,18 @@ function FeaturedProductsBlock({ content }: { content: Record<string, unknown> }
         <motion.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ duration: 0.6, delay: 0.3 }} className="relative">
           <div ref={carouselRef} className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory pr-6 lg:pr-12" style={{ scrollbarWidth: "none" }}>
             {products.map((product, index) => (
-              <motion.div key={product.id} initial={{ opacity: 0, x: 50 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 * index }} className="flex-shrink-0 w-[220px] md:w-[260px] snap-start border border-gray-200 bg-white p-3 hover:border-gray-300 transition-colors">
+              <motion.div key={product.id} initial={{ opacity: 0, x: 50 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 * index }} className="flex-shrink-0 w-[220px] md:w-[260px] snap-start border border-zinc-300 bg-white p-3 hover:border-zinc-300 transition-colors">
                 <Link href={`/produtos/${product.slug}`} className="group block">
-                  <div className="relative aspect-square bg-gray-100 mb-5 overflow-hidden">
+                  <div className="relative aspect-square bg-zinc-100 mb-5 overflow-hidden">
                     <Image src={product.image || "/images/site/heaven2.jpg"} alt={product.name} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                    <span className="absolute top-4 left-4 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-[11px] uppercase tracking-wider font-medium text-gray-800">
+                    <span className="absolute top-4 left-4 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-[11px] uppercase tracking-wider font-medium text-zinc-800">
                       {product.category?.name}
                     </span>
                   </div>
-                  <h3 className="text-xl font-serif font-medium text-black mb-1.5 group-hover:text-gray-600 transition-colors">
+                  <h3 className="text-xl font-serif font-medium text-zinc-900 mb-1.5 group-hover:text-zinc-600 transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">
+                  <p className="text-zinc-500 text-sm leading-relaxed line-clamp-2">
                     {stripHtml(product.shortDescription)}
                   </p>
                 </Link>
@@ -799,25 +799,25 @@ function WhyChooseUsBlock({ content }: { content: Record<string, unknown> }) {
   };
 
   return (
-    <section ref={ref} className="py-24 lg:py-32 bg-gray-50">
+    <section ref={ref} className="py-24 lg:py-32 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6 }} className="flex flex-col justify-center">
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4">
               {(content.subtitle as string) || "Por que nos escolher"}
             </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black mb-6 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900 mb-6 leading-tight">
               {(content.title as string) || "Excelência em cada detalhe"}
             </h2>
-            <p className="text-gray-600 text-lg leading-relaxed mb-8">
+            <p className="text-zinc-600 text-lg leading-relaxed mb-8">
               {(content.description as string) || ""}
             </p>
 
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200">
+            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-zinc-300">
               {stats.map((stat, index) => (
                 <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}>
-                  <span className="text-4xl font-serif font-semibold text-black">{stat.value}</span>
-                  <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
+                  <span className="text-4xl font-serif font-semibold text-zinc-900">{stat.value}</span>
+                  <p className="text-sm text-zinc-500 mt-1">{stat.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -828,12 +828,12 @@ function WhyChooseUsBlock({ content }: { content: Record<string, unknown> }) {
               const Icon = iconMap[feature.icon] || HiOutlineSparkles;
               return (
                 <motion.div key={feature.title} initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 * (index + 1) }} className="group">
-                  <div className="p-6 bg-white border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300 h-full">
-                    <div className="w-12 h-12 flex items-center justify-center bg-black text-white mb-5 group-hover:scale-110 transition-transform duration-300">
+                  <div className="p-6 bg-white border border-zinc-200 hover:border-zinc-300 hover:shadow-lg transition-all duration-300 h-full">
+                    <div className="w-12 h-12 flex items-center justify-center bg-zinc-900 text-white mb-5 group-hover:scale-110 transition-transform duration-300">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-lg font-semibold text-black mb-3">{feature.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">{feature.description}</p>
+                    <h3 className="text-lg font-semibold text-zinc-900 mb-3">{feature.title}</h3>
+                    <p className="text-zinc-500 text-sm leading-relaxed">{feature.description}</p>
                   </div>
                 </motion.div>
               );
@@ -854,24 +854,24 @@ function MalettiPartnershipBlock({ content }: { content: Record<string, unknown>
   const features = (content.features as string[]) || [];
 
   return (
-    <section ref={ref} className="py-24 lg:py-32 bg-black text-white overflow-hidden">
+    <section ref={ref} className="py-24 lg:py-32 bg-zinc-900 text-white overflow-hidden">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -50 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8 }} className="relative">
-            <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-800 to-gray-900 overflow-hidden">
+            <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-800 to-zinc-900 overflow-hidden">
               <Image src={(content.image as string) || "/images/site/Shirobody_showroom.jpg"} alt="Showroom Maletti" fill className="object-cover" />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+              <div className="absolute inset-0 bg-zinc-900/45 flex items-center justify-center">
                 <Image src="/images/site/Maletti - Logo bianco.png" alt="Maletti" width={200} height={80} className="opacity-90" />
               </div>
             </div>
-            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={isInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay: 0.4 }} className="absolute -bottom-6 -right-6 lg:bottom-8 lg:-right-8 bg-white text-black p-6 shadow-2xl">
+            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={isInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay: 0.4 }} className="absolute -bottom-6 -right-6 lg:bottom-8 lg:-right-8 bg-white text-zinc-900 p-6 shadow-2xl">
               <span className="text-4xl font-serif font-bold">{(content.foundationYear as string) || "1965"}</span>
-              <p className="text-xs uppercase tracking-wider text-gray-600 mt-1">Fundação Maletti</p>
+              <p className="text-xs uppercase tracking-wider text-zinc-600 mt-1">Fundação Maletti</p>
             </motion.div>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 50 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8, delay: 0.2 }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-400 mb-4 block">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-400 mb-4 block">
               {(content.subtitle as string) || "Parceria Exclusiva"}
             </span>
             <h2 className="text-4xl md:text-5xl font-serif font-semibold mb-6 leading-tight">
@@ -879,7 +879,7 @@ function MalettiPartnershipBlock({ content }: { content: Record<string, unknown>
               <br />
               {((content.title as string) || "A tradição italiana no seu salão").split(" ").slice(3).join(" ")}
             </h2>
-            <div className="space-y-4 text-gray-300 leading-relaxed mb-8">
+            <div className="space-y-4 text-zinc-300 leading-relaxed mb-8">
               {paragraphs.map((p, index) => <p key={index}>{p}</p>)}
             </div>
 
@@ -895,7 +895,7 @@ function MalettiPartnershipBlock({ content }: { content: Record<string, unknown>
             <div className="flex flex-col sm:flex-row gap-4">
               {(content.button1Text as string) && (
                 <Link href={(content.button1Link as string) || "/maletti"}>
-                  <Button size="lg" className="bg-white text-black hover:bg-gray-100 transition-all duration-300 group">
+                  <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300 group">
                     {content.button1Text as string}
                     <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -930,22 +930,22 @@ function MaintenancePreviewBlock({ content }: { content: Record<string, unknown>
   };
 
   return (
-    <section ref={ref} className="py-24 lg:py-32 bg-gray-50">
+    <section ref={ref} className="py-24 lg:py-32 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6 }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
               {(content.subtitle as string) || "Suporte Técnico"}
             </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black mb-6 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900 mb-6 leading-tight">
               {(content.title as string) || "Manutenção"}
             </h2>
-            <p className="text-gray-600 text-lg leading-relaxed mb-8">
+            <p className="text-zinc-600 text-lg leading-relaxed mb-8">
               {(content.description as string) || ""}
             </p>
 
             <Link href={(content.buttonLink as string) || "/manutencao"}>
-              <Button size="lg" className="bg-black text-white hover:bg-gray-800 transition-all duration-300 group">
+              <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group">
                 {(content.buttonText as string) || "Solicitar Manutenção"}
                 <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -956,13 +956,13 @@ function MaintenancePreviewBlock({ content }: { content: Record<string, unknown>
             {services.map((service, index) => {
               const Icon = iconMap[service.icon] || HiOutlineWrenchScrewdriver;
               return (
-                <motion.div key={service.title} initial={{ opacity: 0, x: 30 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 * (index + 1) }} className="flex gap-6 p-6 bg-white border border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-300 group">
-                  <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center bg-gray-100 group-hover:bg-black group-hover:text-white transition-all duration-300">
+                <motion.div key={service.title} initial={{ opacity: 0, x: 30 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 * (index + 1) }} className="flex gap-6 p-6 bg-white border border-zinc-200 hover:border-zinc-300 hover:shadow-md transition-all duration-300 group">
+                  <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center bg-zinc-100 group-hover:bg-zinc-900 group-hover:text-white transition-all duration-300">
                     <Icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-black mb-2">{service.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">{service.description}</p>
+                    <h3 className="text-lg font-semibold text-zinc-900 mb-2">{service.title}</h3>
+                    <p className="text-zinc-500 text-sm leading-relaxed">{service.description}</p>
                   </div>
                 </motion.div>
               );
@@ -1021,38 +1021,38 @@ function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }} className="text-center mb-12">
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
               {(content.subtitle as string) || "Primeiro Contato"}
             </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black mb-6">
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900 mb-6">
               {(content.title as string) || "Consultoria + Catálogo"}
             </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-zinc-600 text-lg max-w-2xl mx-auto">
               {(content.description as string) || ""}
             </p>
           </motion.div>
 
           {submitSuccess ? (
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-gray-50 p-12 text-center max-w-xl mx-auto mb-12">
-              <div className="w-16 h-16 mx-auto mb-6 bg-black text-white rounded-full flex items-center justify-center">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-zinc-50 p-12 text-center max-w-xl mx-auto mb-12">
+              <div className="w-16 h-16 mx-auto mb-6 bg-zinc-900 text-white rounded-full flex items-center justify-center">
                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-serif font-semibold text-black mb-3">Solicitação Enviada.</h3>
-              <p className="text-gray-600 mb-6">Seu primeiro contato foi registrado e retornaremos em breve.</p>
-              <Button onClick={() => setSubmitSuccess(false)} variant="outline" className="border-black text-black hover:bg-black hover:text-white">Voltar</Button>
+              <h3 className="text-2xl font-serif font-semibold text-zinc-900 mb-3">Solicitação Enviada.</h3>
+              <p className="text-zinc-600 mb-6">Seu primeiro contato foi registrado e retornaremos em breve.</p>
+              <Button onClick={() => setSubmitSuccess(false)} variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white">Voltar</Button>
             </motion.div>
           ) : (
             <>
               <motion.form initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }} onSubmit={handleSubmit} className="space-y-3 max-w-2xl mx-auto mb-12">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Input type="text" placeholder="Nome completo" value={name} onChange={(e) => setName(e.target.value)} className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black" required />
-                  <Input type="email" placeholder="Seu melhor e-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black" required />
+                  <Input type="text" placeholder="Nome completo" value={name} onChange={(e) => setName(e.target.value)} className="h-12 px-4 border-zinc-300 focus:border-zinc-700 focus:ring-black" required />
+                  <Input type="email" placeholder="Seu melhor e-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="h-12 px-4 border-zinc-300 focus:border-zinc-700 focus:ring-black" required />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Input type="text" placeholder="Telefone / WhatsApp" value={phone} onChange={(e) => setPhone(e.target.value)} className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black" required />
-                  <Button type="submit" size="lg" className="h-12 px-6 bg-black text-white hover:bg-gray-800 transition-all duration-300 group" disabled={isSubmitting}>
+                  <Input type="text" placeholder="Telefone / WhatsApp" value={phone} onChange={(e) => setPhone(e.target.value)} className="h-12 px-4 border-zinc-300 focus:border-zinc-700 focus:ring-black" required />
+                  <Button type="submit" size="lg" className="h-12 px-6 bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group" disabled={isSubmitting}>
                     <HiOutlineDownload className="mr-2 w-5 h-5" />
                     {isSubmitting ? "Enviando..." : ((content.buttonText as string) || "Consultoria + Catálogo")}
                   </Button>
@@ -1060,25 +1060,25 @@ function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
               </motion.form>
 
               <motion.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ duration: 0.6, delay: 0.3 }} className="flex items-center gap-4 max-w-xl mx-auto mb-12">
-                <div className="flex-1 h-px bg-gray-200" />
-                <span className="text-gray-400 text-sm">ou</span>
-                <div className="flex-1 h-px bg-gray-200" />
+                <div className="flex-1 h-px bg-zinc-200" />
+                <span className="text-zinc-400 text-sm">ou</span>
+                <div className="flex-1 h-px bg-zinc-200" />
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.4 }} className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <a href={`tel:${(content.phoneRaw as string) || "+5511981982279"}`} className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors group">
-                  <span className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300">
+                <a href={`tel:${(content.phoneRaw as string) || "+5511981982279"}`} className="flex items-center gap-3 text-zinc-600 hover:text-zinc-900 transition-colors group">
+                  <span className="w-12 h-12 rounded-full border border-zinc-300 flex items-center justify-center group-hover:border-zinc-700 group-hover:bg-zinc-900 group-hover:text-white transition-all duration-300">
                     <HiOutlinePhone className="w-5 h-5" />
                   </span>
                   <div className="text-left">
-                    <span className="text-xs text-gray-400 block">Ligue para nós</span>
+                    <span className="text-xs text-zinc-400 block">Ligue para nós</span>
                     <span className="font-medium">{(content.phone as string) || "(11) 98198-2279"}</span>
                   </div>
                 </a>
 
-                <div className="hidden sm:block w-px h-12 bg-gray-200" />
+                <div className="hidden sm:block w-px h-12 bg-zinc-200" />
 
-                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>
+                <Button variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300" asChild>
                   <a
                     href={
                       buildWhatsappHref({
@@ -1094,7 +1094,7 @@ function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
                     {(content.consultorButtonText as string) || "Falar no WhatsApp"}
                   </a>
                 </Button>
-                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>
+                <Button variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300" asChild>
                   <a href={buildContactHref({ assunto: "consultoria-catalogo", origem: "home-cta" })}>
                     Formulário completo
                   </a>
@@ -1120,15 +1120,15 @@ function ContactHeroBlock({ content }: { content: Record<string, unknown> }) {
           className="max-w-3xl"
         >
           {(content.badge as string) && (
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
               {content.badge as string}
             </span>
           )}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-black mb-6">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-zinc-900 mb-6">
             {(content.title as string) || "Fale Conosco"}
           </h1>
           {(content.description as string) && (
-            <p className="text-gray-600 text-lg leading-relaxed">
+            <p className="text-zinc-600 text-lg leading-relaxed">
               {content.description as string}
             </p>
           )}
@@ -1156,7 +1156,7 @@ function ContactOptionsBlock({ content }: { content: Record<string, unknown> }) 
   };
 
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="py-12 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {options.map((option, index) => (
@@ -1165,14 +1165,14 @@ function ContactOptionsBlock({ content }: { content: Record<string, unknown> }) 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex items-start gap-4 p-6 bg-white border border-gray-100 hover:border-black hover:shadow-lg transition-all duration-300 text-left group cursor-pointer"
+              className="flex items-start gap-4 p-6 bg-white border border-zinc-200 hover:border-zinc-700 hover:shadow-lg transition-all duration-300 text-left group cursor-pointer"
             >
-              <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gray-100 group-hover:bg-black group-hover:text-white transition-all duration-300">
+              <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-zinc-100 group-hover:bg-zinc-900 group-hover:text-white transition-all duration-300">
                 {iconMap[option.icon || "download"]}
               </div>
               <div>
-                <h3 className="font-semibold text-black mb-1">{option.title}</h3>
-                <p className="text-gray-500 text-sm">{option.description}</p>
+                <h3 className="font-semibold text-zinc-900 mb-1">{option.title}</h3>
+                <p className="text-zinc-500 text-sm">{option.description}</p>
               </div>
             </motion.div>
           ))}
@@ -1185,7 +1185,7 @@ function ContactOptionsBlock({ content }: { content: Record<string, unknown> }) 
 // Contact Info Block
 function ContactInfoBlock({ content }: { content: Record<string, unknown> }) {
   return (
-    <div className="bg-black text-white p-10 lg:p-12 h-full">
+    <div className="bg-zinc-900 text-white p-10 lg:p-12 h-full">
       <h2 className="text-2xl font-serif font-semibold mb-8">
         {(content.title as string) || "Informações de Contato"}
       </h2>
@@ -1200,7 +1200,7 @@ function ContactInfoBlock({ content }: { content: Record<string, unknown> }) {
               <h3 className="font-medium mb-1">Telefone / WhatsApp</h3>
               <a
                 href={`tel:${(content.phoneRaw as string) || ""}`}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-zinc-400 hover:text-white transition-colors"
               >
                 {content.phone as string}
               </a>
@@ -1217,7 +1217,7 @@ function ContactInfoBlock({ content }: { content: Record<string, unknown> }) {
               <h3 className="font-medium mb-1">E-mail</h3>
               <a
                 href={`mailto:${content.email as string}`}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-zinc-400 hover:text-white transition-colors"
               >
                 {content.email as string}
               </a>
@@ -1232,7 +1232,7 @@ function ContactInfoBlock({ content }: { content: Record<string, unknown> }) {
             </div>
             <div>
               <h3 className="font-medium mb-1">Endereço</h3>
-              <p className="text-gray-400">
+              <p className="text-zinc-400">
                 {(content.address1 as string) && <>{content.address1 as string}<br /></>}
                 {content.address2 as string}
               </p>
@@ -1244,7 +1244,7 @@ function ContactInfoBlock({ content }: { content: Record<string, unknown> }) {
       {(content.hours as string) && (
         <div className="mt-12 pt-8 border-t border-white/10">
           <h3 className="font-medium mb-4">Horário de Atendimento</h3>
-          <div className="space-y-2 text-gray-400 text-sm whitespace-pre-line">
+          <div className="space-y-2 text-zinc-400 text-sm whitespace-pre-line">
             {content.hours as string}
           </div>
         </div>
@@ -1254,7 +1254,7 @@ function ContactInfoBlock({ content }: { content: Record<string, unknown> }) {
         <div className="mt-12">
           <Button
             size="lg"
-            className="w-full bg-white text-black hover:bg-gray-100 transition-all duration-300"
+            className="w-full bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300"
             asChild
           >
             <a
@@ -1274,21 +1274,21 @@ function ContactInfoBlock({ content }: { content: Record<string, unknown> }) {
 // Maintenance Hero Block
 function MaintenanceHeroBlock({ content }: { content: Record<string, unknown> }) {
   return (
-    <section className="pt-32 pb-20 bg-black text-white">
+    <section className="pt-32 pb-20 bg-zinc-900 text-white">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
             {(content.badge as string) && (
-              <span className="text-sm uppercase tracking-[0.2em] text-gray-400 mb-4 block">{content.badge as string}</span>
+              <span className="text-sm uppercase tracking-[0.2em] text-zinc-400 mb-4 block">{content.badge as string}</span>
             )}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold mb-6 leading-tight">
               {(content.title as string) || "Manutenção"}
             </h1>
             {(content.description as string) && (
-              <p className="text-gray-300 text-lg leading-relaxed mb-8">{content.description as string}</p>
+              <p className="text-zinc-300 text-lg leading-relaxed mb-8">{content.description as string}</p>
             )}
             {(content.buttonText as string) && (
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100" asChild>
+              <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100" asChild>
                 <a href={(content.whatsappLink as string) || "#"} target="_blank" rel="noopener noreferrer">
                   <HiOutlinePhone className="mr-2 w-5 h-5" />
                   {content.buttonText as string}
@@ -1324,22 +1324,22 @@ function MaintenanceServicesBlock({ content }: { content: Record<string, unknown
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          {(content.badge as string) && <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{content.badge as string}</span>}
-          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black">{(content.title as string) || "Nossos Serviços"}</h2>
+          {(content.badge as string) && <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{content.badge as string}</span>}
+          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">{(content.title as string) || "Nossos Serviços"}</h2>
         </motion.div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-gray-50 p-8 hover:shadow-lg transition-shadow group">
-              <div className="w-14 h-14 flex items-center justify-center bg-black text-white mb-6 group-hover:scale-110 transition-transform">
+            <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-zinc-50 p-8 hover:shadow-lg transition-shadow group">
+              <div className="w-14 h-14 flex items-center justify-center bg-zinc-900 text-white mb-6 group-hover:scale-110 transition-transform">
                 {iconMap[service.icon || "wrench"]}
               </div>
-              <h3 className="text-xl font-semibold text-black mb-3">{service.title}</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
+              <h3 className="text-xl font-semibold text-zinc-900 mb-3">{service.title}</h3>
+              <p className="text-zinc-600 mb-6 leading-relaxed">{service.description}</p>
               {service.features && service.features.length > 0 && (
                 <ul className="space-y-2">
                   {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm text-gray-500">
-                      <HiOutlineCheckCircle className="w-4 h-4 text-black" />
+                    <li key={i} className="flex items-center gap-2 text-sm text-zinc-500">
+                      <HiOutlineCheckCircle className="w-4 h-4 text-zinc-900" />
                       {feature}
                     </li>
                   ))}
@@ -1357,27 +1357,27 @@ function MaintenanceServicesBlock({ content }: { content: Record<string, unknown
 function MaintenanceBenefitsBlock({ content }: { content: Record<string, unknown> }) {
   const benefits = (content.benefits as Array<{ icon?: string; title?: string; description?: string }>) || [];
   const iconMap: Record<string, React.ReactNode> = {
-    shield: <HiOutlineShieldCheck className="w-8 h-8 text-black" />,
-    truck: <HiOutlineDownload className="w-8 h-8 text-black" />,
-    clock: <HiOutlineClock className="w-8 h-8 text-black" />,
-    check: <HiOutlineCheckCircle className="w-8 h-8 text-black" />,
+    shield: <HiOutlineShieldCheck className="w-8 h-8 text-zinc-900" />,
+    truck: <HiOutlineDownload className="w-8 h-8 text-zinc-900" />,
+    clock: <HiOutlineClock className="w-8 h-8 text-zinc-900" />,
+    check: <HiOutlineCheckCircle className="w-8 h-8 text-zinc-900" />,
   };
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            {(content.badge as string) && <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{content.badge as string}</span>}
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black mb-6">{(content.title as string) || "Por que escolher"}</h2>
-            {(content.description as string) && <p className="text-gray-600 text-lg leading-relaxed">{content.description as string}</p>}
+            {(content.badge as string) && <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{content.badge as string}</span>}
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900 mb-6">{(content.title as string) || "Por que escolher"}</h2>
+            {(content.description as string) && <p className="text-zinc-600 text-lg leading-relaxed">{content.description as string}</p>}
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {benefits.map((benefit, index) => (
-              <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-white p-6 border border-gray-100">
+              <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-white p-6 border border-zinc-200">
                 {iconMap[benefit.icon || "shield"]}
-                <h3 className="font-semibold text-black mb-2 mt-4">{benefit.title}</h3>
-                <p className="text-gray-500 text-sm">{benefit.description}</p>
+                <h3 className="font-semibold text-zinc-900 mb-2 mt-4">{benefit.title}</h3>
+                <p className="text-zinc-500 text-sm">{benefit.description}</p>
               </motion.div>
             ))}
           </div>
@@ -1390,13 +1390,13 @@ function MaintenanceBenefitsBlock({ content }: { content: Record<string, unknown
 // Maintenance CTA Block
 function MaintenanceCTABlock({ content }: { content: Record<string, unknown> }) {
   return (
-    <section className="py-24 bg-black text-white">
+    <section className="py-24 bg-zinc-900 text-white">
       <div className="container mx-auto px-6 lg:px-12 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-6">{(content.title as string) || "Precisa de suporte?"}</h2>
-          {(content.description as string) && <p className="text-gray-400 max-w-2xl mx-auto mb-8">{content.description as string}</p>}
+          {(content.description as string) && <p className="text-zinc-400 max-w-2xl mx-auto mb-8">{content.description as string}</p>}
           {(content.buttonText as string) && (
-            <Button size="lg" className="bg-white text-black hover:bg-gray-100" asChild>
+            <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100" asChild>
               <a href={(content.whatsappLink as string) || "#"} target="_blank" rel="noopener noreferrer">{content.buttonText as string}</a>
             </Button>
           )}
@@ -1414,14 +1414,14 @@ function MaintenanceFAQBlock({ content }: { content: Record<string, unknown> }) 
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          {(content.badge as string) && <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{content.badge as string}</span>}
-          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black">{(content.title as string) || "Perguntas Frequentes"}</h2>
+          {(content.badge as string) && <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{content.badge as string}</span>}
+          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">{(content.title as string) || "Perguntas Frequentes"}</h2>
         </motion.div>
         <div className="max-w-3xl mx-auto space-y-6">
           {faqs.map((faq, index) => (
-            <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="border-b border-gray-100 pb-6">
-              <h3 className="text-lg font-semibold text-black mb-3">{faq.question}</h3>
-              <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+            <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="border-b border-zinc-200 pb-6">
+              <h3 className="text-lg font-semibold text-zinc-900 mb-3">{faq.question}</h3>
+              <p className="text-zinc-600 leading-relaxed">{faq.answer}</p>
             </motion.div>
           ))}
         </div>
@@ -1437,13 +1437,13 @@ function ProductsHeroBlock({ content }: { content: Record<string, unknown> }) {
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl">
           {(content.badge as string) && (
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{content.badge as string}</span>
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{content.badge as string}</span>
           )}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-black mb-6">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-zinc-900 mb-6">
             {(content.title as string) || "Nossos Produtos"}
           </h1>
           {(content.description as string) && (
-            <p className="text-gray-600 text-lg leading-relaxed">{content.description as string}</p>
+            <p className="text-zinc-600 text-lg leading-relaxed">{content.description as string}</p>
           )}
         </motion.div>
       </div>
@@ -1482,15 +1482,15 @@ function ProductsGridBlock({ content }: { content: Record<string, unknown> }) {
 
   if (loading) {
     return (
-      <section className="py-16 lg:py-24 bg-gray-50">
+      <section className="py-16 lg:py-24 bg-zinc-50">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1,2,3].map(i => (
-              <div key={i} className="bg-white border border-gray-200 p-3 animate-pulse">
-                <div className="aspect-square bg-gray-200" />
+              <div key={i} className="bg-white border border-zinc-300 p-3 animate-pulse">
+                <div className="aspect-square bg-zinc-200" />
                 <div className="p-6 space-y-2">
-                  <div className="h-6 bg-gray-200 rounded w-3/4" />
-                  <div className="h-4 bg-gray-200 rounded w-full" />
+                  <div className="h-6 bg-zinc-200 rounded w-3/4" />
+                  <div className="h-4 bg-zinc-200 rounded w-full" />
                 </div>
               </div>
             ))}
@@ -1501,21 +1501,21 @@ function ProductsGridBlock({ content }: { content: Record<string, unknown> }) {
   }
 
   return (
-    <section className="py-16 lg:py-24 bg-gray-50">
+    <section className="py-16 lg:py-24 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
             <motion.div key={product.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-              <a href={`/produtos/${product.slug}`} className="group block bg-white border border-gray-200 p-3 hover:border-gray-300 transition-colors">
-                <div className="relative aspect-square bg-gray-100 overflow-hidden">
+              <a href={`/produtos/${product.slug}`} className="group block bg-white border border-zinc-300 p-3 hover:border-zinc-300 transition-colors">
+                <div className="relative aspect-square bg-zinc-100 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url(${product.image})`, backgroundSize: "cover", backgroundPosition: "center" }} />
                   {product.category && (
-                    <span className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm text-xs uppercase tracking-wider text-gray-700">{product.category.name}</span>
+                    <span className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm text-xs uppercase tracking-wider text-zinc-700">{product.category.name}</span>
                   )}
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-serif font-medium text-black mb-2 group-hover:text-gray-600 transition-colors">{product.name}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed line-clamp-1">{stripHtml(product.shortDescription)}</p>
+                  <h3 className="text-xl font-serif font-medium text-zinc-900 mb-2 group-hover:text-zinc-600 transition-colors">{product.name}</h3>
+                  <p className="text-zinc-500 text-sm leading-relaxed line-clamp-1">{stripHtml(product.shortDescription)}</p>
                 </div>
               </a>
             </motion.div>
@@ -1529,14 +1529,14 @@ function ProductsGridBlock({ content }: { content: Record<string, unknown> }) {
 // Products CTA Block
 function ProductsCTABlock({ content }: { content: Record<string, unknown> }) {
   return (
-    <section className="py-24 bg-black text-white">
+    <section className="py-24 bg-zinc-900 text-white">
       <div className="container mx-auto px-6 lg:px-12 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-6">{(content.title as string) || "Precisa de ajuda?"}</h2>
-          {(content.description as string) && <p className="text-gray-400 max-w-2xl mx-auto mb-8">{content.description as string}</p>}
+          {(content.description as string) && <p className="text-zinc-400 max-w-2xl mx-auto mb-8">{content.description as string}</p>}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {(content.buttonText as string) && (
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100" asChild>
+              <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100" asChild>
                 <a href={(content.whatsappLink as string) || "#"} target="_blank" rel="noopener noreferrer">{content.buttonText as string}</a>
               </Button>
             )}
@@ -1560,21 +1560,21 @@ function ProductsCTABlock({ content }: { content: Record<string, unknown> }) {
 function BrandsHeroBlock({ content }: { content: Record<string, unknown> }) {
   const titleParts = ((content.title as string) || "Excelência|em cada|detalhe").split("|");
   return (
-    <section className="pt-32 pb-20 lg:pb-32 bg-black text-white">
+    <section className="pt-32 pb-20 lg:pb-32 bg-zinc-900 text-white">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-400 mb-4 block">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-400 mb-4 block">
               {(content.badge as string) || "Nossas Marcas"}
             </span>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold mb-6 leading-tight">
               {titleParts.map((part, i) => <span key={i}>{part}{i < titleParts.length - 1 && <br />}</span>)}
             </h1>
-            <p className="text-gray-300 text-lg leading-relaxed mb-8">
+            <p className="text-zinc-300 text-lg leading-relaxed mb-8">
               {(content.description as string) || "Trabalhamos com as marcas mais prestigiadas do mercado mundial de mobiliário para salões de beleza e spas."}
             </p>
             {(content.buttonText as string) && (
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100 transition-all duration-300 group" asChild>
+              <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300 group" asChild>
                 <Link href={(content.buttonLink as string) || "/produtos"}>
                   {content.buttonText as string}
                   <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1583,7 +1583,7 @@ function BrandsHeroBlock({ content }: { content: Record<string, unknown> }) {
             )}
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="hidden lg:block">
-            <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden flex items-center justify-center">
+            <div className="aspect-square bg-gradient-to-br from-zinc-800 to-zinc-900 relative overflow-hidden flex items-center justify-center">
               <Image src="/logoshr-white.png" alt="SHR Hair" width={280} height={112} className="object-contain" />
               <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-white/20" />
               <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-white/20" />
@@ -1607,25 +1607,25 @@ function BrandsSectionBlock({ content }: { content: Record<string, unknown> }) {
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{(content.badge as string) || "Portfólio"}</span>
-          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black">{(content.title as string) || "Marcas que representamos"}</h2>
+          <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{(content.badge as string) || "Portfólio"}</span>
+          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">{(content.title as string) || "Marcas que representamos"}</h2>
         </motion.div>
         <div className="space-y-24">
           {brands.map((brand, index) => (
             <motion.div key={brand.id} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.2 }} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center`}>
               <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
+                <div className="aspect-[4/3] relative overflow-hidden bg-zinc-100">
                   <Image src={brand.image || "/images/site/heaven2.jpg"} alt={brand.name} fill className="object-cover" />
                   {brand.logo && <div className="absolute bottom-6 left-6"><Image src={brand.logo} alt={brand.name} width={120} height={48} /></div>}
                 </div>
               </div>
               <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                <h3 className="text-3xl md:text-4xl font-serif font-semibold text-black mb-4">{brand.name}</h3>
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">{brand.description}</p>
+                <h3 className="text-3xl md:text-4xl font-serif font-semibold text-zinc-900 mb-4">{brand.name}</h3>
+                <p className="text-zinc-600 text-lg leading-relaxed mb-6">{brand.description}</p>
                 <ul className="space-y-3 mb-8">
-                  {brand.highlights.map((highlight) => <li key={highlight} className="flex items-center gap-3 text-gray-700"><span className="w-2 h-2 bg-black rounded-full" />{highlight}</li>)}
+                  {brand.highlights.map((highlight) => <li key={highlight} className="flex items-center gap-3 text-zinc-700"><span className="w-2 h-2 bg-zinc-900 rounded-full" />{highlight}</li>)}
                 </ul>
-                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300 group" asChild>
+                <Button variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300 group" asChild>
                   <Link href="/produtos">Ver Produtos {brand.name}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
                 </Button>
               </div>
@@ -1640,13 +1640,13 @@ function BrandsSectionBlock({ content }: { content: Record<string, unknown> }) {
 // Brands Partnership Block
 function BrandsPartnershipBlock({ content }: { content: Record<string, unknown> }) {
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{(content.badge as string) || "Nossas Parcerias"}</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-black mb-8 leading-tight">{(content.title as string) || "Marcas que confiam na SHR"}</h2>
-            <p className="text-gray-600 text-lg leading-relaxed mb-12">{(content.description as string) || "A SHR é o elo entre as maiores marcas internacionais e o mercado brasileiro."}</p>
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{(content.badge as string) || "Nossas Parcerias"}</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-zinc-900 mb-8 leading-tight">{(content.title as string) || "Marcas que confiam na SHR"}</h2>
+            <p className="text-zinc-600 text-lg leading-relaxed mb-12">{(content.description as string) || "A SHR é o elo entre as maiores marcas internacionais e o mercado brasileiro."}</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
               <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"><Image src="/images/site/malliti-preto.png" alt="Maletti" width={120} height={48} className="object-contain" /></div>
               <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"><Image src="/images/site/nilo.jpg" alt="Nilo" width={120} height={48} className="object-contain" /></div>
@@ -1663,14 +1663,14 @@ function BrandsPartnershipBlock({ content }: { content: Record<string, unknown> 
 // Brands CTA Block
 function BrandsCTABlock({ content }: { content: Record<string, unknown> }) {
   return (
-    <section className="py-24 bg-black text-white">
+    <section className="py-24 bg-zinc-900 text-white">
       <div className="container mx-auto px-6 lg:px-12 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-6">{(content.title as string) || "Quer conhecer nossos produtos?"}</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto mb-8">{(content.description as string) || "Explore nosso catálogo completo e descubra como as marcas que representamos podem transformar seu salão."}</p>
+          <p className="text-zinc-400 max-w-2xl mx-auto mb-8">{(content.description as string) || "Explore nosso catálogo completo e descubra como as marcas que representamos podem transformar seu salão."}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {(content.buttonText as string) && (
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100 transition-all duration-300" asChild>
+              <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300" asChild>
                 <Link href={(content.buttonLink as string) || "/produtos"}>{content.buttonText as string}</Link>
               </Button>
             )}
@@ -1696,19 +1696,19 @@ function AboutHeroBlock({ content }: { content: Record<string, unknown> }) {
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{(content.badge as string) || "Sobre Nós"}</span>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-black mb-6 leading-tight">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{(content.badge as string) || "Sobre Nós"}</span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-zinc-900 mb-6 leading-tight">
               {titleParts.map((part, i) => <span key={i}>{part}{i < titleParts.length - 1 && <br />}</span>)}
             </h1>
-            <p className="text-gray-600 text-lg leading-relaxed mb-8">{(content.description as string) || "Há mais de uma década, a SHR é referência no mercado brasileiro de mobiliário para salões de beleza e spas."}</p>
+            <p className="text-zinc-600 text-lg leading-relaxed mb-8">{(content.description as string) || "Há mais de uma década, a SHR é referência no mercado brasileiro de mobiliário para salões de beleza e spas."}</p>
             <div className="flex flex-col sm:flex-row gap-4">
               {(content.buttonText as string) && (
-                <Button size="lg" className="bg-black text-white hover:bg-gray-800 transition-all duration-300 group" asChild>
+                <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group" asChild>
                   <Link href={(content.buttonLink as string) || "/produtos"}>{content.buttonText as string}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
                 </Button>
               )}
               {(content.secondaryButtonText as string) && (
-                <Button size="lg" variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>
+                <Button size="lg" variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300" asChild>
                   <Link href={resolveContactHref(content.secondaryLink as string, "about-hero")}>
                     {content.secondaryButtonText as string}
                   </Link>
@@ -1726,10 +1726,10 @@ function AboutHeroBlock({ content }: { content: Record<string, unknown> }) {
               </div>
               <div className="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-white/30" />
             </div>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }} className="absolute -bottom-8 -right-8 bg-black text-white p-8 shadow-2xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }} className="absolute -bottom-8 -right-8 bg-zinc-900 text-white p-8 shadow-2xl">
               <div className="grid grid-cols-2 gap-6">
-                <div><span className="text-3xl font-serif font-bold">{(content.stat1Value as string) || "10+"}</span><p className="text-xs text-gray-400 mt-1">{(content.stat1Label as string) || "Anos de mercado"}</p></div>
-                <div><span className="text-3xl font-serif font-bold">{(content.stat2Value as string) || "500+"}</span><p className="text-xs text-gray-400 mt-1">{(content.stat2Label as string) || "Clientes"}</p></div>
+                <div><span className="text-3xl font-serif font-bold">{(content.stat1Value as string) || "10+"}</span><p className="text-xs text-zinc-400 mt-1">{(content.stat1Label as string) || "Anos de mercado"}</p></div>
+                <div><span className="text-3xl font-serif font-bold">{(content.stat2Value as string) || "500+"}</span><p className="text-xs text-zinc-400 mt-1">{(content.stat2Label as string) || "Clientes"}</p></div>
               </div>
             </motion.div>
           </motion.div>
@@ -1742,15 +1742,15 @@ function AboutHeroBlock({ content }: { content: Record<string, unknown> }) {
 // About Mission Block
 function AboutMissionBlock({ content }: { content: Record<string, unknown> }) {
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{(content.badge as string) || "Nossa Missão"}</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-black mb-8 leading-tight">
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{(content.badge as string) || "Nossa Missão"}</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-zinc-900 mb-8 leading-tight">
               &ldquo;{(content.quote as string) || "Transformar salões de beleza em espaços de excelência, proporcionando aos profissionais as melhores ferramentas para encantar seus clientes."}&rdquo;
             </h2>
-            <p className="text-gray-600 text-lg">{(content.author as string) || "— Equipe SHR"}</p>
+            <p className="text-zinc-600 text-lg">{(content.author as string) || "— Equipe SHR"}</p>
           </motion.div>
         </div>
       </div>
@@ -1770,17 +1770,17 @@ function AboutValuesBlock({ content }: { content: Record<string, unknown> }) {
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{(content.badge as string) || "Nossos Valores"}</span>
-          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black">{(content.title as string) || "O que nos guia"}</h2>
+          <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{(content.badge as string) || "Nossos Valores"}</span>
+          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">{(content.title as string) || "O que nos guia"}</h2>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((value, index) => (
             <motion.div key={value.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="text-center group">
-              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-gray-100 group-hover:bg-black group-hover:text-white transition-all duration-300">
+              <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-zinc-100 group-hover:bg-zinc-900 group-hover:text-white transition-all duration-300">
                 <HiOutlineSparkles className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-semibold text-black mb-3">{value.title}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed">{value.description}</p>
+              <h3 className="text-xl font-semibold text-zinc-900 mb-3">{value.title}</h3>
+              <p className="text-zinc-500 text-sm leading-relaxed">{value.description}</p>
             </motion.div>
           ))}
         </div>
@@ -1796,18 +1796,18 @@ function AboutPartnershipBlock({ content }: { content: Record<string, unknown> }
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">{(content.badge as string) || "Parceria Exclusiva"}</span>
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black mb-6">{(content.title as string) || "Maletti: Tradição italiana desde 1965"}</h2>
-            <p className="text-gray-600 text-lg leading-relaxed mb-6">{(content.description1 as string) || "A Maletti é uma das mais prestigiadas fabricantes de mobiliário para salões de beleza do mundo. Com mais de 55 anos de história, a marca italiana é sinônimo de inovação, qualidade e design sofisticado."}</p>
-            <p className="text-gray-600 leading-relaxed mb-8">{(content.description2 as string) || "Como distribuidor exclusivo no Brasil, a SHR oferece toda a linha de produtos Maletti com garantia de originalidade, suporte técnico especializado e peças de reposição originais."}</p>
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{(content.badge as string) || "Parceria Exclusiva"}</span>
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900 mb-6">{(content.title as string) || "Maletti: Tradição italiana desde 1965"}</h2>
+            <p className="text-zinc-600 text-lg leading-relaxed mb-6">{(content.description1 as string) || "A Maletti é uma das mais prestigiadas fabricantes de mobiliário para salões de beleza do mundo. Com mais de 55 anos de história, a marca italiana é sinônimo de inovação, qualidade e design sofisticado."}</p>
+            <p className="text-zinc-600 leading-relaxed mb-8">{(content.description2 as string) || "Como distribuidor exclusivo no Brasil, a SHR oferece toda a linha de produtos Maletti com garantia de originalidade, suporte técnico especializado e peças de reposição originais."}</p>
             {(content.buttonText as string) && (
-              <Button size="lg" className="bg-black text-white hover:bg-gray-800 transition-all duration-300 group" asChild>
+              <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group" asChild>
                 <Link href={(content.buttonLink as string) || "/produtos"}>{content.buttonText as string}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
               </Button>
             )}
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }} className="relative">
-            <div className="aspect-square bg-black relative overflow-hidden">
+            <div className="aspect-square bg-zinc-900 relative overflow-hidden">
               <Image src="/images/site/heaven2.jpg" alt="Maletti Heaven" fill className="object-cover opacity-60" />
               <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
                 <Image src="/images/site/Maletti - Logo bianco.png" alt="Maletti" width={180} height={70} className="mb-4" />
@@ -1815,9 +1815,9 @@ function AboutPartnershipBlock({ content }: { content: Record<string, unknown> }
               </div>
               <div className="absolute bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-white/20" />
             </div>
-            <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }} className="absolute -bottom-6 -right-6 bg-white text-black p-6 shadow-2xl">
+            <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }} className="absolute -bottom-6 -right-6 bg-white text-zinc-900 p-6 shadow-2xl">
               <span className="text-3xl font-serif font-bold">{(content.yearsBadge as string) || "55+"}</span>
-              <p className="text-xs text-gray-500 mt-1">{(content.yearsBadgeLabel as string) || "Anos de história"}</p>
+              <p className="text-xs text-zinc-500 mt-1">{(content.yearsBadgeLabel as string) || "Anos de história"}</p>
             </motion.div>
           </motion.div>
         </div>
@@ -1829,21 +1829,21 @@ function AboutPartnershipBlock({ content }: { content: Record<string, unknown> }
 // About CTA Block
 function AboutCTABlock({ content }: { content: Record<string, unknown> }) {
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-zinc-50">
       <div className="container mx-auto px-6 lg:px-12 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <h2 className="text-3xl md:text-4xl font-serif font-semibold text-black mb-6">{(content.title as string) || "Pronto para transformar seu salão?"}</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8">{(content.description as string) || "Entre em contato conosco e descubra como os produtos Maletti podem elevar o padrão do seu negócio."}</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-semibold text-zinc-900 mb-6">{(content.title as string) || "Pronto para transformar seu salão?"}</h2>
+          <p className="text-zinc-600 max-w-2xl mx-auto mb-8">{(content.description as string) || "Entre em contato conosco e descubra como os produtos Maletti podem elevar o padrão do seu negócio."}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {(content.buttonText as string) && (
-              <Button size="lg" className="bg-black text-white hover:bg-gray-800 transition-all duration-300" asChild>
+              <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300" asChild>
                 <Link href={resolveContactHref(content.buttonLink as string, "about-cta")}>
                   {content.buttonText as string}
                 </Link>
               </Button>
             )}
             {(content.secondaryButtonText as string) && (
-              <Button size="lg" variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>
+              <Button size="lg" variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300" asChild>
                 <a
                   href={
                     (content.secondaryLink as string) ||

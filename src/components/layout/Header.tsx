@@ -76,7 +76,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-3">
             <div
               className={`w-10 h-10 rounded-full border flex items-center justify-center text-xs font-semibold tracking-wider transition-colors ${
-                showDarkElements ? "border-black text-black" : "border-white text-white"
+                showDarkElements ? "border-zinc-700 text-zinc-900" : "border-white text-white"
               }`}
             >
               ER
@@ -84,14 +84,14 @@ export function Header() {
             <div className="hidden sm:block">
               <p
                 className={`text-sm font-semibold leading-tight transition-colors ${
-                  showDarkElements ? "text-black" : "text-white"
+                  showDarkElements ? "text-zinc-900" : "text-white"
                 }`}
               >
                 Elcio Representação
               </p>
               <p
                 className={`text-[11px] uppercase tracking-[0.2em] transition-colors ${
-                  showDarkElements ? "text-gray-500" : "text-white/70"
+                  showDarkElements ? "text-zinc-500" : "text-white/70"
                 }`}
               >
                 Comercial B2B
@@ -108,8 +108,8 @@ export function Header() {
                   variant="outline"
                   className={`font-medium tracking-wide transition-all duration-300 ${
                     showDarkElements
-                      ? "border-black text-black hover:bg-black hover:text-white"
-                      : "border-white/80 text-white bg-transparent hover:bg-white hover:text-black"
+                      ? "border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white"
+                      : "border-white/80 text-white bg-transparent hover:bg-white hover:text-zinc-900"
                   }`}
                   asChild
                 >
@@ -125,7 +125,7 @@ export function Header() {
                 <Button
                   key={button.label}
                   className={`font-medium tracking-wide transition-all duration-300 ${
-                    showDarkElements ? "bg-black text-white hover:bg-gray-800" : "bg-white text-black hover:bg-gray-100"
+                    showDarkElements ? "bg-zinc-900 text-white hover:bg-zinc-800" : "bg-white text-zinc-900 hover:bg-zinc-100"
                   }`}
                   asChild
                 >
@@ -145,16 +145,16 @@ export function Header() {
             <SheetTrigger asChild>
               <button
                 className={`flex flex-col items-center justify-center gap-1.5 p-2 transition-colors duration-300 ${
-                  showDarkElements ? "text-black" : "text-white"
+                  showDarkElements ? "text-zinc-900" : "text-white"
                 }`}
                 aria-label="Menu"
               >
-                <span className={`block w-6 h-[2px] ${showDarkElements ? "bg-black" : "bg-white"}`} />
-                <span className={`block w-6 h-[2px] ${showDarkElements ? "bg-black" : "bg-white"}`} />
-                <span className={`block w-4 h-[2px] ${showDarkElements ? "bg-black" : "bg-white"}`} />
+                <span className={`block w-6 h-[2px] ${showDarkElements ? "bg-zinc-900" : "bg-white"}`} />
+                <span className={`block w-6 h-[2px] ${showDarkElements ? "bg-zinc-900" : "bg-white"}`} />
+                <span className={`block w-4 h-[2px] ${showDarkElements ? "bg-zinc-900" : "bg-white"}`} />
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:w-[450px] bg-black text-white border-none p-8 pt-12">
+            <SheetContent side="right" className="w-full sm:w-[450px] bg-zinc-900 text-white border-none p-8 pt-12">
               <div className="flex flex-col h-full pt-16">
                 <nav className="flex flex-col gap-1">
                   {navLinks.map((link, index) => (
@@ -197,13 +197,13 @@ export function Header() {
                         <Button
                           key={button.label}
                           variant="outline"
-                          className="w-full border-white text-white bg-transparent hover:bg-white hover:text-black"
+                          className="w-full border-white text-white bg-transparent hover:bg-white hover:text-zinc-900"
                           asChild
                         >
                           {content}
                         </Button>
                       ) : (
-                        <Button key={button.label} className="w-full bg-white text-black hover:bg-gray-100" asChild>
+                        <Button key={button.label} className="w-full bg-white text-zinc-900 hover:bg-zinc-100" asChild>
                           {content}
                         </Button>
                       );
