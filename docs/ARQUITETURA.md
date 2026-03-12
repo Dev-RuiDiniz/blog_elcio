@@ -17,7 +17,7 @@ A base segue o App Router do Next.js com separacao clara entre:
   - Usa `Header`, `Footer` e `WhatsAppButton` no layout.
 - `admin`
   - Painel de gestao com autenticao por sessao.
-  - Dashboard, CRUDs, editor visual, scripts e configuracoes.
+  - Dashboard, CRUDs, editor visual, scripts, configuracoes e mini-CRM (contatos, clientes, chamadas, agenda).
 - `api`
   - Endpoints para dados publicos e operacoes admin.
 - `maletti`, `spa`, `tricologia`, `salao-de-beleza`
@@ -44,6 +44,8 @@ A base segue o App Router do Next.js com separacao clara entre:
   - Singleton do Prisma Client.
 - `session.ts` e `auth.ts`
   - Sessao via `iron-session`.
+- `crm/*`
+  - Servicos de dominio para funil comercial, historico de status e follow-up de agenda.
 - `seo.ts`
   - SEO por chave de site (`shr`, `maletti`, `tricologia`, `spa`, `salao`).
 - `getPageData.ts`
@@ -83,6 +85,7 @@ Leitura publica:
 - Kommo CRM:
   - configuracao no admin (`/admin/kommo`)
   - envio de lead publico em `/api/kommo/leads`
+  - sincronizacao administrativa CRM local + Kommo em `/api/admin/crm/sync`
 - Scripts dinamicos:
   - cadastrados no admin (`/admin/scripts`)
   - injetados no client por `DynamicScripts` com filtro por site/posicao.

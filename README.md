@@ -1,6 +1,6 @@
-# Blog Elcio - Site Público Comercial (Next.js + CMS)
+# Blog Elcio - Site Comercial + Admin CRM (Next.js + Prisma)
 
-Site de apresentação comercial do cliente Elcio, com foco em funil de `Consultoria + Catálogo` para 6 empresas representadas.
+Site de apresentação comercial do Elcio com funil `Consultoria + Catálogo` e camada administrativa evoluída para mini-CRM operacional.
 
 ## Contatos oficiais
 
@@ -8,21 +8,36 @@ Site de apresentação comercial do cliente Elcio, com foco em funil de `Consult
 - WhatsApp: `+55 12 99158-8460`
 - Localidade: `Taubaté - SP`
 
-## Escopo atual
+## Núcleo público
 
-Núcleo público ativo:
+Rotas ativas:
 - `/`
 - `/marcas`
 - `/p/[slug]` (6 empresas)
 - `/blog`
 - `/contato`
 
-Rotas legadas públicas redirecionadas para `/` (308):
-- `/maletti`, `/spa`, `/tricologia`, `/salao-de-beleza`
-- `/sobre`, `/produtos`, `/faq`, `/garantia`, `/manutencao`, `/categorias`
-- `/blog/categorias`
+Rotas legadas públicas são redirecionadas para `/`.
 
-O painel admin/CMS continua no repositório, mas o foco desta fase foi a camada pública.
+## Camada administrativa (CRM)
+
+Módulos principais no dashboard:
+- `/admin/crm/contatos`
+- `/admin/crm/clientes`
+- `/admin/crm/chamadas`
+- `/admin/crm/agenda`
+- `/admin/acesso`
+- `/admin/kommo`
+- `/admin/relatorios`
+
+Funcionalidades administrativas entregues:
+- Cadastro e gestão de contatos
+- Gestão de clientes ativos por funil/status
+- Log completo de chamadas com follow-up automático
+- Agenda interna comercial
+- Gestão de acessos (ADMIN/SUPER_ADMIN)
+- Provisionamento dedicado do usuário do Elcio
+- Sincronização manual CRM local + Kommo (incremental/full)
 
 ## Stack
 
@@ -30,58 +45,25 @@ O painel admin/CMS continua no repositório, mas o foco desta fase foi a camada 
 - `tailwindcss@4`
 - `prisma` + `@prisma/client`
 - `iron-session`
-- `framer-motion`
 - `react-hook-form` + `zod`
-
-## Funil comercial
-
-- CTA principal: formulário em `/contato`
-- Parâmetros padronizados: `assunto`, `empresa`, `origem`
-- Assunto padrão: `consultoria-catalogo`
-- WhatsApp: canal secundário/fallback
-- Integração de leads: Kommo (`/api/kommo/leads`)
-
-## Empresas representadas
-
-Fonte única em [src/lib/lead-context.ts](src/lib/lead-context.ts):
-- `dest-dormer-pramet`
-- `fecial`
-- `solufil`
-- `deltajet`
-- `f1300`
-- `apresenta` (provisório)
-
-Cada empresa contém:
-- metadados comerciais
-- PDF público em `/public/catalogos`
-- imagem de capa e logo oficiais em `/public/images/empresas`
-
-## Conteúdo e dossiês
-
-Dossiês gerados a partir dos PDFs da raiz:
-- `docs/empresas/*.md`
-- índice: [docs/empresas/README.md](docs/empresas/README.md)
-- fontes de imagens oficiais: [docs/empresas/IMAGENS-OFICIAIS.md](docs/empresas/IMAGENS-OFICIAIS.md)
 
 ## Estrutura relevante
 
 ```text
+prisma/
+  schema.prisma             # Schema completo (público + admin + CRM)
 src/
   app/
-    (site)/                 # Camada pública ativa
-    admin/                  # Painel CMS (legado/operacional)
+    (site)/                 # Camada pública
+    admin/                  # Dashboard administrativo
     api/                    # Endpoints públicos e admin
-    login/                  # Autenticação admin
-  components/
-    blocks/                 # Render dos blocos dinâmicos
-    layout/                 # Header, footer, whatsapp
   lib/
-    lead-context.ts         # Metadados das 6 empresas + contrato de CTA
-    seo.ts                  # SEO base do site público
-    prisma.ts               # Prisma/fallback local
+    crm/                    # Camada de domínio CRM
+    lead-context.ts         # Metadados das empresas + contrato CTA
+    admin-auth.ts           # Guard de sessão/role para APIs admin
 public/
-  catalogos/                # PDFs públicos das empresas
-  images/empresas/          # Logos e capas oficiais
+  catalogos/
+  images/empresas/
 ```
 
 ## Setup local
@@ -92,33 +74,46 @@ pnpm install
 ```
 
 2. Configurar ambiente:
-- copie `.env.example` para `.env`
-- preencha variáveis necessárias (Kommo/e-mail/etc.)
+- copiar `.env.example` para `.env`
+- preencher `DATABASE_URL`, `SESSION_SECRET` e variáveis de integração necessárias
 
-3. Subir para testes locais:
+3. Gerar Prisma Client:
 ```bash
-pnpm exec next dev -p 3003 --webpack
+pnpm prisma generate
+```
+
+4. Subir para testes:
+```bash
+pnpm dev
 ```
 
 URL local: `http://localhost:3003`
 
-## Validações rápidas
+## Contratos do funil
 
-Smoke principal:
-- [docs/SMOKE-ELCIO-CORE-2026-03-12.md](docs/SMOKE-ELCIO-CORE-2026-03-12.md)
+- CTA interno padronizado com: `assunto`, `empresa`, `origem`
+- Assunto padrão: `consultoria-catalogo`
+- Leads públicos: `/api/kommo/leads`
+- CRM admin:
+  - `/api/admin/crm/contacts`
+  - `/api/admin/crm/clients`
+  - `/api/admin/crm/calls`
+  - `/api/admin/crm/agenda`
+  - `/api/admin/crm/sync`
 
-Checklist QA:
-- [docs/QA-ELCIO-2026-03-12.md](docs/QA-ELCIO-2026-03-12.md)
+## Segurança admin
 
-Status local:
-- [docs/STATUS-LOCAL-2026-03-12.md](docs/STATUS-LOCAL-2026-03-12.md)
+- Sessão obrigatória para `/admin` e `/api/admin/*`
+- Roles válidas: `ADMIN` e `SUPER_ADMIN`
+- Hardening de login com:
+  - bloqueio por tentativas falhas
+  - validação de usuário ativo
+  - reset seguro por token (`/api/auth/forgot-password` + `/api/auth/reset-password`)
 
-## Limitações conhecidas
+## Dossiês de empresas
 
-- O repositório não contém `prisma/schema.prisma`.
-- Sem o schema, `pnpm build` pode falhar em `prisma generate`.
-- Algumas rotinas de seed que dependem de banco real podem falhar no fallback local de Prisma.
-- Em ambiente local sem Prisma gerado, `src/lib/prisma.ts` usa fallback mock para manter o front funcional.
+- Arquivos em `docs/empresas/*.md`
+- Índice consolidado: `docs/empresas/README.md`
 
 ## Scripts
 

@@ -33,6 +33,11 @@
 - `/admin/cabecalho`
 - `/admin/catalogo`
 - `/admin/configuracoes`
+- `/admin/acesso`
+- `/admin/crm/contatos`
+- `/admin/crm/clientes`
+- `/admin/crm/chamadas`
+- `/admin/crm/agenda`
 - `/admin/editor/[pageId]`
 - `/admin/home`
 - `/admin/kommo`
@@ -61,6 +66,15 @@
 - `/api/admin/catalogs/[id]` `[PUT, DELETE]`
 - `/api/admin/categories` `[GET, POST]`
 - `/api/admin/categories/[id]` `[GET, PUT, DELETE]`
+- `/api/admin/crm/agenda` `[GET, POST]`
+- `/api/admin/crm/agenda/[id]` `[GET, PUT, DELETE]`
+- `/api/admin/crm/calls` `[GET, POST]`
+- `/api/admin/crm/calls/[id]` `[GET, PUT, DELETE]`
+- `/api/admin/crm/clients` `[GET, POST]`
+- `/api/admin/crm/clients/[id]` `[GET, PUT, DELETE]`
+- `/api/admin/crm/contacts` `[GET, POST]`
+- `/api/admin/crm/contacts/[id]` `[GET, PUT, DELETE]`
+- `/api/admin/crm/sync` `[POST]`
 - `/api/admin/home-sections` `[GET, POST]`
 - `/api/admin/kommo` `[GET, PUT]`
 - `/api/admin/kommo/auth` `[POST]`
@@ -76,12 +90,16 @@
 - `/api/admin/scripts` `[GET, POST]`
 - `/api/admin/scripts/[id]` `[GET, PUT, DELETE]`
 - `/api/admin/settings` `[GET, POST]`
+- `/api/admin/users` `[GET, POST]`
+- `/api/admin/users/[id]` `[PUT]`
+- `/api/admin/users/elcio` `[POST]`
 
 ## Auth
 
 - `/api/auth/forgot-password` `[POST]`
 - `/api/auth/login` `[POST]`
 - `/api/auth/logout` `[POST]`
+- `/api/auth/reset-password` `[POST]`
 - `/api/auth/session` `[GET]`
 - `/api/auth/setup` `[POST, GET]`
 
