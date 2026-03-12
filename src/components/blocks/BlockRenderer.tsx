@@ -152,6 +152,8 @@ function RenderBlock({ block }: { block: Block }) {
 function HeroBlock({ content }: { content: Record<string, unknown> }) {
   const align = (content.align as string) || "center";
   const overlay = (content.overlay as number) || 60;
+  const imageSrc = content.image as string | undefined;
+  const isCompanyImage = isCompanyAssetPath(imageSrc);
 
   const alignClass = {
     left: "text-left items-start",
@@ -161,21 +163,52 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-900">
-      {(content.image as string) && (
+      {imageSrc && (
         <div className="absolute inset-0">
-          <Image
-            src={content.image as string}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-            quality={85}
-          />
-          <div
-            className="absolute inset-0 bg-zinc-900"
-            style={{ opacity: overlay / 100 }}
-          />
+          {isCompanyImage ? (
+            <>
+              <Image
+                src={imageSrc}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover scale-105 blur-sm opacity-35"
+                quality={45}
+                unoptimized
+              />
+              <Image
+                src={imageSrc}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-contain p-6 md:p-10 lg:p-16"
+                quality={COMPANY_CARD_IMAGE_QUALITY}
+                unoptimized
+              />
+              <div
+                className="absolute inset-0 bg-zinc-900"
+                style={{ opacity: Math.min(overlay, 55) / 100 }}
+              />
+            </>
+          ) : (
+            <>
+              <Image
+                src={imageSrc}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+                quality={85}
+              />
+              <div
+                className="absolute inset-0 bg-zinc-900"
+                style={{ opacity: overlay / 100 }}
+              />
+            </>
+          )}
         </div>
       )}
 
