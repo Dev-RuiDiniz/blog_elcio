@@ -996,10 +996,10 @@ function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }} className="text-center mb-12">
             <span className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4 block">
-              {(content.subtitle as string) || "Catálogo Digital"}
+              {(content.subtitle as string) || "Primeiro Contato"}
             </span>
             <h2 className="text-4xl md:text-5xl font-serif font-semibold text-black mb-6">
-              {(content.title as string) || "Receba nosso catálogo completo"}
+              {(content.title as string) || "Consultoria + Catálogo"}
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               {(content.description as string) || ""}
@@ -1065,7 +1065,7 @@ function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {(content.consultorButtonText as string) || "Falar com Consultor"}
+                    {(content.consultorButtonText as string) || "Falar no WhatsApp"}
                   </a>
                 </Button>
                 <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>

@@ -57,7 +57,7 @@ const BLOCK_TYPES = [
   { type: "why-choose-us", name: "Por que nos Escolher", icon: HiOutlineSparkles, description: "Features com estatísticas", category: "content" },
   { type: "maletti-partnership", name: "Parceria Maletti", icon: HiOutlineCube, description: "Seção sobre parceria", category: "content" },
   { type: "maintenance-preview", name: "Manutenção", icon: HiOutlineSupport, description: "Preview de serviços", category: "content" },
-  { type: "catalog-cta", name: "CTA Catálogo", icon: HiOutlineSpeakerphone, description: "Formulário de catálogo", category: "cta" },
+  { type: "catalog-cta", name: "CTA Consultoria + Catálogo", icon: HiOutlineSpeakerphone, description: "Formulário de lead + WhatsApp", category: "cta" },
   { type: "text", name: "Texto", icon: HiOutlineMenuAlt2, description: "Bloco de texto", category: "basic" },
   { type: "gallery", name: "Galeria", icon: HiOutlineViewGrid, description: "Grade de imagens", category: "media" },
   { type: "video", name: "Vídeo", icon: HiOutlineVideoCamera, description: "Vídeo embed", category: "media" },
@@ -318,14 +318,14 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
         };
       case "catalog-cta":
         return {
-          title: "Receba nosso catálogo completo",
-          subtitle: "Catálogo Digital",
-          description: "Descrição...",
+          title: "Consultoria + Catálogo",
+          subtitle: "Primeiro Contato",
+          description: "Fale com o Elcio, receba apoio comercial e avance com o catálogo mais aderente ao seu cenário.",
           phone: "(11) 98198-2279",
           phoneRaw: "+5511981982279",
-          whatsappMessage: "Olá! Gostaria de falar com um consultor.",
-          buttonText: "Receber Catálogo",
-          consultorButtonText: "Falar com Consultor",
+          whatsappMessage: "Olá! Quero consultoria e catálogo.",
+          buttonText: "Solicitar Consultoria + Catálogo",
+          consultorButtonText: "Falar no WhatsApp",
         };
       case "text":
         return {

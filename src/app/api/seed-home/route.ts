@@ -304,7 +304,7 @@ async function seedMarcas() {
           description: "Explore nosso catálogo completo e descubra como as marcas que representamos podem transformar seu salão.",
           buttonText: "Ver Produtos",
           buttonLink: "/produtos",
-          secondaryButtonText: "Falar com Consultor",
+          secondaryButtonText: "Consultoria + Catálogo",
           secondaryLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "marcas-cta" }),
         },
       },
@@ -363,7 +363,7 @@ async function seedProdutos() {
         content: {
           title: "Precisa de ajuda para escolher?",
           description: "Nossa equipe de consultores está pronta para ajudar você a encontrar os produtos ideais para o seu salão.",
-          buttonText: "Falar com Consultor",
+          buttonText: "Falar no WhatsApp",
           whatsappLink: "https://wa.me/5511981982279?text=Olá! Preciso de ajuda para escolher produtos Maletti.",
           secondaryButtonText: "Consultoria + Catálogo",
           secondaryLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "produtos-cta" }),
@@ -516,7 +516,7 @@ async function seedContato() {
         content: {
           options: [
             { icon: "download", title: "Consultoria + Catálogo", description: "Receba orientação comercial e acesso ao material técnico.", action: "catalog" },
-            { icon: "chat", title: "Falar com Consultor", description: "Inicie seu primeiro atendimento com contexto da demanda.", action: "contact" },
+            { icon: "chat", title: "Falar no WhatsApp", description: "Inicie seu primeiro atendimento com contexto da demanda.", action: "contact" },
             { icon: "calendar", title: "Agendar Visita", description: "Visite nosso showroom e conheça os produtos pessoalmente.", action: "contact" },
           ],
         },
@@ -703,12 +703,12 @@ async function seedHome() {
         order: 5,
         active: true,
         content: {
-          title: "Receba nosso catálogo completo",
-          subtitle: "Catálogo Digital",
-          description: "Conheça toda a linha de produtos Maletti disponível no Brasil. Deixe seu e-mail e receba o catálogo digital com especificações técnicas e fotos em alta resolução.",
+          title: "Consultoria + Catálogo",
+          subtitle: "Primeiro Contato",
+          description: "Fale com o Elcio, receba apoio comercial e avance com o catálogo mais aderente ao seu cenário.",
           phone: "(11) 98198-2279",
           phoneRaw: "+5511981982279",
-          whatsappMessage: "Olá! Gostaria de falar com um consultor sobre os produtos Maletti.",
+          whatsappMessage: "Olá! Quero consultoria e catálogo.",
           buttonText: "Solicitar Consultoria + Catálogo",
           consultorButtonText: "Falar no WhatsApp",
         },
