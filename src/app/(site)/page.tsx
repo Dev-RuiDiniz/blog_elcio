@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { HiArrowRight } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
@@ -65,32 +66,51 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {orderedCompanies.map((company) => (
-              <article key={company.slug} className="border border-gray-100 bg-gray-50/70 p-8 flex flex-col">
-                <h3 className="text-2xl font-serif font-semibold text-black mb-3">{company.name}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-1">{company.teaser}</p>
-                <div className="flex flex-col gap-3">
-                  <Button className="bg-black text-white hover:bg-gray-800" asChild>
-                    <Link href={`/p/${company.slug}`}>Ver página da empresa</Link>
-                  </Button>
-                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white" asChild>
-                    <Link
-                      href={buildContactHref({
-                        assunto: "consultoria-catalogo",
-                        empresa: company.slug,
-                        origem: `${company.ctaSource}-home-grid`,
-                      })}
+              <article key={company.slug} className="border border-gray-100 bg-gray-50/70 overflow-hidden flex flex-col">
+                <div className="relative aspect-[4/3] bg-gray-100">
+                  <Image
+                    src={company.coverPublicPath}
+                    alt={`Imagem oficial da ${company.name}`}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute top-4 left-4 bg-white/95 px-3 py-2">
+                    <Image
+                      src={company.logoPublicPath}
+                      alt={`Logo da ${company.name}`}
+                      width={120}
+                      height={36}
+                      className="h-6 w-auto object-contain"
+                    />
+                  </div>
+                </div>
+                <div className="p-8 flex flex-col flex-1">
+                  <h3 className="text-2xl font-serif font-semibold text-black mb-3">{company.name}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-1">{company.teaser}</p>
+                  <div className="flex flex-col gap-3">
+                    <Button className="bg-black text-white hover:bg-gray-800" asChild>
+                      <Link href={`/p/${company.slug}`}>Ver página da empresa</Link>
+                    </Button>
+                    <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white" asChild>
+                      <Link
+                        href={buildContactHref({
+                          assunto: "consultoria-catalogo",
+                          empresa: company.slug,
+                          origem: `${company.ctaSource}-home-grid`,
+                        })}
+                      >
+                        Abrir atendimento
+                      </Link>
+                    </Button>
+                    <a
+                      href={company.pdfPublicPath}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-gray-700 hover:text-black underline"
                     >
-                      Abrir atendimento
-                    </Link>
-                  </Button>
-                  <a
-                    href={company.pdfPublicPath}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-700 hover:text-black underline"
-                  >
-                    Baixar catálogo técnico
-                  </a>
+                      Baixar catálogo técnico
+                    </a>
+                  </div>
                 </div>
               </article>
             ))}

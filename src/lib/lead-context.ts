@@ -3,6 +3,8 @@ export interface CompanyOption {
   name: string;
   fileName: string;
   pdfPublicPath: string;
+  logoPublicPath: string;
+  coverPublicPath: string;
   teaser: string;
   ctaSource: string;
   order: number;
@@ -16,6 +18,8 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     name: "DEST DORMER PRAMET",
     fileName: "Apresentação DEST DORMER PRAMET.pdf",
     pdfPublicPath: "/catalogos/dest-dormer-pramet.pdf",
+    logoPublicPath: "/images/empresas/dest-dormer-pramet/logo.svg",
+    coverPublicPath: "/images/empresas/dest-dormer-pramet/cover.jpg",
     teaser: "Soluções industriais com foco em performance, precisão e produtividade.",
     ctaSource: "empresa-dest-dormer-pramet",
     order: 1,
@@ -25,6 +29,8 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     name: "Fecial",
     fileName: "Apresentação Fecial - 2025.pdf",
     pdfPublicPath: "/catalogos/fecial.pdf",
+    logoPublicPath: "/images/empresas/fecial/logo.png",
+    coverPublicPath: "/images/empresas/fecial/cover.jpg",
     teaser: "Ferramentas e insertos especiais com desenvolvimento técnico consolidado.",
     ctaSource: "empresa-fecial",
     order: 2,
@@ -34,6 +40,8 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     name: "Solufil",
     fileName: "CATALOGO produtos SOLUFIL- 2025.pdf",
     pdfPublicPath: "/catalogos/solufil.pdf",
+    logoPublicPath: "/images/empresas/solufil/logo.png",
+    coverPublicPath: "/images/empresas/solufil/cover.jpg",
     teaser: "Catálogo de produtos para aplicações de filtragem e processos industriais.",
     ctaSource: "empresa-solufil",
     order: 3,
@@ -43,6 +51,8 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     name: "Deltajet",
     fileName: "Deltajet.pdf",
     pdfPublicPath: "/catalogos/deltajet.pdf",
+    logoPublicPath: "/images/empresas/deltajet/logo.png",
+    coverPublicPath: "/images/empresas/deltajet/cover.jpg",
     teaser: "Tecnologia aplicada para eficiência operacional em ambientes industriais.",
     ctaSource: "empresa-deltajet",
     order: 4,
@@ -52,6 +62,8 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     name: "F1300",
     fileName: "FOLDER F1300.pdf",
     pdfPublicPath: "/catalogos/f1300.pdf",
+    logoPublicPath: "/images/empresas/f1300/logo.svg",
+    coverPublicPath: "/images/empresas/f1300/cover.jpg",
     teaser: "Acionamentos completos com foco em robustez e confiabilidade técnica.",
     ctaSource: "empresa-f1300",
     order: 5,
@@ -61,6 +73,8 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     name: "Apresenta (provisório)",
     fileName: "Apresenta.pdf",
     pdfPublicPath: "/catalogos/apresenta-provisorio.pdf",
+    logoPublicPath: "/images/empresas/apresenta/logo.svg",
+    coverPublicPath: "/images/empresas/apresenta/cover.png",
     teaser: "Apresentação institucional provisória para ajuste de naming no CMS.",
     ctaSource: "empresa-apresenta",
     order: 6,

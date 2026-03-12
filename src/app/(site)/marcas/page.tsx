@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { HiArrowRight } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
@@ -111,40 +112,59 @@ export default function MarcasPage() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={brandsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="border border-gray-100 bg-gray-50/60 p-8 h-full flex flex-col"
+                className="border border-gray-100 bg-gray-50/60 h-full flex flex-col overflow-hidden"
               >
-                <span className="text-[11px] uppercase tracking-[0.2em] text-gray-500 mb-3">
-                  Empresa {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-2xl font-serif font-semibold text-black mb-3">
-                  {company.name}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-1">
-                  {company.teaser}
-                </p>
-                <div className="flex flex-col gap-3">
-                  <Button className="bg-black text-white hover:bg-gray-800" asChild>
-                    <Link href={`/p/${company.slug}`}>
-                      Ver página da empresa
-                      <HiArrowRight className="ml-2 w-4 h-4" />
-                    </Link>
-                  </Button>
-                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white" asChild>
-                    <Link
-                      href={buildContactHref({
-                        assunto: "consultoria-catalogo",
-                        empresa: company.slug,
-                        origem: `${company.ctaSource}-marcas-grid`,
-                      })}
-                    >
-                      Solicitar consultoria
-                    </Link>
-                  </Button>
-                  <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-100" asChild>
-                    <a href={getCompanyCatalogHref(company.slug)} target="_blank" rel="noopener noreferrer">
-                      Ver catálogo PDF
-                    </a>
-                  </Button>
+                <div className="relative aspect-[4/3] bg-gray-100">
+                  <Image
+                    src={company.coverPublicPath}
+                    alt={`Imagem oficial da ${company.name}`}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute top-4 left-4 bg-white/95 px-3 py-2">
+                    <Image
+                      src={company.logoPublicPath}
+                      alt={`Logo da ${company.name}`}
+                      width={120}
+                      height={36}
+                      className="h-6 w-auto object-contain"
+                    />
+                  </div>
+                </div>
+                <div className="p-8 flex flex-col flex-1">
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-gray-500 mb-3">
+                    Empresa {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="text-2xl font-serif font-semibold text-black mb-3">
+                    {company.name}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-1">
+                    {company.teaser}
+                  </p>
+                  <div className="flex flex-col gap-3">
+                    <Button className="bg-black text-white hover:bg-gray-800" asChild>
+                      <Link href={`/p/${company.slug}`}>
+                        Ver página da empresa
+                        <HiArrowRight className="ml-2 w-4 h-4" />
+                      </Link>
+                    </Button>
+                    <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white" asChild>
+                      <Link
+                        href={buildContactHref({
+                          assunto: "consultoria-catalogo",
+                          empresa: company.slug,
+                          origem: `${company.ctaSource}-marcas-grid`,
+                        })}
+                      >
+                        Solicitar consultoria
+                      </Link>
+                    </Button>
+                    <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-100" asChild>
+                      <a href={getCompanyCatalogHref(company.slug)} target="_blank" rel="noopener noreferrer">
+                        Ver catálogo PDF
+                      </a>
+                    </Button>
+                  </div>
                 </div>
               </motion.article>
             ))}

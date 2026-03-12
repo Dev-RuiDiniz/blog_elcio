@@ -28,7 +28,7 @@ function getCompanyBlocks(company: (typeof COMPANY_OPTIONS)[number]): SeedBlock[
         subtitle: "Portfólio Comercial Elcio",
         description:
           "Soluções especializadas apresentadas com suporte comercial consultivo para facilitar especificação, comparação e primeiro contato.",
-        image: "/images/site/DK3E3179-MOD.jpg",
+        image: company.coverPublicPath,
         button1Text: "Quero Consultoria + Catálogo",
         button1Link: contatoLink,
         button2Text: "Baixar Catálogo",
@@ -86,19 +86,19 @@ function getCompanyBlocks(company: (typeof COMPANY_OPTIONS)[number]): SeedBlock[
         columns: 3,
         cards: [
           {
-            image: "/images/site/Total-Body-356.jpg",
+            image: company.coverPublicPath,
             title: "Catálogo da Empresa",
             description: `Material de referência: ${company.fileName}`,
             link: catalogoLink,
           },
           {
-            image: "/images/site/Shirobody_showroom.jpg",
+            image: company.logoPublicPath,
             title: "Consultoria Inicial",
             description: "Explique seu contexto e receba indicação comercial orientada.",
             link: contatoLink,
           },
           {
-            image: "/images/site/heaven2.jpg",
+            image: company.coverPublicPath,
             title: "Próximos Passos",
             description: "Conheça também as demais empresas representadas e compare caminhos de atendimento.",
             link: "/marcas",
@@ -138,6 +138,7 @@ export async function GET() {
           published: true,
           metaTitle: `${company.name} | Consultoria + Catálogo`,
           metaDescription: `${company.teaser} Solicite consultoria comercial e catálogo técnico com o Elcio.`,
+          ogImage: company.coverPublicPath,
         },
         create: {
           name: company.name,
@@ -147,6 +148,7 @@ export async function GET() {
           published: true,
           metaTitle: `${company.name} | Consultoria + Catálogo`,
           metaDescription: `${company.teaser} Solicite consultoria comercial e catálogo técnico com o Elcio.`,
+          ogImage: company.coverPublicPath,
         },
       });
 
