@@ -5,7 +5,7 @@ Site de apresentação comercial do Elcio com funil `Consultoria + Catálogo` e 
 ## Contatos oficiais
 
 - E-mail: `vendas@raemtools.com.br`
-- WhatsApp: `+55 12 99158-8460`
+- WhatsApp: `+55 12 98873-7347`
 - Localidade: `Taubaté - SP`
 
 ## Núcleo público

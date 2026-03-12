@@ -72,8 +72,8 @@ export function Header() {
         showDarkElements ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="flex items-center justify-between h-[4.5rem] sm:h-20">
           <Link href="/" className="flex items-center gap-3">
             <div
               className={`w-10 h-10 rounded-full border flex items-center justify-center text-xs font-semibold tracking-wider transition-colors ${
@@ -99,6 +99,29 @@ export function Header() {
               </p>
             </div>
           </Link>
+
+          <nav className="hidden lg:flex items-center gap-7">
+            {navLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium tracking-wide transition-colors ${
+                    showDarkElements
+                      ? active
+                        ? "text-zinc-900"
+                        : "text-zinc-600 hover:text-zinc-900"
+                      : active
+                        ? "text-white"
+                        : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
 
           <div className="hidden md:flex items-center gap-3">
             {ctaButtons.map((button) => {
@@ -145,7 +168,7 @@ export function Header() {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <button
-                className={`flex flex-col items-center justify-center gap-1.5 p-2 transition-colors duration-300 ${
+                className={`flex flex-col items-center justify-center gap-1.5 p-2 transition-colors duration-300 lg:hidden ${
                   showDarkElements ? "text-zinc-900" : "text-white"
                 }`}
                 aria-label="Menu"
@@ -180,7 +203,7 @@ export function Header() {
                 <div className="mt-auto pb-12">
                   <div className="mb-8 space-y-2 text-white/60 text-sm">
                     <p>vendas@raemtools.com.br</p>
-                    <p>+55 12 99158-8460</p>
+                    <p>+55 12 98873-7347</p>
                     <p>Taubaté - SP</p>
                   </div>
                   <div className="flex flex-col gap-3">

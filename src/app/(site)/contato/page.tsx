@@ -240,7 +240,7 @@ function ContatoContent() {
   return (
     <>
       <section className="pt-32 pb-16 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -250,7 +250,7 @@ function ContatoContent() {
             <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
               Consultoria + Catálogo
             </span>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-zinc-900 mb-6">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-semibold text-zinc-900 mb-6">
               Primeiro Contato Comercial
             </h1>
             <p className="text-zinc-600 text-lg leading-relaxed">
@@ -267,7 +267,7 @@ function ContatoContent() {
       </section>
 
       <section className="py-12 bg-zinc-50">
-        <div className="container mx-auto px-6 lg:px-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {contactOptions.map((option, index) => (
               <motion.button
@@ -295,20 +295,20 @@ function ContatoContent() {
       </section>
 
       <section className="py-24 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
             <motion.div
               initial={{ opacity: 0, x: -24 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.55 }}
             >
-              <div className="flex gap-4 mb-8">
+              <div className="flex flex-wrap gap-3 mb-8">
                 <button
                   onClick={() => {
                     setActiveForm("contact");
                     setSubmitSuccess(false);
                   }}
-                  className={`px-6 py-3 text-sm font-medium transition-all ${
+                  className={`px-5 sm:px-6 py-3 text-sm font-medium transition-all w-full sm:w-auto ${
                     activeForm === "contact"
                       ? "bg-zinc-900 text-white"
                       : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
@@ -321,7 +321,7 @@ function ContatoContent() {
                     setActiveForm("catalog");
                     setSubmitSuccess(false);
                   }}
-                  className={`px-6 py-3 text-sm font-medium transition-all ${
+                  className={`px-5 sm:px-6 py-3 text-sm font-medium transition-all w-full sm:w-auto ${
                     activeForm === "catalog"
                       ? "bg-zinc-900 text-white"
                       : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
@@ -553,7 +553,7 @@ function ContatoContent() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.55, delay: 0.1 }}
             >
-              <div className="bg-zinc-900 text-white p-10 lg:p-12 h-full">
+              <div className="bg-zinc-900 text-white p-6 sm:p-8 lg:p-12 h-full">
                 <h2 className="text-2xl font-serif font-semibold mb-8">
                   Canal Comercial
                 </h2>
@@ -565,8 +565,8 @@ function ContatoContent() {
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">Telefone / WhatsApp</h3>
-                      <a href="tel:+5512991588460" className="text-zinc-400 hover:text-white transition-colors">
-                        +55 12 99158-8460
+                      <a href="tel:+5512988737347" className="text-zinc-400 hover:text-white transition-colors">
+                        +55 12 98873-7347
                       </a>
                     </div>
                   </div>

@@ -49,7 +49,7 @@ export function Footer() {
 
   return (
     <footer className="bg-zinc-900 text-white">
-      <div className="container mx-auto px-6 lg:px-12 py-16 lg:py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-14 md:py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
           <div className="lg:col-span-2">
             <motion.div
@@ -75,11 +75,11 @@ export function Footer() {
                   vendas@raemtools.com.br
                 </a>
                 <a
-                  href="tel:+5512991588460"
+                  href="tel:+5512988737347"
                   className="flex items-center gap-3 text-zinc-400 hover:text-white transition-colors text-sm"
                 >
                   <HiOutlinePhone className="w-5 h-5" />
-                  +55 12 99158-8460
+                  +55 12 98873-7347
                 </a>
                 <div className="flex items-center gap-3 text-zinc-400 text-sm">
                   <HiOutlineLocationMarker className="w-5 h-5" />
@@ -124,7 +124,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-zinc-800">
-        <div className="container mx-auto px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-zinc-500 text-sm">© {year} Elcio Representação Comercial. Todos os direitos reservados.</p>
           <div className="flex items-center gap-4">
             {socialLinks.map((social) => (

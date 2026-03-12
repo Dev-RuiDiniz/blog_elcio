@@ -10,7 +10,7 @@ export interface CompanyOption {
   order: number;
 }
 
-export const DEFAULT_WHATSAPP_PHONE = "5512991588460";
+export const DEFAULT_WHATSAPP_PHONE = "5512988737347";
 export const COMPANY_CARD_IMAGE_SIZES = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw";
 export const COMPANY_CARD_IMAGE_QUALITY = 92;
 export const COMPANY_CARD_CONTAINER_CLASS =
