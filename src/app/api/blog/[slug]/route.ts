@@ -9,7 +9,7 @@ export async function GET(
     const { slug } = await params;
 
     const post = await prisma.blogPost.findUnique({
-      where: { slug, published: true },
+      where: { slug_published: { slug, published: true } },
       include: {
         categories: { include: { category: true } },
         tags: { include: { tag: true } },
@@ -65,7 +65,7 @@ export async function POST(
     const data = await request.json();
 
     const post = await prisma.blogPost.findUnique({
-      where: { slug, published: true },
+      where: { slug_published: { slug, published: true } },
     });
 
     if (!post) {

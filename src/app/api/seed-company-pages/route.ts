@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { COMPANY_OPTIONS, buildContactHref } from "@/lib/lead-context";
 
@@ -160,7 +161,7 @@ export async function GET() {
           data: blocks.map((block) => ({
             pageId: page.id,
             type: block.type,
-            content: block.content,
+            content: block.content as Prisma.InputJsonValue,
             order: block.order,
             active: block.active,
           })),
