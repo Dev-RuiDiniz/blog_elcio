@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const [views, totalViews, totalClicks, todayViews] = await Promise.all([
+    const [views, totalViews, totalClicks, todayViews, activeClients, callsInRange, upcomingAgenda, clientsByStage] = await Promise.all([
       prisma.pageView.findMany({
         where: { createdAt: { gte: startDate } },
         orderBy: { createdAt: "desc" },
@@ -26,6 +26,23 @@ export async function GET(request: NextRequest) {
       prisma.pageView.count({ where: { createdAt: { gte: startDate } } }),
       prisma.click.count({ where: { createdAt: { gte: startDate } } }),
       prisma.pageView.count({ where: { createdAt: { gte: today } } }),
+      prisma.client.count({
+        where: {
+          status: "ACTIVE",
+          stage: { notIn: ["INACTIVE", "LOST"] },
+        },
+      }),
+      prisma.callLog.count({ where: { startedAt: { gte: startDate } } }),
+      prisma.agendaEvent.count({
+        where: {
+          startsAt: { gte: today },
+          status: { notIn: ["DONE", "CANCELLED"] },
+        },
+      }),
+      prisma.client.groupBy({
+        by: ["stage"],
+        _count: { stage: true },
+      }),
     ]);
 
     const countries = await prisma.pageView.groupBy({
@@ -40,6 +57,15 @@ export async function GET(request: NextRequest) {
         totalClicks,
         uniqueCountries: countries.length,
         todayViews,
+      },
+      crm: {
+        activeClients,
+        callsInRange,
+        upcomingAgenda,
+        clientsByStage: clientsByStage.map((item) => ({
+          stage: item.stage,
+          count: item._count.stage,
+        })),
       },
     });
   } catch (error) {

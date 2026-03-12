@@ -19,9 +19,22 @@ interface Stats {
   todayViews: number;
 }
 
+interface CrmMetrics {
+  activeClients: number;
+  callsInRange: number;
+  upcomingAgenda: number;
+  clientsByStage: { stage: string; count: number }[];
+}
+
 export default function RelatoriosPage() {
   const [views, setViews] = useState<PageView[]>([]);
   const [stats, setStats] = useState<Stats>({ totalViews: 0, totalClicks: 0, uniqueCountries: 0, todayViews: 0 });
+  const [crm, setCrm] = useState<CrmMetrics>({
+    activeClients: 0,
+    callsInRange: 0,
+    upcomingAgenda: 0,
+    clientsByStage: [],
+  });
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState("7d");
 
@@ -34,6 +47,14 @@ export default function RelatoriosPage() {
       const data = await res.json();
       setViews(data.views || []);
       setStats(data.stats || { totalViews: 0, totalClicks: 0, uniqueCountries: 0, todayViews: 0 });
+      setCrm(
+        data.crm || {
+          activeClients: 0,
+          callsInRange: 0,
+          upcomingAgenda: 0,
+          clientsByStage: [],
+        }
+      );
     } catch (error) { console.error("Error:", error); }
     finally { setLoading(false); }
   };
@@ -43,6 +64,12 @@ export default function RelatoriosPage() {
     { label: "Total de Cliques", value: stats.totalClicks, icon: HiOutlineCursorClick, color: "text-green-500" },
     { label: "Países Únicos", value: stats.uniqueCountries, icon: HiOutlineGlobe, color: "text-purple-500" },
     { label: "Views Hoje", value: stats.todayViews, icon: HiOutlineCalendar, color: "text-orange-500" },
+  ];
+
+  const crmCards = [
+    { label: "Clientes Ativos", value: crm.activeClients, icon: HiOutlineGlobe, color: "text-emerald-500" },
+    { label: "Chamadas no Período", value: crm.callsInRange, icon: HiOutlineCursorClick, color: "text-sky-500" },
+    { label: "Compromissos Pendentes", value: crm.upcomingAgenda, icon: HiOutlineCalendar, color: "text-amber-500" },
   ];
 
   return (
@@ -75,6 +102,38 @@ export default function RelatoriosPage() {
             <p className="text-3xl font-light text-black dark:text-white">{stat.value.toLocaleString()}</p>
           </div>
         ))}
+      </div>
+
+      {/* CRM Stats */}
+      <div>
+        <h2 className="text-sm uppercase tracking-[0.15em] text-gray-400 font-medium mb-4">Funil Comercial</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          {crmCards.map((stat) => (
+            <div key={stat.label} className="border border-gray-200 dark:border-zinc-800 p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                <span className="text-[11px] uppercase tracking-wider text-gray-400">{stat.label}</span>
+              </div>
+              <p className="text-3xl font-light text-black dark:text-white">{stat.value.toLocaleString()}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="border border-gray-200 dark:border-zinc-800 p-4">
+          <h3 className="text-xs uppercase tracking-[0.12em] text-gray-500 mb-3">Distribuição por Etapa</h3>
+          {crm.clientsByStage.length === 0 ? (
+            <p className="text-sm text-gray-400">Sem dados de funil no período.</p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {crm.clientsByStage.map((item) => (
+                <div key={item.stage} className="border border-gray-100 dark:border-zinc-800 p-3">
+                  <p className="text-xs text-gray-500">{item.stage}</p>
+                  <p className="text-xl text-black dark:text-white">{item.count}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Views Table */}
