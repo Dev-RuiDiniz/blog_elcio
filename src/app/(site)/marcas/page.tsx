@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { HiArrowRight } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
-import { COMPANY_OPTIONS, buildContactHref } from "@/lib/lead-context";
+import { COMPANY_OPTIONS, buildContactHref, getCompanyCatalogHref } from "@/lib/lead-context";
 
 interface PageBlock {
   id: string;
@@ -19,6 +19,7 @@ export default function MarcasPage() {
   const [blocks, setBlocks] = useState<PageBlock[]>([]);
   const brandsRef = useRef(null);
   const brandsInView = useInView(brandsRef, { once: true, margin: "-80px" });
+  const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
 
   const heroBlock = blocks.find((block) => block.type === "brands-hero")?.content || {};
   const sectionBlock = blocks.find((block) => block.type === "brands-section")?.content || {};
@@ -67,12 +68,20 @@ export default function MarcasPage() {
                 <Link
                   href={buildContactHref({
                     assunto: "consultoria-catalogo",
-                    origem: "marcas-hero",
+                    origem: "marcas-hub-hero",
                   })}
                 >
                   {(heroBlock.buttonText as string) || "Quero Consultoria + Catálogo"}
                   <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="ml-3 border-white/30 text-white bg-transparent hover:bg-white/10"
+                asChild
+              >
+                <Link href="/blog">Explorar Blog Comercial</Link>
               </Button>
             </motion.div>
           </div>
@@ -96,7 +105,7 @@ export default function MarcasPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {COMPANY_OPTIONS.map((company, index) => (
+            {orderedCompanies.map((company, index) => (
               <motion.article
                 key={company.slug}
                 initial={{ opacity: 0, y: 28 }}
@@ -125,11 +134,16 @@ export default function MarcasPage() {
                       href={buildContactHref({
                         assunto: "consultoria-catalogo",
                         empresa: company.slug,
-                        origem: "marcas-grid",
+                        origem: `${company.ctaSource}-marcas-grid`,
                       })}
                     >
                       Solicitar consultoria
                     </Link>
+                  </Button>
+                  <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-100" asChild>
+                    <a href={getCompanyCatalogHref(company.slug)} target="_blank" rel="noopener noreferrer">
+                      Ver catálogo PDF
+                    </a>
                   </Button>
                 </div>
               </motion.article>
@@ -175,7 +189,7 @@ export default function MarcasPage() {
                 <Link
                   href={buildContactHref({
                     assunto: "consultoria-catalogo",
-                    origem: "marcas-cta",
+                    origem: "marcas-hub-cta",
                   })}
                 >
                   {(ctaBlock.buttonText as string) || "Solicitar Consultoria + Catálogo"}
