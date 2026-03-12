@@ -114,12 +114,13 @@ export default function MarcasPage() {
                 transition={{ duration: 0.45, delay: index * 0.08 }}
                 className="border border-zinc-200 bg-zinc-50/60 h-full flex flex-col overflow-hidden"
               >
-                <div className="relative aspect-[4/3] bg-zinc-100">
+                <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200">
                   <Image
                     src={company.coverPublicPath}
                     alt={`Imagem oficial da ${company.name}`}
                     fill
-                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain p-4 md:p-5"
                   />
                   <div className="absolute top-4 left-4 bg-white/95 px-3 py-2">
                     <Image

@@ -535,12 +535,17 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
               className="bg-white overflow-hidden group"
             >
               {card.image && (
-                <div className="relative aspect-[4/3] bg-zinc-100 overflow-hidden">
+                <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200 overflow-hidden">
                   <Image
                     src={card.image}
                     alt={card.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className={`transition-transform duration-700 ${
+                      card.image.startsWith("/images/empresas/")
+                        ? "object-contain p-4 md:p-5"
+                        : "object-cover group-hover:scale-105"
+                    }`}
                   />
                 </div>
               )}

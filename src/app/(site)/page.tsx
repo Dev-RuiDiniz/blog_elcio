@@ -67,12 +67,13 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {orderedCompanies.map((company) => (
               <article key={company.slug} className="border border-zinc-200 bg-zinc-50/70 overflow-hidden flex flex-col">
-                <div className="relative aspect-[4/3] bg-zinc-100">
+                <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200">
                   <Image
                     src={company.coverPublicPath}
                     alt={`Imagem oficial da ${company.name}`}
                     fill
-                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain p-4 md:p-5"
                   />
                   <div className="absolute top-4 left-4 bg-white/95 px-3 py-2">
                     <Image
