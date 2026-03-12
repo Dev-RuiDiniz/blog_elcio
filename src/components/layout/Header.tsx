@@ -1,54 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
-import { SearchButton } from "./SearchModal";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-const defaultNavLinks = [
+const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/produtos", label: "Produtos" },
-  { href: "/marcas", label: "Nossas Marcas" },
+  { href: "/marcas", label: "Empresas" },
   { href: "/blog", label: "Blog" },
-  { href: "/sobre", label: "Sobre" },
-  { href: "/manutencao", label: "Manutenção" },
   { href: "/contato", label: "Contato" },
 ];
 
-const defaultCtaButtons = [
+const ctaButtons = [
   {
     label: "Consultoria + Catálogo",
     href: buildContactHref({ assunto: "consultoria-catalogo", origem: "header" }),
     variant: "outline" as const,
   },
   {
-    label: "Falar no WhatsApp",
+    label: "WhatsApp",
     href: buildWhatsappHref({ origem: "header" }),
     variant: "solid" as const,
   },
 ];
-
-interface HeaderConfigData {
-  logoUrl?: string;
-  logoWhiteUrl?: string;
-  subtitle?: string;
-  subtitleLine2?: string;
-  navLinks?: Array<{ label: string; href: string }>;
-  ctaButtons?: Array<{ label: string; href: string; variant: "outline" | "solid" }>;
-  contactEmail?: string;
-  contactPhone?: string;
-  contactCity?: string;
-}
 
 function normalizeCtaHref(href: string, origem: string) {
   if (!href.startsWith("/contato")) return href;
@@ -61,55 +39,25 @@ function normalizeCtaHref(href: string, origem: string) {
   const params = new URLSearchParams(href.slice(queryIndex + 1));
   const assunto = params.get("assunto");
   const empresa = params.get("empresa");
-  const originParam = params.get("origem") || origem;
+  const origemParam = params.get("origem") || origem;
 
   return buildContactHref({
     assunto: !assunto || assunto === "catalogo" ? "consultoria-catalogo" : assunto,
     empresa,
-    origem: originParam,
+    origem: origemParam,
   });
 }
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [config, setConfig] = useState<HeaderConfigData | null>(null);
   const pathname = usePathname();
-  
-  // Na home, header começa transparente. Em outras páginas, começa com fundo
+
   const isHome = pathname === "/";
   const showDarkElements = isScrolled || !isHome;
 
-  const navLinks = (config?.navLinks || defaultNavLinks).map((link) => ({
-    ...link,
-    href: normalizeCtaHref(link.href, "header-menu"),
-  }));
-  const ctaButtons = (config?.ctaButtons || defaultCtaButtons).map((button) => ({
-    ...button,
-    href: normalizeCtaHref(button.href, "header"),
-  }));
-  const subtitle = config?.subtitle || "Distribuidor Exclusivo";
-  const subtitleLine2 = config?.subtitleLine2 || "Maletti e Nilo";
-  const logoUrl = config?.logoUrl || "/logoshr-dark.png";
-  const logoWhiteUrl = config?.logoWhiteUrl || "/logoshr-white.png";
-  const contactEmail = config?.contactEmail || "marketing@shrhair.com.br";
-  const contactPhone = config?.contactPhone || "(11) 98198-2279";
-  const contactCity = config?.contactCity || "São Paulo, SP";
-
   useEffect(() => {
-    fetch("/api/layout?type=header&variant=shr")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.config?.content) setConfig(data.config.content);
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -120,146 +68,151 @@ export function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        showDarkElements
-          ? "bg-white/95 backdrop-blur-md shadow-sm"
-          : "bg-transparent"
+        showDarkElements ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <motion.div whileHover={{ scale: 1.02 }} className="relative h-16 w-[180px]">
-              {/* Logo White - quando header transparente */}
-              <Image
-                src={logoWhiteUrl}
-                alt="SHR - Distribuidor Exclusivo Maletti"
-                fill
-                className={`object-contain object-left transition-opacity duration-300 ${showDarkElements ? "opacity-0" : "opacity-100"}`}
-                priority
-              />
-              {/* Logo Dark - quando header com fundo */}
-              <Image
-                src={logoUrl}
-                alt="SHR - Distribuidor Exclusivo Maletti"
-                fill
-                className={`object-contain object-left transition-opacity duration-300 ${showDarkElements ? "opacity-100" : "opacity-0"}`}
-                priority
-              />
-            </motion.div>
-            <div className={`hidden sm:block text-[10px] leading-tight uppercase tracking-wider transition-colors duration-300 ${showDarkElements ? "text-gray-500" : "text-white/70"}`}>
-              <span className="block">{subtitle}</span>
-              <span className="block font-medium">{subtitleLine2}</span>
+            <div
+              className={`w-10 h-10 rounded-full border flex items-center justify-center text-xs font-semibold tracking-wider transition-colors ${
+                showDarkElements ? "border-black text-black" : "border-white text-white"
+              }`}
+            >
+              ER
+            </div>
+            <div className="hidden sm:block">
+              <p
+                className={`text-sm font-semibold leading-tight transition-colors ${
+                  showDarkElements ? "text-black" : "text-white"
+                }`}
+              >
+                Elcio Representação
+              </p>
+              <p
+                className={`text-[11px] uppercase tracking-[0.2em] transition-colors ${
+                  showDarkElements ? "text-gray-500" : "text-white/70"
+                }`}
+              >
+                Comercial B2B
+              </p>
             </div>
           </Link>
 
-          {/* Right Side - CTAs + Menu */}
-          <div className="flex items-center gap-6">
-            {/* Search Button */}
-            <SearchButton showDarkElements={showDarkElements} />
-
-            {/* Desktop CTAs */}
-            <div className="hidden md:flex items-center gap-4">
-              {ctaButtons.map((btn, i) => (
-                btn.variant === "outline" ? (
-                  <Button
-                    key={i}
-                    variant="outline"
-                    className={`font-medium tracking-wide transition-all duration-300 ${showDarkElements ? "border-black text-black hover:bg-black hover:text-white" : "border-white/80 text-white bg-transparent hover:bg-white hover:text-black"}`}
-                    asChild
-                  >
-                    {btn.href.startsWith("http") ? (
-                      <a href={btn.href} target="_blank" rel="noopener noreferrer">{btn.label}</a>
-                    ) : (
-                      <Link href={btn.href}>{btn.label}</Link>
-                    )}
-                  </Button>
-                ) : (
-                  <Button key={i} className={`font-medium tracking-wide transition-all duration-300 ${showDarkElements ? "bg-black text-white hover:bg-gray-800" : "bg-white text-black hover:bg-gray-100"}`} asChild>
-                    {btn.href.startsWith("http") ? (
-                      <a href={btn.href} target="_blank" rel="noopener noreferrer">{btn.label}</a>
-                    ) : (
-                      <Link href={btn.href}>{btn.label}</Link>
-                    )}
-                  </Button>
-                )
-              ))}
-            </div>
-
-            {/* Hamburger Menu - Always visible */}
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <button 
-                  className={`flex flex-col items-center justify-center gap-1.5 p-2 transition-colors duration-300 ${showDarkElements ? "text-black" : "text-white"}`}
-                  aria-label="Menu"
+          <div className="hidden md:flex items-center gap-3">
+            {ctaButtons.map((button) => {
+              const href = normalizeCtaHref(button.href, "header");
+              return button.variant === "outline" ? (
+                <Button
+                  key={button.label}
+                  variant="outline"
+                  className={`font-medium tracking-wide transition-all duration-300 ${
+                    showDarkElements
+                      ? "border-black text-black hover:bg-black hover:text-white"
+                      : "border-white/80 text-white bg-transparent hover:bg-white hover:text-black"
+                  }`}
+                  asChild
                 >
-                  <span className={`block w-6 h-[2px] transition-all duration-300 ${showDarkElements ? "bg-black" : "bg-white"}`} />
-                  <span className={`block w-6 h-[2px] transition-all duration-300 ${showDarkElements ? "bg-black" : "bg-white"}`} />
-                  <span className={`block w-4 h-[2px] transition-all duration-300 ${showDarkElements ? "bg-black" : "bg-white"}`} />
-                </button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-full sm:w-[450px] bg-black text-white border-none p-8 pt-12">
-                <div className="flex flex-col h-full pt-16">
-                  {/* Menu Links */}
-                  <nav className="flex flex-col gap-1">
-                    {navLinks.map((link, index) => (
-                      <motion.div
-                        key={link.href}
-                        initial={{ opacity: 0, x: 30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        <SheetClose asChild>
-                          <Link
-                            href={link.href}
-                            className="block py-4 text-4xl font-serif font-light text-white/80 hover:text-white transition-colors border-b border-white/10"
-                          >
-                            {link.label}
-                          </Link>
-                        </SheetClose>
-                      </motion.div>
-                    ))}
-                  </nav>
+                  {href.startsWith("http") ? (
+                    <a href={href} target="_blank" rel="noopener noreferrer">
+                      {button.label}
+                    </a>
+                  ) : (
+                    <Link href={href}>{button.label}</Link>
+                  )}
+                </Button>
+              ) : (
+                <Button
+                  key={button.label}
+                  className={`font-medium tracking-wide transition-all duration-300 ${
+                    showDarkElements ? "bg-black text-white hover:bg-gray-800" : "bg-white text-black hover:bg-gray-100"
+                  }`}
+                  asChild
+                >
+                  {href.startsWith("http") ? (
+                    <a href={href} target="_blank" rel="noopener noreferrer">
+                      {button.label}
+                    </a>
+                  ) : (
+                    <Link href={href}>{button.label}</Link>
+                  )}
+                </Button>
+              );
+            })}
+          </div>
 
-                  {/* Contact Info */}
-                  <div className="mt-auto pb-12">
-                    <div className="mb-8 space-y-3 text-white/60 text-sm">
-                      <p>{contactEmail}</p>
-                      <p>{contactPhone}</p>
-                      <p>{contactCity}</p>
-                    </div>
-                    
-                    <div className="flex flex-col gap-3">
-                      {ctaButtons.map((btn, i) => (
-                        btn.variant === "outline" ? (
-                          <Button
-                            key={i}
-                            variant="outline"
-                            className="w-full border-white text-white bg-transparent hover:bg-white hover:text-black"
-                            asChild
-                          >
-                            {btn.href.startsWith("http") ? (
-                              <a href={btn.href} target="_blank" rel="noopener noreferrer">{btn.label}</a>
-                            ) : (
-                              <Link href={btn.href}>{btn.label}</Link>
-                            )}
-                          </Button>
-                        ) : (
-                          <Button key={i} className="w-full bg-white text-black hover:bg-gray-100" asChild>
-                            {btn.href.startsWith("http") ? (
-                              <a href={btn.href} target="_blank" rel="noopener noreferrer">{btn.label}</a>
-                            ) : (
-                              <Link href={btn.href}>{btn.label}</Link>
-                            )}
-                          </Button>
-                        )
-                      ))}
-                    </div>
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <button
+                className={`flex flex-col items-center justify-center gap-1.5 p-2 transition-colors duration-300 ${
+                  showDarkElements ? "text-black" : "text-white"
+                }`}
+                aria-label="Menu"
+              >
+                <span className={`block w-6 h-[2px] ${showDarkElements ? "bg-black" : "bg-white"}`} />
+                <span className={`block w-6 h-[2px] ${showDarkElements ? "bg-black" : "bg-white"}`} />
+                <span className={`block w-4 h-[2px] ${showDarkElements ? "bg-black" : "bg-white"}`} />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-full sm:w-[450px] bg-black text-white border-none p-8 pt-12">
+              <div className="flex flex-col h-full pt-16">
+                <nav className="flex flex-col gap-1">
+                  {navLinks.map((link, index) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.08 }}
+                    >
+                      <SheetClose asChild>
+                        <Link
+                          href={link.href}
+                          className="block py-4 text-4xl font-serif font-light text-white/80 hover:text-white transition-colors border-b border-white/10"
+                        >
+                          {link.label}
+                        </Link>
+                      </SheetClose>
+                    </motion.div>
+                  ))}
+                </nav>
+
+                <div className="mt-auto pb-12">
+                  <div className="mb-8 space-y-2 text-white/60 text-sm">
+                    <p>contato@elcio-representacao.com.br</p>
+                    <p>(00) 00000-0000</p>
+                    <p>Brasil</p>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    {ctaButtons.map((button) => {
+                      const href = normalizeCtaHref(button.href, "header-menu");
+                      const content = href.startsWith("http") ? (
+                        <a href={href} target="_blank" rel="noopener noreferrer">
+                          {button.label}
+                        </a>
+                      ) : (
+                        <Link href={href}>{button.label}</Link>
+                      );
+
+                      return button.variant === "outline" ? (
+                        <Button
+                          key={button.label}
+                          variant="outline"
+                          className="w-full border-white text-white bg-transparent hover:bg-white hover:text-black"
+                          asChild
+                        >
+                          {content}
+                        </Button>
+                      ) : (
+                        <Button key={button.label} className="w-full bg-white text-black hover:bg-gray-100" asChild>
+                          {content}
+                        </Button>
+                      );
+                    })}
                   </div>
                 </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </motion.header>

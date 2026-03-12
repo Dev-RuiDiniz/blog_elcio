@@ -8,6 +8,8 @@ export interface CompanyOption {
   order: number;
 }
 
+export const DEFAULT_WHATSAPP_PHONE = "5500000000000";
+
 export const COMPANY_OPTIONS: CompanyOption[] = [
   {
     slug: "dest-dormer-pramet",
@@ -112,7 +114,7 @@ export function buildContactHref({
 }
 
 export function buildWhatsappHref({
-  phone = "5511981982279",
+  phone = DEFAULT_WHATSAPP_PHONE,
   assunto = "consultoria-catalogo",
   empresa,
   origem,

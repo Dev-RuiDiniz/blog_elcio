@@ -565,8 +565,8 @@ function ContatoContent() {
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">Telefone / WhatsApp</h3>
-                      <a href="tel:+5511981982279" className="text-gray-400 hover:text-white transition-colors">
-                        (11) 98198-2279
+                      <a href="tel:+550000000000" className="text-gray-400 hover:text-white transition-colors">
+                        (00) 00000-0000
                       </a>
                     </div>
                   </div>
@@ -577,8 +577,11 @@ function ContatoContent() {
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">E-mail</h3>
-                      <a href="mailto:marketing@shrhair.com.br" className="text-gray-400 hover:text-white transition-colors">
-                        marketing@shrhair.com.br
+                      <a
+                        href="mailto:contato@elcio-representacao.com.br"
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        contato@elcio-representacao.com.br
                       </a>
                     </div>
                   </div>
