@@ -3,18 +3,19 @@ import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { COMPANY_OPTIONS } from "@/lib/lead-context";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Detectar domínio atual
-  const headersList = await headers();
-  const host = headersList.get("host") || "www.shrhair.com.br";
-  const isMaletti = host.includes("maletti");
-  
-  const baseUrl = isMaletti 
-    ? "https://www.maletti.com.br" 
-    : "https://www.shrhair.com.br";
+function resolveBaseUrl(host: string | null): string {
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (envUrl) return envUrl.replace(/\/$/, "");
+  if (!host) return "http://localhost:3003";
+  return host.includes("localhost") ? `http://${host}` : `https://${host}`;
+}
 
-  // Páginas estáticas SHR
-  const shrStaticPages: MetadataRoute.Sitemap = [
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const baseUrl = resolveBaseUrl(host);
+
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -22,117 +23,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${baseUrl}/maletti`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/produtos`,
+      url: `${baseUrl}/marcas`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/marcas`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/spa`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/tricologia`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/salao-de-beleza`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/manutencao`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/sobre`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/contato`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
     },
     {
       url: `${baseUrl}/blog`,
       lastModified: new Date(),
       changeFrequency: "weekly",
-      priority: 0.8,
-    },
-  ];
-
-  // Páginas estáticas Maletti
-  const malettiStaticPages: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/produtos`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/contato`,
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.7,
+      priority: 0.9,
     },
   ];
 
-  const staticPages = isMaletti ? malettiStaticPages : shrStaticPages;
-  const companyPages: MetadataRoute.Sitemap = isMaletti
-    ? []
-    : COMPANY_OPTIONS.map((company) => ({
-        url: `${baseUrl}/p/${company.slug}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.75,
-      }));
+  const companyPages: MetadataRoute.Sitemap = COMPANY_OPTIONS.map((company) => ({
+    url: `${baseUrl}/p/${company.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
 
-  // Produtos dinâmicos
-  let productPages: MetadataRoute.Sitemap = [];
-  try {
-    const products = await prisma.product.findMany({
-      where: { active: true },
-      select: { slug: true, updatedAt: true },
-    });
-    productPages = products.map((product) => ({
-      url: `${baseUrl}/produtos/${product.slug}`,
-      lastModified: product.updatedAt,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    }));
-  } catch (e) {
-    console.error("Erro ao buscar produtos para sitemap:", e);
-  }
-
-  // Blog posts dinâmicos
   let blogPages: MetadataRoute.Sitemap = [];
   try {
     const posts = await prisma.blogPost.findMany({
@@ -143,48 +59,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/blog/${post.slug}`,
       lastModified: post.updatedAt,
       changeFrequency: "monthly" as const,
-      priority: 0.6,
+      priority: 0.7,
     }));
-  } catch (e) {
-    console.error("Erro ao buscar posts para sitemap:", e);
+  } catch {
+    blogPages = [];
   }
 
-  // Landing Pages dinâmicas
-  let landingPages: MetadataRoute.Sitemap = [];
+  let dynamicPages: MetadataRoute.Sitemap = [];
   try {
-    const reservedSlugs = [
-      "home",
-      "contato",
-      "manutencao",
-      "produtos",
-      "marcas",
-      "sobre",
-      "maletti",
-      "faq",
-      "garantia",
-      "blog",
-      "spa",
-      "tricologia",
-      "salao-de-beleza",
-      ...COMPANY_OPTIONS.map((company) => company.slug),
-    ];
-
+    const reservedSlugs = ["home", "blog", "marcas", "contato", ...COMPANY_OPTIONS.map((company) => company.slug)];
     const pages = await prisma.page.findMany({
-      where: { 
+      where: {
         published: true,
-        slug: { notIn: reservedSlugs }
+        slug: { notIn: reservedSlugs },
       },
       select: { slug: true, updatedAt: true },
     });
-    landingPages = pages.map((page) => ({
+
+    dynamicPages = pages.map((page) => ({
       url: `${baseUrl}/p/${page.slug}`,
       lastModified: page.updatedAt,
       changeFrequency: "monthly" as const,
-      priority: 0.7,
+      priority: 0.65,
     }));
-  } catch (e) {
-    console.error("Erro ao buscar páginas para sitemap:", e);
+  } catch {
+    dynamicPages = [];
   }
 
-  return [...staticPages, ...companyPages, ...productPages, ...blogPages, ...landingPages];
+  return [...staticPages, ...companyPages, ...blogPages, ...dynamicPages];
 }
