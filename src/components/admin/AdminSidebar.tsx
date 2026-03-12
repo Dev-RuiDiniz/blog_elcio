@@ -19,6 +19,9 @@ import {
   HiOutlineCode,
   HiOutlineMenuAlt2,
   HiOutlineViewBoards,
+  HiOutlinePhone,
+  HiOutlineCalendar,
+  HiOutlineKey,
 } from "react-icons/hi";
 
 const menuItems = [
@@ -43,6 +46,15 @@ const menuItems = [
     ],
   },
   {
+    section: "CRM",
+    items: [
+      { title: "Contatos", href: "/admin/crm/contatos", icon: HiOutlinePhone },
+      { title: "Clientes Ativos", href: "/admin/crm/clientes", icon: HiOutlineUserGroup },
+      { title: "Chamadas", href: "/admin/crm/chamadas", icon: HiOutlineLightningBolt },
+      { title: "Agenda", href: "/admin/crm/agenda", icon: HiOutlineCalendar },
+    ],
+  },
+  {
     section: "Analytics",
     items: [
       { title: "Relatórios", href: "/admin/relatorios", icon: HiOutlineChartBar },
@@ -57,6 +69,7 @@ const menuItems = [
   {
     section: "Sistema",
     items: [
+      { title: "Acesso", href: "/admin/acesso", icon: HiOutlineKey },
       { title: "Scripts", href: "/admin/scripts", icon: HiOutlineCode },
       { title: "Configurações", href: "/admin/configuracoes", icon: HiOutlineCog },
     ],
