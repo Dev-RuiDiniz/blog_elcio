@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BlockRenderer } from "@/components/blocks/BlockRenderer";
+import { COMPANY_OPTIONS, buildContactHref, getCompanyBySlug } from "@/lib/lead-context";
 
 interface PageBlock {
   id: string;
@@ -25,6 +26,140 @@ interface DynamicPageData {
   blocks: PageBlock[];
 }
 
+function getFallbackCompanyPage(slug: string): DynamicPageData | null {
+  const company = getCompanyBySlug(slug);
+  if (!company) return null;
+
+  const contatoLink = buildContactHref({
+    assunto: "consultoria-catalogo",
+    empresa: company.slug,
+    origem: company.ctaSource,
+  });
+
+  const blocks: PageBlock[] = [
+    {
+      id: `fallback-hero-${company.slug}`,
+      type: "hero",
+      order: 0,
+      active: true,
+      content: {
+        badge: "Empresa Representada",
+        title: company.name,
+        subtitle: "Portfólio Comercial Elcio",
+        description:
+          "Soluções especializadas apresentadas com suporte comercial consultivo para facilitar especificação, comparação e primeiro contato.",
+        image: "/images/site/DK3E3179-MOD.jpg",
+        button1Text: "Quero Consultoria + Catálogo",
+        button1Link: contatoLink,
+        button2Text: "Baixar Catálogo",
+        button2Link: company.pdfPublicPath,
+        overlay: 58,
+        align: "left",
+      },
+    },
+    {
+      id: `fallback-text-${company.slug}`,
+      type: "text",
+      order: 1,
+      active: true,
+      content: {
+        subtitle: "Proposta de Valor",
+        title: `Por que ${company.name}?`,
+        content: `${company.teaser}\n\nElcio atua como ponto de contato comercial para acelerar o entendimento técnico, apoiar na pré-venda e direcionar a melhor solução para cada cenário.`,
+        align: "left",
+        background: "white",
+      },
+    },
+    {
+      id: `fallback-features-${company.slug}`,
+      type: "features",
+      order: 2,
+      active: true,
+      content: {
+        subtitle: "Aplicações",
+        title: "Onde essa empresa entrega resultado",
+        columns: 3,
+        items: [
+          {
+            icon: "star",
+            title: "Aplicação Industrial",
+            description: "Suporte para seleção de solução alinhada ao processo e à operação.",
+          },
+          {
+            icon: "star",
+            title: "Recomendação Técnica",
+            description: "Orientação comercial com foco em viabilidade e ganho de produtividade.",
+          },
+          {
+            icon: "star",
+            title: "Primeiro Contato Ágil",
+            description: "Atendimento rápido para cotação, dúvidas e encaminhamento de próximos passos.",
+          },
+        ],
+      },
+    },
+    {
+      id: `fallback-cards-${company.slug}`,
+      type: "cards",
+      order: 3,
+      active: true,
+      content: {
+        subtitle: "Material de Apoio",
+        title: "Conteúdos para avaliação",
+        columns: 3,
+        cards: [
+          {
+            image: "/images/site/Total-Body-356.jpg",
+            title: "Catálogo da Empresa",
+            description: `Material de referência: ${company.fileName}`,
+            link: company.pdfPublicPath,
+          },
+          {
+            image: "/images/site/Shirobody_showroom.jpg",
+            title: "Consultoria Inicial",
+            description: "Explique seu contexto e receba indicação comercial orientada.",
+            link: contatoLink,
+          },
+          {
+            image: "/images/site/heaven2.jpg",
+            title: "Próximos Passos",
+            description: "Conheça também as demais empresas representadas e compare caminhos de atendimento.",
+            link: "/marcas",
+          },
+        ],
+      },
+    },
+    {
+      id: `fallback-cta-${company.slug}`,
+      type: "cta",
+      order: 4,
+      active: true,
+      content: {
+        title: `Falar sobre ${company.name}`,
+        description:
+          "Inicie o primeiro contato com Elcio para receber catálogo, tirar dúvidas e avançar com consultoria comercial.",
+        buttonText: "Solicitar Consultoria + Catálogo",
+        buttonLink: contatoLink,
+        background: "black",
+      },
+    },
+  ];
+
+  return {
+    id: `fallback-page-${company.slug}`,
+    name: company.name,
+    slug: company.slug,
+    title: `${company.name} | Representação Comercial Elcio`,
+    description: company.teaser,
+    metaTitle: `${company.name} | Consultoria + Catálogo`,
+    metaDescription: `${company.teaser} Solicite consultoria comercial e catálogo técnico com o Elcio.`,
+    metaKeywords: COMPANY_OPTIONS.map((option) => option.name).join(", "),
+    ogImage: "/images/site/DK3E3179-MOD.jpg",
+    published: true,
+    blocks,
+  };
+}
+
 async function getPageBySlug(slug: string): Promise<DynamicPageData | null> {
   try {
     const page = await prisma.page.findUnique({
@@ -37,10 +172,13 @@ async function getPageBySlug(slug: string): Promise<DynamicPageData | null> {
       },
     });
 
-    if (!page || !page.published) return null;
+    if (!page || !page.published) {
+      return getFallbackCompanyPage(slug);
+    }
+
     return page as DynamicPageData;
   } catch {
-    return null;
+    return getFallbackCompanyPage(slug);
   }
 }
 
