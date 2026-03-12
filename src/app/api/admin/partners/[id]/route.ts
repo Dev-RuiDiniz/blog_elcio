@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     const data = await request.json();
@@ -28,6 +32,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     await prisma.partner.delete({ where: { id } });
@@ -36,3 +43,5 @@ export async function DELETE(
     return NextResponse.json({ error: "Erro ao deletar parceiro" }, { status: 500 });
   }
 }
+
+

@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(request.url);
     const all = searchParams.get("all") === "true";
@@ -34,6 +38,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const data = await request.json();
     const brand = await prisma.brand.create({
@@ -52,3 +59,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Erro ao criar marca" }, { status: 500 });
   }
 }
+
+

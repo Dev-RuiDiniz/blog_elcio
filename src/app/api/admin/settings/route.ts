@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 export async function GET() {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const settings = await prisma.siteSettings.findFirst();
     return NextResponse.json({ settings });
@@ -12,6 +16,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const data = await request.json();
     
@@ -69,3 +76,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Erro ao salvar configurações" }, { status: 500 });
   }
 }
+
+

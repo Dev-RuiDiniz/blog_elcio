@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 export async function GET() {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const banners = await prisma.banner.findMany({
       orderBy: { order: "asc" },
@@ -14,6 +18,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const data = await request.json();
     const banner = await prisma.banner.create({
@@ -42,3 +49,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Erro ao criar banner" }, { status: 500 });
   }
 }
+
+

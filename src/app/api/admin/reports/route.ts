@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(request.url);
     const range = searchParams.get("range") || "7d";
@@ -43,3 +47,5 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Erro ao buscar relatórios" }, { status: 500 });
   }
 }
+
+

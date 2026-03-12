@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAuth } from "@/lib/admin-auth";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     const brand = await prisma.brand.findUnique({ where: { id } });
@@ -21,6 +25,9 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     const data = await request.json();
@@ -46,6 +53,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     await prisma.brand.delete({ where: { id } });
@@ -54,3 +64,5 @@ export async function DELETE(
     return NextResponse.json({ error: "Erro ao deletar marca" }, { status: 500 });
   }
 }
+
+
