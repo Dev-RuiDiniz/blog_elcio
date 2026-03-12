@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { buildContactHref } from "@/lib/lead-context";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -49,7 +50,7 @@ async function seedMaletti() {
           titleHighlight: "Eleve Experiências.",
           description: "Apresentamos a revolução do bem-estar capilar no Brasil. As estações Maletti Head SPA unem o design italiano a uma tecnologia inovadora para criar uma experiência sensorial que redefine o luxo em seu salão, spa ou clínica.",
           videoUrl: "/Vídeo Home.mp4",
-          buttonText: "Solicitar Catálogo",
+          buttonText: "Consultoria + Catálogo",
         },
       },
       {
@@ -145,7 +146,7 @@ async function seedMaletti() {
           catalogImage: "/images/site/PLANIMETRIA-La-Beautique---Mongolia-Multifunzione.jpg",
           formTitle: "Solicite seu Catálogo",
           formDescription: "Preencha seus dados e receba o catálogo Maletti.",
-          buttonText: "Receber Catálogo",
+          buttonText: "Solicitar Consultoria + Catálogo",
         },
       },
     ];
@@ -181,7 +182,7 @@ async function seedSobre() {
           buttonText: "Conhecer Produtos",
           buttonLink: "/produtos",
           secondaryButtonText: "Falar Conosco",
-          secondaryLink: "/contato",
+          secondaryLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "sobre-cta" }),
           stat1Value: "10+",
           stat1Label: "Anos de mercado",
           stat2Value: "500+",
@@ -304,7 +305,7 @@ async function seedMarcas() {
           buttonText: "Ver Produtos",
           buttonLink: "/produtos",
           secondaryButtonText: "Falar com Consultor",
-          secondaryLink: "/contato",
+          secondaryLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "marcas-cta" }),
         },
       },
     ];
@@ -364,8 +365,8 @@ async function seedProdutos() {
           description: "Nossa equipe de consultores está pronta para ajudar você a encontrar os produtos ideais para o seu salão.",
           buttonText: "Falar com Consultor",
           whatsappLink: "https://wa.me/5511981982279?text=Olá! Preciso de ajuda para escolher produtos Maletti.",
-          secondaryButtonText: "Solicitar Catálogo",
-          secondaryLink: "/contato",
+          secondaryButtonText: "Consultoria + Catálogo",
+          secondaryLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "produtos-cta" }),
         },
       },
     ];
@@ -514,8 +515,8 @@ async function seedContato() {
         active: true,
         content: {
           options: [
-            { icon: "download", title: "Receber Catálogo", description: "Baixe nosso catálogo digital completo com todos os produtos.", action: "catalog" },
-            { icon: "chat", title: "Falar com Consultor", description: "Tire suas dúvidas e receba orientação personalizada.", action: "contact" },
+            { icon: "download", title: "Consultoria + Catálogo", description: "Receba orientação comercial e acesso ao material técnico.", action: "catalog" },
+            { icon: "chat", title: "Falar com Consultor", description: "Inicie seu primeiro atendimento com contexto da demanda.", action: "contact" },
             { icon: "calendar", title: "Agendar Visita", description: "Visite nosso showroom e conheça os produtos pessoalmente.", action: "contact" },
           ],
         },
@@ -601,7 +602,7 @@ async function seedHome() {
               button1Text: "Conhecer Produtos",
               button1Link: "/produtos",
               button2Text: "Fale Conosco",
-              button2Link: "/contato",
+              button2Link: buildContactHref({ assunto: "consultoria-catalogo", origem: "home-hero" }),
             },
             {
               title: "Nilo",
@@ -677,7 +678,7 @@ async function seedHome() {
           button1Text: "Conhecer a Maletti",
           button1Link: "/maletti",
           button2Text: "Agendar Visita",
-          button2Link: "/contato",
+          button2Link: buildContactHref({ assunto: "consultoria-catalogo", origem: "home-partnership" }),
         },
       },
       {
@@ -708,8 +709,8 @@ async function seedHome() {
           phone: "(11) 98198-2279",
           phoneRaw: "+5511981982279",
           whatsappMessage: "Olá! Gostaria de falar com um consultor sobre os produtos Maletti.",
-          buttonText: "Receber Catálogo",
-          consultorButtonText: "Falar com Consultor",
+          buttonText: "Solicitar Consultoria + Catálogo",
+          consultorButtonText: "Falar no WhatsApp",
         },
       },
     ];

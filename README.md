@@ -142,11 +142,13 @@ Endpoint util para popular blocos base:
 - `/api/seed-home?page=marcas`
 - `/api/seed-home?page=sobre`
 - `/api/seed-home?page=maletti`
+- `/api/seed-company-pages` (cria/atualiza 6 paginas dinâmicas em `/p/[slug]`)
 
 Exemplo:
 
 ```bash
 curl "http://localhost:3003/api/seed-home?page=home"
+curl "http://localhost:3003/api/seed-company-pages"
 ```
 
 ## Scripts NPM

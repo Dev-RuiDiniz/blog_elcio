@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { HiArrowRight, HiOutlineViewGrid, HiOutlineViewList, HiOutlineSearch, HiX } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
+import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 // Função para limpar tags HTML
 function stripHtml(html: string): string {
@@ -410,7 +411,14 @@ function ProductsContent() {
                 asChild
               >
                 <a
-                  href={(ctaBlock.whatsappLink as string) || "https://wa.me/5511981982279?text=Olá! Preciso de ajuda para escolher produtos Maletti."}
+                  href={
+                    (ctaBlock.whatsappLink as string) ||
+                    buildWhatsappHref({
+                      origem: "produtos-cta",
+                      assunto: "consultoria-catalogo",
+                      extraMessage: "Preciso de ajuda para escolher a melhor solução.",
+                    })
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -423,8 +431,13 @@ function ProductsContent() {
                 className="border-white/30 text-white bg-transparent hover:bg-white/10 transition-all duration-300"
                 asChild
               >
-                <Link href={(ctaBlock.secondaryLink as string) || "/contato"}>
-                  {(ctaBlock.secondaryButtonText as string) || "Solicitar Catálogo"}
+                <Link
+                  href={
+                    (ctaBlock.secondaryLink as string) ||
+                    buildContactHref({ assunto: "consultoria-catalogo", origem: "produtos-cta" })
+                  }
+                >
+                  {(ctaBlock.secondaryButtonText as string) || "Consultoria + Catálogo"}
                 </Link>
               </Button>
             </div>

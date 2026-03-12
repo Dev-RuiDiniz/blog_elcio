@@ -78,8 +78,8 @@ const DEFAULT_SHR_FOOTER: FooterConfig = {
     {
       title: "Suporte",
       links: [
-        { label: "Solicitar Catálogo", href: "/contato?assunto=catalogo" },
-        { label: "Falar com Consultor", href: "/contato" },
+        { label: "Consultoria + Catálogo", href: "/contato?assunto=consultoria-catalogo&origem=footer" },
+        { label: "Falar com Consultor", href: "/contato?assunto=consultoria-catalogo&origem=footer" },
         { label: "Garantia", href: "/garantia" },
         { label: "FAQ", href: "/faq" },
       ],

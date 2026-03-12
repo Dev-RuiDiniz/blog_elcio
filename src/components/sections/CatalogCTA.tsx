@@ -4,7 +4,13 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { HiOutlineDownload, HiOutlinePhone } from "react-icons/hi";
+import {
+  COMPANY_OPTIONS,
+  buildContactHref,
+  buildWhatsappHref,
+  getCompanyNameFromSlug,
+  normalizeCompanySlug,
+} from "@/lib/lead-context";
 
 interface SectionData {
   title: string;
@@ -19,24 +25,39 @@ interface SectionData {
   };
 }
 
+interface LeadForm {
+  name: string;
+  email: string;
+  phone: string;
+  companySlug: string;
+}
+
+const NONE_VALUE = "none";
+
 const defaultData: SectionData = {
-  title: "Receba nosso catálogo completo",
-  subtitle: "Catálogo Digital",
-  description: "Conheça toda a linha de produtos Maletti disponível no Brasil. Deixe seu e-mail e receba o catálogo digital com especificações técnicas e fotos em alta resolução.",
+  title: "Consultoria + Catálogo",
+  subtitle: "Primeiro Contato",
+  description:
+    "Fale com o Elcio, receba apoio comercial e tenha acesso ao catálogo mais aderente à sua necessidade.",
   content: {
     phone: "(11) 98198-2279",
     phoneRaw: "+5511981982279",
-    whatsappMessage: "Olá! Gostaria de falar com um consultor sobre os produtos Maletti.",
-    buttonText: "Receber Catálogo",
-    consultorButtonText: "Falar com Consultor",
+    whatsappMessage: "Olá! Quero consultoria e catálogo.",
+    buttonText: "Solicitar Consultoria + Catálogo",
+    consultorButtonText: "Falar no WhatsApp",
   },
 };
 
 export function CatalogCTA() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [email, setEmail] = useState("");
   const [data, setData] = useState<SectionData>(defaultData);
+  const [leadForm, setLeadForm] = useState<LeadForm>({
+    name: "",
+    email: "",
+    phone: "",
+    companySlug: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
@@ -56,24 +77,35 @@ export function CatalogCTA() {
       .catch(() => {});
   }, []);
 
+  const selectedCompanySlug = normalizeCompanySlug(leadForm.companySlug);
+  const selectedCompanyName = getCompanyNameFromSlug(selectedCompanySlug);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!leadForm.name || !leadForm.email || !leadForm.phone) return;
+
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/kommo/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: email.split("@")[0],
-          email,
-          phone: "",
-          message: "Solicitou o catálogo digital pela Home.",
-          source: "Catálogo Home",
+          name: leadForm.name,
+          email: leadForm.email,
+          phone: leadForm.phone,
+          message: "Solicitou consultoria + catálogo pela home.",
+          source: "CTA Home",
+          companySlug: selectedCompanySlug,
+          companyName: selectedCompanyName,
+          interestType: "consultoria-catalogo",
+          originPage: "home",
         }),
       });
+
       if (!response.ok) throw new Error("Erro ao enviar");
+
       setSubmitSuccess(true);
-      setEmail("");
+      setLeadForm({ name: "", email: "", phone: "", companySlug: "" });
     } catch (error) {
       console.error("Error:", error);
       alert("Erro ao enviar. Tente novamente.");
@@ -115,10 +147,10 @@ export function CatalogCTA() {
                 </svg>
               </div>
               <h3 className="text-2xl font-serif font-semibold text-black mb-3">
-               Solicitação Enviada. 
+                Solicitação enviada
               </h3>
               <p className="text-gray-600 mb-6">
-                Você receberá o catálogo digital em seu e-mail em breve.
+                Recebemos seus dados e retornaremos em breve com o primeiro atendimento.
               </p>
               <Button
                 onClick={() => setSubmitSuccess(false)}
@@ -130,78 +162,96 @@ export function CatalogCTA() {
             </motion.div>
           ) : (
             <>
-              {/* Form */}
               <motion.form
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 onSubmit={handleSubmit}
-                className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto mb-12"
+                className="space-y-3 max-w-2xl mx-auto mb-10"
               >
-                <Input
-                  type="email"
-                  placeholder="Seu melhor e-mail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 h-14 px-6 border-gray-200 focus:border-black focus:ring-black"
-                  required
-                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input
+                    type="text"
+                    placeholder="Nome completo"
+                    value={leadForm.name}
+                    onChange={(e) => setLeadForm((prev) => ({ ...prev, name: e.target.value }))}
+                    className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black"
+                    required
+                  />
+                  <Input
+                    type="email"
+                    placeholder="Seu melhor e-mail"
+                    value={leadForm.email}
+                    onChange={(e) => setLeadForm((prev) => ({ ...prev, email: e.target.value }))}
+                    className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black"
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input
+                    type="text"
+                    placeholder="Telefone / WhatsApp"
+                    value={leadForm.phone}
+                    onChange={(e) => setLeadForm((prev) => ({ ...prev, phone: e.target.value }))}
+                    className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black"
+                    required
+                  />
+                  <select
+                    value={leadForm.companySlug || NONE_VALUE}
+                    onChange={(e) =>
+                      setLeadForm((prev) => ({
+                        ...prev,
+                        companySlug: e.target.value === NONE_VALUE ? "" : e.target.value,
+                      }))
+                    }
+                    className="h-12 px-4 border border-gray-200 bg-white text-sm"
+                  >
+                    <option value={NONE_VALUE}>Empresa de interesse (opcional)</option>
+                    {COMPANY_OPTIONS.map((company) => (
+                      <option key={company.slug} value={company.slug}>
+                        {company.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <Button
                   type="submit"
                   size="lg"
-                  className="h-14 px-8 bg-black text-white hover:bg-gray-800 transition-all duration-300 group"
+                  className="w-full h-12 bg-black text-white hover:bg-gray-800"
                   disabled={isSubmitting}
                 >
-                  <HiOutlineDownload className="mr-2 w-5 h-5" />
                   {isSubmitting ? "Enviando..." : data.content.buttonText}
                 </Button>
               </motion.form>
 
-              {/* Divider */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="flex items-center gap-4 max-w-xl mx-auto mb-12"
-              >
-                <div className="flex-1 h-px bg-gray-200" />
-                <span className="text-gray-400 text-sm">ou</span>
-                <div className="flex-1 h-px bg-gray-200" />
-              </motion.div>
-
-              {/* Alternative CTAs */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-6"
+                transition={{ duration: 0.6, delay: 0.35 }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-4"
               >
-                <a
-                  href={`tel:${data.content.phoneRaw}`}
-                  className="flex items-center gap-3 text-gray-600 hover:text-black transition-colors group"
-                >
-                  <span className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:border-black group-hover:bg-black group-hover:text-white transition-all duration-300">
-                    <HiOutlinePhone className="w-5 h-5" />
-                  </span>
-                  <div className="text-left">
-                    <span className="text-xs text-gray-400 block">Ligue para nós</span>
-                    <span className="font-medium">{data.content.phone}</span>
-                  </div>
-                </a>
-
-                <div className="hidden sm:block w-px h-12 bg-gray-200" />
-
-                <Button
-                  variant="outline"
-                  className="border-black text-black hover:bg-black hover:text-white transition-all duration-300"
-                  asChild
-                >
+                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white" asChild>
                   <a
-                    href={`https://wa.me/${data.content.phoneRaw.replace(/\D/g, '')}?text=${encodeURIComponent(data.content.whatsappMessage)}`}
+                    href={buildWhatsappHref({
+                      assunto: "consultoria-catalogo",
+                      empresa: selectedCompanySlug,
+                      origem: "home-cta",
+                    })}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     {data.content.consultorButtonText}
+                  </a>
+                </Button>
+                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white" asChild>
+                  <a
+                    href={buildContactHref({
+                      assunto: "consultoria-catalogo",
+                      empresa: selectedCompanySlug,
+                      origem: "home-cta",
+                    })}
+                  >
+                    Formulário completo
                   </a>
                 </Button>
               </motion.div>

@@ -451,10 +451,10 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           postsPerPage: 10,
           showFeatured: true,
           showCta: true,
-          ctaTitle: "Fique por dentro das novidades",
-          ctaDescription: "Receba insights exclusivos sobre tendências e inovações do mercado de beleza diretamente no seu e-mail.",
+          ctaTitle: "Consultoria + Catálogo no seu contexto",
+          ctaDescription: "Envie seu contato e receba apoio comercial para entender as empresas representadas e escolher a melhor solução.",
           ctaEmailPlaceholder: "Seu melhor e-mail",
-          ctaButtonText: "Inscrever",
+          ctaButtonText: "Quero Consultoria + Catálogo",
         };
       case "lp-404-content":
         return {

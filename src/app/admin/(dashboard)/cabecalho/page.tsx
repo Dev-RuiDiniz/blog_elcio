@@ -44,8 +44,8 @@ const DEFAULT_SHR_HEADER: HeaderConfig = {
     { label: "Contato", href: "/contato" },
   ],
   ctaButtons: [
-    { label: "Solicitar Catálogo", href: "/contato?assunto=catalogo", variant: "outline" },
-    { label: "Falar com Consultor", href: "https://wa.me/5511981982279?text=Olá! Gostaria de falar com um consultor.", variant: "solid" },
+    { label: "Consultoria + Catálogo", href: "/contato?assunto=consultoria-catalogo&origem=header", variant: "outline" },
+    { label: "Falar no WhatsApp", href: "https://wa.me/5511981982279?text=Olá! Quero consultoria e catálogo.", variant: "solid" },
   ],
   contactEmail: "marketing@shrhair.com.br",
   contactPhone: "(11) 98198-2279",

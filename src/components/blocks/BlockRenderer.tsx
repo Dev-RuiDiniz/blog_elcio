@@ -8,6 +8,7 @@ import { HiArrowRight, HiPlay, HiChevronLeft, HiChevronRight, HiOutlineShieldChe
 import { HiOutlineWrenchScrewdriver, HiOutlineClock, HiOutlineCheckCircle } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 function stripHtml(html: string): string {
   if (!html) return "";
@@ -951,28 +952,36 @@ function MaintenancePreviewBlock({ content }: { content: Record<string, unknown>
 function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name || !email || !phone) return;
+
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/kommo/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: email.split("@")[0],
+          name,
           email,
-          phone: "",
-          message: "Solicitou o catálogo digital pela Home.",
-          source: "Catálogo Home",
+          phone,
+          message: "Solicitou consultoria + catálogo pelo bloco CTA da home.",
+          source: "Catalog CTA Block",
+          interestType: "consultoria-catalogo",
+          originPage: "home",
         }),
       });
       if (!response.ok) throw new Error("Erro ao enviar");
       setSubmitSuccess(true);
+      setName("");
       setEmail("");
+      setPhone("");
     } catch (error) {
       console.error("Error:", error);
       alert("Erro ao enviar. Tente novamente.");
@@ -1005,17 +1014,23 @@ function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
                 </svg>
               </div>
               <h3 className="text-2xl font-serif font-semibold text-black mb-3">Solicitação Enviada.</h3>
-              <p className="text-gray-600 mb-6">Você receberá o catálogo digital em seu e-mail em breve.</p>
+              <p className="text-gray-600 mb-6">Seu primeiro contato foi registrado e retornaremos em breve.</p>
               <Button onClick={() => setSubmitSuccess(false)} variant="outline" className="border-black text-black hover:bg-black hover:text-white">Voltar</Button>
             </motion.div>
           ) : (
             <>
-              <motion.form initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }} onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto mb-12">
-                <Input type="email" placeholder="Seu melhor e-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="flex-1 h-14 px-6 border-gray-200 focus:border-black focus:ring-black" required />
-                <Button type="submit" size="lg" className="h-14 px-8 bg-black text-white hover:bg-gray-800 transition-all duration-300 group" disabled={isSubmitting}>
-                  <HiOutlineDownload className="mr-2 w-5 h-5" />
-                  {isSubmitting ? "Enviando..." : ((content.buttonText as string) || "Receber Catálogo")}
-                </Button>
+              <motion.form initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }} onSubmit={handleSubmit} className="space-y-3 max-w-2xl mx-auto mb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input type="text" placeholder="Nome completo" value={name} onChange={(e) => setName(e.target.value)} className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black" required />
+                  <Input type="email" placeholder="Seu melhor e-mail" value={email} onChange={(e) => setEmail(e.target.value)} className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black" required />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input type="text" placeholder="Telefone / WhatsApp" value={phone} onChange={(e) => setPhone(e.target.value)} className="h-12 px-4 border-gray-200 focus:border-black focus:ring-black" required />
+                  <Button type="submit" size="lg" className="h-12 px-6 bg-black text-white hover:bg-gray-800 transition-all duration-300 group" disabled={isSubmitting}>
+                    <HiOutlineDownload className="mr-2 w-5 h-5" />
+                    {isSubmitting ? "Enviando..." : ((content.buttonText as string) || "Consultoria + Catálogo")}
+                  </Button>
+                </div>
               </motion.form>
 
               <motion.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ duration: 0.6, delay: 0.3 }} className="flex items-center gap-4 max-w-xl mx-auto mb-12">
@@ -1038,8 +1053,24 @@ function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
                 <div className="hidden sm:block w-px h-12 bg-gray-200" />
 
                 <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>
-                  <a href={`https://wa.me/${((content.phoneRaw as string) || "+5511981982279").replace(/\D/g, '')}?text=${encodeURIComponent((content.whatsappMessage as string) || "Olá!")}`} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={
+                      buildWhatsappHref({
+                        phone: (content.phoneRaw as string) || "+5511981982279",
+                        assunto: "consultoria-catalogo",
+                        origem: "home-cta",
+                        extraMessage: (content.whatsappMessage as string) || "",
+                      })
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {(content.consultorButtonText as string) || "Falar com Consultor"}
+                  </a>
+                </Button>
+                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>
+                  <a href={buildContactHref({ assunto: "consultoria-catalogo", origem: "home-cta" })}>
+                    Formulário completo
                   </a>
                 </Button>
               </motion.div>
@@ -1485,7 +1516,14 @@ function ProductsCTABlock({ content }: { content: Record<string, unknown> }) {
             )}
             {(content.secondaryButtonText as string) && (
               <Button size="lg" variant="outline" className="border-white/30 text-white bg-transparent hover:bg-white/10" asChild>
-                <a href={(content.secondaryLink as string) || "#"}>{content.secondaryButtonText as string}</a>
+                <a
+                  href={
+                    (content.secondaryLink as string) ||
+                    buildContactHref({ assunto: "consultoria-catalogo", origem: "products-cta" })
+                  }
+                >
+                  {content.secondaryButtonText as string}
+                </a>
               </Button>
             )}
           </div>
@@ -1615,7 +1653,14 @@ function BrandsCTABlock({ content }: { content: Record<string, unknown> }) {
             )}
             {(content.secondaryButtonText as string) && (
               <Button size="lg" variant="outline" className="border-white/30 text-white bg-transparent hover:bg-white/10 transition-all duration-300" asChild>
-                <Link href={(content.secondaryLink as string) || "/contato"}>{content.secondaryButtonText as string}</Link>
+                <Link
+                  href={
+                    (content.secondaryLink as string) ||
+                    buildContactHref({ assunto: "consultoria-catalogo", origem: "brands-cta" })
+                  }
+                >
+                  {content.secondaryButtonText as string}
+                </Link>
               </Button>
             )}
           </div>
@@ -1772,12 +1817,28 @@ function AboutCTABlock({ content }: { content: Record<string, unknown> }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {(content.buttonText as string) && (
               <Button size="lg" className="bg-black text-white hover:bg-gray-800 transition-all duration-300" asChild>
-                <Link href={(content.buttonLink as string) || "/contato"}>{content.buttonText as string}</Link>
+                <Link
+                  href={
+                    (content.buttonLink as string) ||
+                    buildContactHref({ assunto: "consultoria-catalogo", origem: "about-cta" })
+                  }
+                >
+                  {content.buttonText as string}
+                </Link>
               </Button>
             )}
             {(content.secondaryButtonText as string) && (
               <Button size="lg" variant="outline" className="border-black text-black hover:bg-black hover:text-white transition-all duration-300" asChild>
-                <a href={(content.secondaryLink as string) || "https://wa.me/5511981982279"} target="_blank" rel="noopener noreferrer">{content.secondaryButtonText as string}</a>
+                <a
+                  href={
+                    (content.secondaryLink as string) ||
+                    buildWhatsappHref({ origem: "about-cta", assunto: "consultoria-catalogo" })
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {content.secondaryButtonText as string}
+                </a>
               </Button>
             )}
           </div>

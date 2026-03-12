@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 import {
   Sheet,
   SheetContent,
@@ -25,8 +26,16 @@ const defaultNavLinks = [
 ];
 
 const defaultCtaButtons = [
-  { label: "Solicitar Catálogo", href: "/contato?assunto=catalogo", variant: "outline" as const },
-  { label: "Falar com Consultor", href: "https://wa.me/5511981982279?text=Olá! Gostaria de falar com um consultor.", variant: "solid" as const },
+  {
+    label: "Consultoria + Catálogo",
+    href: buildContactHref({ assunto: "consultoria-catalogo", origem: "header" }),
+    variant: "outline" as const,
+  },
+  {
+    label: "Falar no WhatsApp",
+    href: buildWhatsappHref({ origem: "header" }),
+    variant: "solid" as const,
+  },
 ];
 
 interface HeaderConfigData {
@@ -41,6 +50,26 @@ interface HeaderConfigData {
   contactCity?: string;
 }
 
+function normalizeCtaHref(href: string, origem: string) {
+  if (!href.startsWith("/contato")) return href;
+
+  const queryIndex = href.indexOf("?");
+  if (queryIndex < 0) {
+    return buildContactHref({ assunto: "consultoria-catalogo", origem });
+  }
+
+  const params = new URLSearchParams(href.slice(queryIndex + 1));
+  const assunto = params.get("assunto");
+  const empresa = params.get("empresa");
+  const originParam = params.get("origem") || origem;
+
+  return buildContactHref({
+    assunto: !assunto || assunto === "catalogo" ? "consultoria-catalogo" : assunto,
+    empresa,
+    origem: originParam,
+  });
+}
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +81,10 @@ export function Header() {
   const showDarkElements = isScrolled || !isHome;
 
   const navLinks = config?.navLinks || defaultNavLinks;
-  const ctaButtons = config?.ctaButtons || defaultCtaButtons;
+  const ctaButtons = (config?.ctaButtons || defaultCtaButtons).map((button) => ({
+    ...button,
+    href: normalizeCtaHref(button.href, "header"),
+  }));
   const subtitle = config?.subtitle || "Distribuidor Exclusivo";
   const subtitleLine2 = config?.subtitleLine2 || "Maletti e Nilo";
   const logoUrl = config?.logoUrl || "/logoshr-dark.png";

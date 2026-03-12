@@ -2950,7 +2950,7 @@ function LPSpaContentEditor({ content, onChange }: { content: Record<string, unk
           {(() => {
             const defaultCtaButtons = [
               { text: "Falar com um Consultor", link: "https://wa.me/5511981982279?text=Olá! Gostaria de uma consultoria sobre os equipamentos Maletti para meu spa.", style: "primary" },
-              { text: "Baixar Catálogo", link: "/contato?assunto=catalogo", style: "outline" },
+              { text: "Consultoria + Catálogo", link: "/contato?assunto=consultoria-catalogo&origem=lp-spa", style: "outline" },
             ];
             const ctaButtons = (content.ctaButtons as Array<{ text: string; link: string; style: string }>) || defaultCtaButtons;
             return (
@@ -3191,7 +3191,7 @@ function BlogSettingsEditor({ content, onChange }: { content: Record<string, unk
     { id: "hero", label: "Hero" },
     { id: "categories", label: "Categorias" },
     { id: "posts", label: "Posts" },
-    { id: "cta", label: "CTA Newsletter" },
+    { id: "cta", label: "CTA Conversão" },
   ];
 
   const hiddenCategories = (content.hiddenCategories as string[]) || [];
@@ -3278,15 +3278,15 @@ function BlogSettingsEditor({ content, onChange }: { content: Record<string, unk
 
       {activeSection === "cta" && (
         <div className="space-y-3">
-          <h4 className="font-medium text-sm">CTA Newsletter</h4>
+          <h4 className="font-medium text-sm">CTA Consultoria + Catálogo</h4>
           <label className="flex items-center gap-2 cursor-pointer" onClick={(e) => e.stopPropagation()}>
             <input type="checkbox" checked={(content.showCta as boolean) !== false} onChange={(e) => onChange({ ...content, showCta: e.target.checked })} className="accent-black" />
-            <span className="text-sm text-gray-700">Exibir seção de newsletter</span>
+            <span className="text-sm text-gray-700">Exibir seção de conversão no blog</span>
           </label>
-          <InputField label="Título" value={(content.ctaTitle as string) || ""} onChange={(v) => onChange({ ...content, ctaTitle: v })} placeholder="Fique por dentro das novidades" />
-          <TextareaField label="Descrição" value={(content.ctaDescription as string) || ""} onChange={(v) => onChange({ ...content, ctaDescription: v })} rows={2} placeholder="Receba insights exclusivos..." />
+          <InputField label="Título" value={(content.ctaTitle as string) || ""} onChange={(v) => onChange({ ...content, ctaTitle: v })} placeholder="Consultoria + Catálogo no seu contexto" />
+          <TextareaField label="Descrição" value={(content.ctaDescription as string) || ""} onChange={(v) => onChange({ ...content, ctaDescription: v })} rows={2} placeholder="Envie seu contato e receba apoio comercial..." />
           <InputField label="Placeholder do Email" value={(content.ctaEmailPlaceholder as string) || ""} onChange={(v) => onChange({ ...content, ctaEmailPlaceholder: v })} placeholder="Seu melhor e-mail" />
-          <InputField label="Texto do Botão" value={(content.ctaButtonText as string) || ""} onChange={(v) => onChange({ ...content, ctaButtonText: v })} placeholder="Inscrever" />
+          <InputField label="Texto do Botão" value={(content.ctaButtonText as string) || ""} onChange={(v) => onChange({ ...content, ctaButtonText: v })} placeholder="Quero Consultoria + Catálogo" />
         </div>
       )}
     </div>

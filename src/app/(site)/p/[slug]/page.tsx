@@ -1,7 +1,6 @@
-"use client";
-
-import { useEffect, useState, use } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 import { BlockRenderer } from "@/components/blocks/BlockRenderer";
 
 interface PageBlock {
@@ -12,56 +11,84 @@ interface PageBlock {
   active: boolean;
 }
 
-interface Page {
+interface DynamicPageData {
   id: string;
   name: string;
   slug: string;
   title: string | null;
   description: string | null;
+  metaTitle: string | null;
+  metaDescription: string | null;
+  metaKeywords: string | null;
+  ogImage: string | null;
+  published: boolean;
   blocks: PageBlock[];
 }
 
-export default function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
-  const [page, setPage] = useState<Page | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+async function getPageBySlug(slug: string): Promise<DynamicPageData | null> {
+  try {
+    const page = await prisma.page.findUnique({
+      where: { slug },
+      include: {
+        blocks: {
+          where: { active: true },
+          orderBy: { order: "asc" },
+        },
+      },
+    });
 
-  useEffect(() => {
-    fetch(`/api/pages/${slug}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Not found");
-        return res.json();
-      })
-      .then((data) => {
-        setPage(data.page);
-      })
-      .catch(() => {
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [slug]);
+    if (!page || !page.published) return null;
+    return page as DynamicPageData;
+  } catch {
+    return null;
+  }
+}
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black" />
-      </div>
-    );
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const page = await getPageBySlug(slug);
+
+  if (!page) {
+    return {
+      title: "Página não encontrada",
+      description: "A página solicitada não foi encontrada.",
+    };
   }
 
-  if (error || !page) {
+  const title = page.metaTitle || page.title || page.name;
+  const description = page.metaDescription || page.description || `Conheça ${page.name}.`;
+  const keywords = page.metaKeywords
+    ? page.metaKeywords.split(",").map((item) => item.trim()).filter(Boolean)
+    : undefined;
+
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      images: page.ogImage ? [{ url: page.ogImage }] : undefined,
+    },
+  };
+}
+
+export default async function DynamicPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const page = await getPageBySlug(slug);
+
+  if (!page) {
     notFound();
   }
 
-  return (
-    <>
-      {page.title && (
-        <title>{page.title}</title>
-      )}
-      <BlockRenderer blocks={page.blocks} />
-    </>
-  );
+  return <BlockRenderer blocks={page.blocks} />;
 }

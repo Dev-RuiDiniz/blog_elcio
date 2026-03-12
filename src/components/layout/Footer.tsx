@@ -8,6 +8,7 @@ import { FaInstagram, FaFacebookF, FaLinkedinIn, FaYoutube, FaWhatsapp, FaTiktok
 import { FaXTwitter } from "react-icons/fa6";
 import { HiOutlineMail, HiOutlinePhone, HiOutlineLocationMarker } from "react-icons/hi";
 import { IconType } from "react-icons";
+import { buildContactHref } from "@/lib/lead-context";
 
 const socialIconMap: Record<string, IconType> = {
   instagram: FaInstagram,
@@ -55,8 +56,11 @@ const defaultLinkGroups = [
   {
     title: "Suporte",
     links: [
-      { href: "/contato?assunto=catalogo", label: "Solicitar Catálogo" },
-      { href: "/contato", label: "Falar com Consultor" },
+      {
+        href: buildContactHref({ assunto: "consultoria-catalogo", origem: "footer" }),
+        label: "Consultoria + Catálogo",
+      },
+      { href: buildContactHref({ assunto: "consultoria-catalogo", origem: "footer" }), label: "Falar com Consultor" },
       { href: "/garantia", label: "Garantia" },
       { href: "/faq", label: "FAQ" },
     ],
@@ -88,7 +92,32 @@ export function Footer() {
   const contactEmail = config?.contactEmail || "marketing@shrhair.com.br";
   const contactPhone = config?.contactPhone || "(11) 98198-2279";
   const contactCity = config?.contactCity || "São Paulo, SP";
-  const linkGroups = config?.linkGroups || defaultLinkGroups;
+  const linkGroups = (config?.linkGroups || defaultLinkGroups).map((group) => ({
+    ...group,
+    links: group.links.map((link) => {
+      if (!link.href.startsWith("/contato")) return link;
+      const queryIndex = link.href.indexOf("?");
+      if (queryIndex < 0) {
+        return {
+          ...link,
+          href: buildContactHref({ assunto: "consultoria-catalogo", origem: "footer" }),
+        };
+      }
+
+      const params = new URLSearchParams(link.href.slice(queryIndex + 1));
+      const assunto = params.get("assunto");
+      const empresa = params.get("empresa");
+      const origem = params.get("origem") || "footer";
+      return {
+        ...link,
+        href: buildContactHref({
+          assunto: !assunto || assunto === "catalogo" ? "consultoria-catalogo" : assunto,
+          empresa,
+          origem,
+        }),
+      };
+    }),
+  }));
   const socials = config?.socialLinks || defaultSocialLinks;
   const copyrightText = (config?.copyrightText || "© {year} SHR. Todos os direitos reservados.").replace("{year}", new Date().getFullYear().toString());
 
