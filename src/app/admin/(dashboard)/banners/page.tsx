@@ -34,7 +34,7 @@ const emptyBanner = {
   image: "",
   video: "",
   button1Text: "Conhecer Produtos",
-  button1Link: "/produtos",
+  button1Link: "/marcas",
   button1Color: "white",
   button1Rounded: false,
   button2Text: "",
@@ -237,7 +237,7 @@ export default function BannersPage() {
               </div>
               <div>
                 <label className="block text-xs text-gray-500 mb-1">Link</label>
-                <input type="text" value={formData.button1Link} onChange={(e) => setFormData({ ...formData, button1Link: e.target.value })} placeholder="/produtos" className="w-full px-3 py-2 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-black dark:text-white outline-none text-sm" />
+                <input type="text" value={formData.button1Link} onChange={(e) => setFormData({ ...formData, button1Link: e.target.value })} placeholder="/marcas" className="w-full px-3 py-2 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-black dark:text-white outline-none text-sm" />
               </div>
               <div>
                 <label className="block text-xs text-gray-500 mb-1">Estilo</label>

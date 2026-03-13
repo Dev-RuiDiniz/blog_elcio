@@ -34,7 +34,7 @@ const defaultData: SectionData = {
       { icon: "check", title: "Peças Originais", description: "Utilizamos apenas peças originais Maletti em todos os reparos." },
     ],
     buttonText: "Solicitar Manutenção",
-    buttonLink: "/manutencao",
+    buttonLink: "/contato",
   },
 };
 

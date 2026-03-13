@@ -27,13 +27,13 @@ const defaults: NotFoundData = {
   description: "A página que você está procurando pode ter sido removida, renomeada ou nunca existiu.",
   buttons: [
     { text: "Voltar para a Home", link: "/", style: "primary" },
-    { text: "Ver Produtos", link: "/produtos", style: "outline" },
+    { text: "Ver Produtos", link: "/marcas", style: "outline" },
   ],
   quickLinksTitle: "Ou acesse diretamente:",
   quickLinks: [
-    { label: "Produtos", href: "/produtos" },
+    { label: "Produtos", href: "/marcas" },
     { label: "Marcas", href: "/marcas" },
-    { label: "Sobre", href: "/sobre" },
+    { label: "Sobre", href: "/marcas" },
     { label: "Blog", href: "/blog" },
     { label: "Contato", href: "/contato" },
   ],

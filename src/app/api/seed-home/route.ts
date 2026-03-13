@@ -25,142 +25,8 @@ export async function GET(request: Request) {
   if (pageType === "sobre") {
     return seedSobre();
   }
-  
-  if (pageType === "maletti") {
-    return seedMaletti();
-  }
 
   return seedHome();
-}
-
-async function seedMaletti() {
-  try {
-    const page = await prisma.page.findFirst({ where: { slug: "maletti" } });
-    if (!page) return NextResponse.json({ error: "Maletti page not found" }, { status: 404 });
-
-    await prisma.pageBlock.deleteMany({ where: { pageId: page.id } });
-
-    const blocks = [
-      {
-        type: "maletti-hero",
-        order: 0,
-        active: true,
-        content: {
-          title: "Transforme Espaços.",
-          titleHighlight: "Eleve Experiências.",
-          description: "Apresentamos a revolução do bem-estar capilar no Brasil. As estações Maletti Head SPA unem o design italiano a uma tecnologia inovadora para criar uma experiência sensorial que redefine o luxo em seu salão, spa ou clínica.",
-          videoUrl: "/Vídeo Home.mp4",
-          buttonText: "Consultoria + Catálogo",
-        },
-      },
-      {
-        type: "maletti-essencia",
-        order: 1,
-        active: true,
-        content: {
-          badge: "Nossa História",
-          title: "A Essência Maletti",
-          description: "Nossa essência vai além da criação de móveis para salão de beleza de luxo. É uma tradição que une a arte do design italiano à inovação tecnológica em cada detalhe. O resultado são peças que encantam pelo estilo, entregam performance, conforto absoluto e a experiência de bem-estar que define a sua marca.",
-          showroomImage: "/images/site/Shirobody_showroom.jpg",
-          stats: [
-            { number: "60+", label: "Anos de história" },
-            { number: "90+", label: "Países atendidos" },
-            { number: "15", label: "Showrooms no mundo" },
-            { number: "500+", label: "Parceiros globais" },
-          ],
-        },
-      },
-      {
-        type: "maletti-brasil",
-        order: 2,
-        active: true,
-        content: {
-          badge: "Distribuidor Exclusivo",
-          title: "Maletti no Brasil",
-          description: "Como parceira exclusiva da Maletti no Brasil, a SHR HAIR garante o sucesso do seu negócio, transformando seu investimento em alta rentabilidade e experiências inesquecíveis.",
-          description2: "Nosso suporte completo assegura essa excelência com instalação, treinamento e manutenção preventiva.",
-          buttonText: "Falar com Especialista",
-          whatsappLink: "https://wa.me/5511981982279?text=Olá! Gostaria de falar com um especialista sobre produtos Maletti.",
-          secondaryButtonText: "Suporte Técnico",
-          secondaryLink: "https://shrhair.com.br/manutencao",
-          carouselImages: [
-            { src: "/images/site/Shirobody_showroom.jpg", alt: "Shirobody Showroom" },
-            { src: "/images/site/heaven2.jpg", alt: "Heaven" },
-            { src: "/images/site/Total-Body-356.jpg", alt: "Total Body" },
-            { src: "/images/site/DK3E3179-MOD.jpg", alt: "Maletti Design" },
-            { src: "/images/site/Head-spa-1.jpg", alt: "Head Spa" },
-          ],
-        },
-      },
-      {
-        type: "maletti-headspa",
-        order: 3,
-        active: true,
-        content: {
-          badge: "Tendência Mundial",
-          title: "Maletti Head SPA",
-          description: "As Estações Maletti Head SPA transformam o cuidado capilar em um ritual de bem-estar e resultados, promovendo a saúde do couro cabeludo através de uma experiência holística.",
-          buttonText: "Conhecer Estações Head SPA",
-          buttonLink: "https://www.shrhair.com.br/produtos?categoria=head-spa",
-          images: [
-            "/images/site/Head-spa-1.jpg",
-            "/images/site/Head-spa-2.jpg",
-            "/images/site/Head-spa-3.jpg",
-            "/images/site/Head-spa-4.jpg",
-            "/images/site/Head-spa-5.jpg",
-            "/images/site/Head-spa-6.jpg",
-          ],
-          benefits: [
-            { title: "Diferenciação", description: "Destaque-se no mercado oferecendo uma experiência única e exclusiva aos seus clientes." },
-            { title: "Ticket Médio", description: "Aumente a rentabilidade do seu negócio com serviços premium de alto valor agregado." },
-            { title: "Fidelização", description: "Conquiste e fidelize um público de alto padrão que busca experiências exclusivas." },
-          ],
-        },
-      },
-      {
-        type: "maletti-design",
-        order: 4,
-        active: true,
-        content: {
-          badge: "Excelência em Mobiliário",
-          title: "Design e Experiências",
-          description: "A excelência em móveis para salão de beleza de luxo: Veja o autêntico design italiano em sua máxima performance. Assista e sinta por que o mobiliário de alto padrão Maletti é a escolha perfeita para transformar seu espaço.",
-          videoThumbnail: "/images/site/DK3E3179-MOD.jpg",
-          videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-          products: [
-            { name: "Shirobody", image: "/images/site/Shirobody_showroom.jpg", description: "Lavatório com tecnologia shiatsu integrada" },
-            { name: "Heaven", image: "/images/site/heaven2.jpg", description: "Design e conforto para lavagem de cabelos" },
-            { name: "Total Body", image: "/images/site/Total-Body-356.jpg", description: "Maca de luxo para tratamentos corporais" },
-            { name: "SPA Garçon", image: "/images/site/SPA_GARCON_nuovo_03.png", description: "Tratamento capilar com tecnologia de vapor" },
-          ],
-        },
-      },
-      {
-        type: "maletti-catalogo",
-        order: 5,
-        active: true,
-        content: {
-          badge: "Material Exclusivo",
-          title: "Catálogo Maletti",
-          description: "Acesse o Catálogo Maletti e tenha em mãos a ferramenta completa para o seu projeto. Conheça todas as linhas de produtos, especificações técnicas e opções de personalização.",
-          catalogImage: "/images/site/PLANIMETRIA-La-Beautique---Mongolia-Multifunzione.jpg",
-          formTitle: "Solicite seu Catálogo",
-          formDescription: "Preencha seus dados e receba o catálogo Maletti.",
-          buttonText: "Solicitar Consultoria + Catálogo",
-        },
-      },
-    ];
-
-    for (const block of blocks) {
-      await prisma.pageBlock.create({
-        data: { pageId: page.id, type: block.type, content: block.content, order: block.order, active: block.active },
-      });
-    }
-
-    return NextResponse.json({ success: true, message: "Maletti page now has 6 blocks!", pageId: page.id, blocksCreated: blocks.length });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
-  }
 }
 
 async function seedSobre() {
@@ -180,7 +46,7 @@ async function seedSobre() {
           title: "A arte de|transformar|salões",
           description: "Há mais de uma década, a SHR é referência no mercado brasileiro de mobiliário para salões de beleza e spas. Como distribuidor exclusivo da Maletti, trazemos o melhor do design italiano para transformar espaços em experiências únicas.",
           buttonText: "Conhecer Produtos",
-          buttonLink: "/produtos",
+          buttonLink: "/marcas",
           secondaryButtonText: "Falar Conosco",
           secondaryLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "sobre-cta" }),
           stat1Value: "10+",
@@ -224,7 +90,7 @@ async function seedSobre() {
           description1: "A Maletti é uma das mais prestigiadas fabricantes de mobiliário para salões de beleza do mundo. Com mais de 55 anos de história, a marca italiana é sinônimo de inovação, qualidade e design sofisticado.",
           description2: "Como distribuidor exclusivo no Brasil, a SHR oferece toda a linha de produtos Maletti com garantia de originalidade, suporte técnico especializado e peças de reposição originais.",
           buttonText: "Ver Produtos Maletti",
-          buttonLink: "/produtos",
+          buttonLink: "/marcas",
           yearsBadge: "55+",
           yearsBadgeLabel: "Anos de história",
         },
@@ -273,7 +139,7 @@ async function seedMarcas() {
           title: "Excelência|em cada|detalhe",
           description: "Trabalhamos com as marcas mais prestigiadas do mercado mundial de mobiliário para salões de beleza e spas. Cada marca em nosso portfólio representa o compromisso com qualidade, inovação e design.",
           buttonText: "Ver Produtos",
-          buttonLink: "/produtos",
+          buttonLink: "/marcas",
         },
       },
       {
@@ -303,7 +169,7 @@ async function seedMarcas() {
           title: "Quer conhecer nossos produtos?",
           description: "Explore nosso catálogo completo e descubra como as marcas que representamos podem transformar seu salão.",
           buttonText: "Ver Produtos",
-          buttonLink: "/produtos",
+          buttonLink: "/marcas",
           secondaryButtonText: "Consultoria + Catálogo",
           secondaryLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "marcas-cta" }),
         },
@@ -529,7 +395,7 @@ async function seedContato() {
           title: "Informações de Contato",
           phone: "(11) 98198-2279",
           phoneRaw: "+5511981982279",
-          email: "marketing@shrhair.com.br",
+          email: "contato@elcio.com.br",
           address1: "São Paulo, SP",
           address2: "Brasil",
           hours: "Segunda a Sexta: 9h às 18h\nSábado: 9h às 13h",
@@ -600,7 +466,7 @@ async function seedHome() {
               description: "Como distribuidor exclusivo no Brasil, a SHR traz a excelência da Maletti Group, unindo tradição artesanal e tecnologia avançada.",
               image: "/images/hero/1.jpg",
               button1Text: "Conhecer Produtos",
-              button1Link: "/produtos",
+              button1Link: "/marcas",
               button2Text: "Fale Conosco",
               button2Link: buildContactHref({ assunto: "consultoria-catalogo", origem: "home-hero" }),
             },
@@ -610,7 +476,7 @@ async function seedHome() {
               description: "Referência global em mobiliário de luxo para SPAs, hotéis e clínicas de estética.",
               image: "/images/hero/2.jpg",
               button1Text: "Ver Coleção",
-              button1Link: "/produtos",
+              button1Link: "/marcas",
             },
             {
               title: "UKI",
@@ -618,7 +484,7 @@ async function seedHome() {
               description: "A UKI International une moda e tecnologia para traduzir o \"Italian Sense of Beauty\" em equipamentos de alta performance.",
               image: "/images/hero/3.jpg",
               button1Text: "Conhecer Produtos",
-              button1Link: "/produtos",
+              button1Link: "/marcas",
             },
           ],
           autoplaySpeed: 6000,
@@ -676,7 +542,7 @@ async function seedHome() {
           ],
           foundationYear: "1965",
           button1Text: "Conhecer a Maletti",
-          button1Link: "/maletti",
+          button1Link: "/marcas",
           button2Text: "Agendar Visita",
           button2Link: buildContactHref({ assunto: "consultoria-catalogo", origem: "home-partnership" }),
         },
@@ -695,7 +561,7 @@ async function seedHome() {
             { icon: "check", title: "Peças Originais", description: "Utilizamos apenas peças originais Maletti em todos os reparos." },
           ],
           buttonText: "Solicitar Manutenção",
-          buttonLink: "/manutencao",
+          buttonLink: "/contato",
         },
       },
       {

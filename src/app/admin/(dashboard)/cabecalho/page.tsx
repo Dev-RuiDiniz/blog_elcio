@@ -32,22 +32,19 @@ interface HeaderConfig {
 const DEFAULT_SHR_HEADER: HeaderConfig = {
   logoUrl: "/logoshr-dark.png",
   logoWhiteUrl: "/logoshr-white.png",
-  subtitle: "Distribuidor Exclusivo",
-  subtitleLine2: "Maletti e Nilo",
+  subtitle: "Representação Comercial",
+  subtitleLine2: "Consultoria + Catálogo",
   navLinks: [
     { label: "Home", href: "/" },
-    { label: "Produtos", href: "/produtos" },
-    { label: "Nossas Marcas", href: "/marcas" },
+    { label: "Empresas", href: "/marcas" },
     { label: "Blog", href: "/blog" },
-    { label: "Sobre", href: "/sobre" },
-    { label: "Manutenção", href: "/manutencao" },
     { label: "Contato", href: "/contato" },
   ],
   ctaButtons: [
     { label: "Consultoria + Catálogo", href: "/contato?assunto=consultoria-catalogo&origem=header", variant: "outline" },
     { label: "Falar no WhatsApp", href: "https://wa.me/5511981982279?text=Olá! Quero consultoria e catálogo.", variant: "solid" },
   ],
-  contactEmail: "marketing@shrhair.com.br",
+  contactEmail: "contato@elcio.com.br",
   contactPhone: "(11) 98198-2279",
   contactCity: "São Paulo, SP",
 };
@@ -59,7 +56,7 @@ const DEFAULT_MALETTI_HEADER: HeaderConfig = {
     { label: "Head SPA", href: "head-spa" },
     { label: "Design & Experiências", href: "design" },
     { label: "Catálogo", href: "catalogo" },
-    { label: "Blog", href: "https://shrhair.com.br/blog" },
+    { label: "Blog", href: "/blog" },
   ],
   ctaButtons: [],
 };

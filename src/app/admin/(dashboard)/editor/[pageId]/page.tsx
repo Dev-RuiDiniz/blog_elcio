@@ -239,7 +239,7 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
               description: "Descrição do slide",
               image: "/images/hero/1.jpg",
               button1Text: "Ver Produtos",
-              button1Link: "/produtos",
+              button1Link: "/marcas",
               button2Text: "",
               button2Link: "",
             },
@@ -300,7 +300,7 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           ],
           foundationYear: "1965",
           button1Text: "Conhecer a Maletti",
-          button1Link: "/maletti",
+          button1Link: "/marcas",
           button2Text: "Agendar Visita",
           button2Link: buildContactHref({ assunto: "consultoria-catalogo", origem: "home-partnership" }),
         };
@@ -315,7 +315,7 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
             { icon: "check", title: "Serviço 3", description: "Descrição" },
           ],
           buttonText: "Solicitar Manutenção",
-          buttonLink: "/manutencao",
+          buttonLink: "/contato",
         };
       case "catalog-cta":
         return {
@@ -440,7 +440,7 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           buttonText: "Solicitar Suporte",
           buttonLink: buildContactHref({ assunto: "consultoria-catalogo", origem: "garantia-cta" }),
           secondaryText: "Manutenção",
-          secondaryLink: "/manutencao",
+          secondaryLink: "/contato",
         };
       case "blog-settings":
         return {
@@ -464,13 +464,13 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           description: "A página que você está procurando pode ter sido removida, renomeada ou nunca existiu.",
           buttons: [
             { text: "Voltar para a Home", link: "/", style: "primary" },
-            { text: "Ver Produtos", link: "/produtos", style: "outline" },
+            { text: "Ver Produtos", link: "/marcas", style: "outline" },
           ],
           quickLinksTitle: "Ou acesse diretamente:",
           quickLinks: [
-            { label: "Produtos", href: "/produtos" },
+            { label: "Produtos", href: "/marcas" },
             { label: "Marcas", href: "/marcas" },
-            { label: "Sobre", href: "/sobre" },
+            { label: "Sobre", href: "/marcas" },
             { label: "Blog", href: "/blog" },
             {
               label: "Contato",

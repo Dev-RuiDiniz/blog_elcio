@@ -1895,7 +1895,7 @@ function BrandsHeroEditor({ content, onChange }: { content: Record<string, unkno
       <TextareaField label="Título (use | para quebra de linha)" value={(content.title as string) || ""} onChange={(v) => onChange({ ...content, title: v })} rows={2} placeholder="Excelência|em cada|detalhe" />
       <TextareaField label="Descrição" value={(content.description as string) || ""} onChange={(v) => onChange({ ...content, description: v })} rows={3} />
       <InputField label="Texto do Botão" value={(content.buttonText as string) || ""} onChange={(v) => onChange({ ...content, buttonText: v })} placeholder="Ver Produtos" />
-      <InputField label="Link do Botão" value={(content.buttonLink as string) || ""} onChange={(v) => onChange({ ...content, buttonLink: v })} placeholder="/produtos" />
+      <InputField label="Link do Botão" value={(content.buttonLink as string) || ""} onChange={(v) => onChange({ ...content, buttonLink: v })} placeholder="/marcas" />
     </div>
   );
 }
@@ -3166,7 +3166,7 @@ function GarantiaCTAEditor({ content, onChange }: { content: Record<string, unkn
       <InputField label="Texto do Botão" value={(content.buttonText as string) || ""} onChange={(v) => onChange({ ...content, buttonText: v })} />
       <InputField label="Link do Botão" value={(content.buttonLink as string) || ""} onChange={(v) => onChange({ ...content, buttonLink: v })} placeholder="/contato" />
       <InputField label="Texto Secundário" value={(content.secondaryText as string) || ""} onChange={(v) => onChange({ ...content, secondaryText: v })} />
-      <InputField label="Link Secundário" value={(content.secondaryLink as string) || ""} onChange={(v) => onChange({ ...content, secondaryLink: v })} placeholder="/manutencao" />
+      <InputField label="Link Secundário" value={(content.secondaryLink as string) || ""} onChange={(v) => onChange({ ...content, secondaryLink: v })} placeholder="/contato" />
     </div>
   );
 }
@@ -3307,13 +3307,13 @@ function LP404ContentEditor({ content, onChange }: { content: Record<string, unk
 
   const buttons = (content.buttons as Array<{ text: string; link: string; style: string }>) || [
     { text: "Voltar para a Home", link: "/", style: "primary" },
-    { text: "Ver Produtos", link: "/produtos", style: "outline" },
+    { text: "Ver Produtos", link: "/marcas", style: "outline" },
   ];
 
   const quickLinks = (content.quickLinks as Array<{ label: string; href: string }>) || [
-    { label: "Produtos", href: "/produtos" },
+    { label: "Produtos", href: "/marcas" },
     { label: "Marcas", href: "/marcas" },
-    { label: "Sobre", href: "/sobre" },
+    { label: "Sobre", href: "/marcas" },
     { label: "Blog", href: "/blog" },
     { label: "Contato", href: "/contato" },
   ];

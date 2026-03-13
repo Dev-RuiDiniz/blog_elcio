@@ -802,7 +802,7 @@ function FeaturedProductsBlock({ content }: { content: Record<string, unknown> }
                 <HiChevronRight className="w-5 h-5" />
               </button>
             </div>
-            <Link href="/produtos">
+            <Link href="/marcas">
               <Button variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300 group">
                 Ver todos
                 <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -950,7 +950,7 @@ function MalettiPartnershipBlock({ content }: { content: Record<string, unknown>
 
             <div className="flex flex-col sm:flex-row gap-4">
               {(content.button1Text as string) && (
-                <Link href={(content.button1Link as string) || "/maletti"}>
+                <Link href={(content.button1Link as string) || "/marcas"}>
                   <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300 group">
                     {content.button1Text as string}
                     <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1000,7 +1000,7 @@ function MaintenancePreviewBlock({ content }: { content: Record<string, unknown>
               {(content.description as string) || ""}
             </p>
 
-            <Link href={(content.buttonLink as string) || "/manutencao"}>
+            <Link href={(content.buttonLink as string) || "/contato"}>
               <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group">
                 {(content.buttonText as string) || "Solicitar Manutenção"}
                 <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1631,7 +1631,7 @@ function BrandsHeroBlock({ content }: { content: Record<string, unknown> }) {
             </p>
             {(content.buttonText as string) && (
               <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300 group" asChild>
-                <Link href={(content.buttonLink as string) || "/produtos"}>
+                <Link href={(content.buttonLink as string) || "/marcas"}>
                   {content.buttonText as string}
                   <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -1682,7 +1682,7 @@ function BrandsSectionBlock({ content }: { content: Record<string, unknown> }) {
                   {brand.highlights.map((highlight) => <li key={highlight} className="flex items-center gap-3 text-zinc-700"><span className="w-2 h-2 bg-zinc-900 rounded-full" />{highlight}</li>)}
                 </ul>
                 <Button variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300 group" asChild>
-                  <Link href="/produtos">Ver Produtos {brand.name}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
+                  <Link href="/marcas">Ver Produtos {brand.name}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
                 </Button>
               </div>
             </motion.div>
@@ -1727,7 +1727,7 @@ function BrandsCTABlock({ content }: { content: Record<string, unknown> }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {(content.buttonText as string) && (
               <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300" asChild>
-                <Link href={(content.buttonLink as string) || "/produtos"}>{content.buttonText as string}</Link>
+                <Link href={(content.buttonLink as string) || "/marcas"}>{content.buttonText as string}</Link>
               </Button>
             )}
             {(content.secondaryButtonText as string) && (
@@ -1760,7 +1760,7 @@ function AboutHeroBlock({ content }: { content: Record<string, unknown> }) {
             <div className="flex flex-col sm:flex-row gap-4">
               {(content.buttonText as string) && (
                 <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group" asChild>
-                  <Link href={(content.buttonLink as string) || "/produtos"}>{content.buttonText as string}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
+                  <Link href={(content.buttonLink as string) || "/marcas"}>{content.buttonText as string}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
                 </Button>
               )}
               {(content.secondaryButtonText as string) && (
@@ -1858,7 +1858,7 @@ function AboutPartnershipBlock({ content }: { content: Record<string, unknown> }
             <p className="text-zinc-600 leading-relaxed mb-8">{(content.description2 as string) || "Como distribuidor exclusivo no Brasil, a SHR oferece toda a linha de produtos Maletti com garantia de originalidade, suporte técnico especializado e peças de reposição originais."}</p>
             {(content.buttonText as string) && (
               <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group" asChild>
-                <Link href={(content.buttonLink as string) || "/produtos"}>{content.buttonText as string}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
+                <Link href={(content.buttonLink as string) || "/marcas"}>{content.buttonText as string}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
               </Button>
             )}
           </motion.div>

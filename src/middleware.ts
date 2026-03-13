@@ -1,32 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const LEGACY_PREFIXES = [
-  "/maletti",
-  "/spa",
-  "/tricologia",
-  "/salao-de-beleza",
-  "/sobre",
-  "/produtos",
-  "/faq",
-  "/garantia",
-  "/manutencao",
-  "/categorias",
-  "/blog/categorias",
-];
-
 const COMPANY_SLUG_REDIRECTS: Record<string, string> = {
   "/p/dest-dormer-pramet": "/p/dormer-pramet",
   "/p/solufil": "/p/solofil",
   "/p/f1300": "/p/nord-drivesystems",
   "/p/apresenta": "/p/mercosul-motores",
 };
-
-function isLegacyRoute(pathname: string) {
-  return LEGACY_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
-  );
-}
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -50,10 +30,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
     return NextResponse.next();
-  }
-
-  if (isLegacyRoute(pathname)) {
-    return NextResponse.redirect(new URL("/", request.url), 308);
   }
 
   const companyRedirect = COMPANY_SLUG_REDIRECTS[pathname];

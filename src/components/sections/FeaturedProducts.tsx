@@ -112,7 +112,7 @@ export function FeaturedProducts() {
               </button>
             </div>
 
-            <Link href="/produtos">
+            <Link href="/marcas">
               <Button
                 variant="outline"
                 className="border-black text-black hover:bg-black hover:text-white transition-all duration-300 group"

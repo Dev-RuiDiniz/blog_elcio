@@ -22,7 +22,7 @@ export default function SEOFields({
   metaKeywords,
   ogImage,
   slug,
-  baseUrl = "https://shrhair.com.br",
+  baseUrl = "https://seu-dominio.com",
   onChange,
 }: SEOFieldsProps) {
   const [activeTab, setActiveTab] = useState<"fields" | "preview">("fields");
@@ -132,6 +132,13 @@ export default function SEOFields({
     if (score >= 50) return "bg-yellow-500";
     return "bg-red-500";
   };
+
+  let previewHost = "seu-dominio.com";
+  try {
+    previewHost = new URL(baseUrl).host;
+  } catch {
+    previewHost = baseUrl.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  }
 
   return (
     <div className="border border-gray-200 dark:border-zinc-700 rounded-lg overflow-hidden">
@@ -352,7 +359,7 @@ export default function SEOFields({
                   <div className="w-4 h-4 bg-gray-200 dark:bg-zinc-700 rounded-full flex items-center justify-center">
                     <span className="text-[8px]">S</span>
                   </div>
-                  <span>shrhair.com.br</span>
+                  <span>{previewHost}</span>
                 </div>
                 <div className="text-sm text-gray-500 mb-1">
                   {baseUrl}/{slug}
@@ -389,7 +396,7 @@ export default function SEOFields({
                   )}
                 </div>
                 <div className="p-3">
-                  <p className="text-xs text-gray-500 uppercase mb-1">shrhair.com.br</p>
+                  <p className="text-xs text-gray-500 uppercase mb-1">{previewHost}</p>
                   <h4 className="font-medium text-gray-900 dark:text-white line-clamp-2 text-sm">
                     {metaTitle || "Título SEO"}
                   </h4>
