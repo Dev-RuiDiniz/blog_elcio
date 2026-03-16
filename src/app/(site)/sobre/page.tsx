@@ -16,31 +16,31 @@ const pillars = [
   {
     title: "Triagem Consultiva",
     description:
-      "Elcio entende o contexto comercial e tecnico antes de apontar a empresa mais aderente.",
+      "Elcio entende o contexto comercial e técnico antes de apontar a empresa mais aderente.",
   },
   {
-    title: "Ponto Unico de Contato",
+    title: "Ponto Único de Contato",
     description:
-      "Em vez de acionar varios canais em paralelo, o atendimento comeca por uma conversa centralizada.",
+      "Em vez de acionar vários canais em paralelo, o atendimento começa por uma conversa centralizada.",
   },
   {
     title: "Encaminhamento com Contexto",
     description:
-      "Cada lead segue para a empresa representada com mais clareza, reduzindo ruido e retrabalho.",
+      "Cada lead segue para a empresa representada com mais clareza, reduzindo ruído e retrabalho.",
   },
 ];
 
 const highlights = [
   "Atendimento B2B com foco em demanda industrial.",
-  "Representacao comercial com 6 empresas no portifolio.",
-  "Agilidade para abrir consultoria, catalogo e primeiro contato.",
+  "Representação comercial com 6 empresas no portfólio.",
+  "Agilidade para abrir consultoria, catálogo e primeiro contato.",
 ];
 
 const counters = [
   { value: "6", label: "Empresas representadas" },
   { value: "1", label: "Canal consultivo inicial" },
   { value: "B2B", label: "Atendimento comercial" },
-  { value: "SP", label: "Base em Taubate" },
+  { value: "SP", label: "Base em Taubaté" },
 ];
 
 export default function SobrePage() {
@@ -63,11 +63,11 @@ export default function SobrePage() {
               Sobre Elcio
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
-              Representacao comercial orientada para aproximar demanda e solucao.
+              Representação comercial orientada para aproximar demanda e solução.
             </h1>
             <p className="max-w-3xl text-lg text-slate-200 leading-relaxed mb-10">
               Elcio atua como articulador comercial entre sua necessidade e as empresas representadas,
-              organizando o primeiro contato, direcionando o catalogo tecnico e acelerando o inicio da conversa.
+              organizando o primeiro contato, direcionando o catálogo técnico e acelerando o início da conversa.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -92,21 +92,21 @@ export default function SobrePage() {
             <div className="site-card overflow-hidden">
               <div className="grid sm:grid-cols-[1.2fr_0.8fr]">
                 <div className="p-8 md:p-10">
-                  <span className="site-badge">Quem e Elcio</span>
+                  <span className="site-badge">Quem é Elcio</span>
                   <h2 className="site-heading mt-3 mb-5">
                     Atendimento comercial com leitura de contexto
                   </h2>
                   <p className="site-copy">
-                    A proposta do Elcio nao e apenas encaminhar contatos. O trabalho comeca na
-                    compreensao do cenario, no filtro inicial da demanda e na organizacao do fluxo
-                    comercial para que a conversa avance com mais precisao.
+                    A proposta do Elcio não é apenas encaminhar contatos. O trabalho começa na
+                    compreensão do cenário, no filtro inicial da demanda e na organização do fluxo
+                    comercial para que a conversa avance com mais precisão.
                   </p>
                 </div>
                 <div className="bg-[#0a1d37] p-8 flex flex-col justify-between">
                   <div>
                     <p className="text-4xl font-black text-amber-400">6</p>
                     <p className="mt-2 text-sm uppercase tracking-[0.2em] text-slate-300">
-                      Empresas no portifolio
+                      Empresas no portfólio
                     </p>
                   </div>
                   <div>
@@ -117,7 +117,7 @@ export default function SobrePage() {
                   </div>
                   <div className="flex items-center gap-2 text-slate-200">
                     <HiOutlineLocationMarker className="w-5 h-5 text-amber-400" />
-                    <span className="font-medium">Taubate - SP</span>
+                    <span className="font-medium">Taubaté - SP</span>
                   </div>
                 </div>
               </div>
@@ -127,11 +127,11 @@ export default function SobrePage() {
           <div>
             <span className="site-badge">Como atua</span>
             <h2 className="site-heading mt-3 mb-5">
-              Uma representacao comercial menos dispersa e mais objetiva
+              Uma representação comercial menos dispersa e mais objetiva
             </h2>
             <p className="site-copy mb-8">
-              O foco esta em reduzir o atrito do primeiro atendimento e fazer com que cada empresa
-              representada receba uma oportunidade mais bem contextualizada, com indicacao mais aderente
+              O foco está em reduzir o atrito do primeiro atendimento e fazer com que cada empresa
+              representada receba uma oportunidade mais bem contextualizada, com indicação mais aderente
               ao que o cliente precisa.
             </p>
             <ul className="space-y-4">
@@ -149,12 +149,12 @@ export default function SobrePage() {
       <section className="bg-slate-50 py-20 px-4 md:px-10">
         <div className="site-container">
           <div className="max-w-3xl mb-12">
-            <span className="site-badge">Metodo</span>
+            <span className="site-badge">Método</span>
             <h2 className="site-heading mt-3 mb-5">
-              Tres frentes que estruturam o trabalho do Elcio
+              Três frentes que estruturam o trabalho do Elcio
             </h2>
             <p className="site-copy">
-              O modelo comercial combina escuta inicial, orientacao de caminho e encaminhamento
+              O modelo comercial combina escuta inicial, orientação de caminho e encaminhamento
               com mais clareza para a empresa representada mais adequada.
             </p>
           </div>
@@ -181,11 +181,11 @@ export default function SobrePage() {
           <div className="text-center mb-14">
             <span className="site-badge">Empresas representadas</span>
             <h2 className="site-heading mt-3 mb-5">
-              O portifolio que o Elcio conecta ao mercado
+              O portfólio que o Elcio conecta ao mercado
             </h2>
             <p className="mx-auto max-w-3xl site-copy">
-              A atuacao comercial passa por empresas com foco em ferramentas, filtracao, acionamentos
-              e solucoes industriais complementares.
+              A atuação comercial passa por empresas com foco em ferramentas, filtragem, acionamentos
+              e soluções industriais complementares.
             </p>
           </div>
 
@@ -213,7 +213,7 @@ export default function SobrePage() {
                 <p className="text-slate-600 text-sm leading-relaxed mb-6">{company.teaser}</p>
                 <div className="flex flex-col gap-3">
                   <Link href={`/p/${company.slug}`} className="text-sm font-bold text-amber-600 hover:text-amber-700">
-                    Ver pagina da empresa
+                    Ver página da empresa
                   </Link>
                   <Link
                     href={buildContactHref({
@@ -249,14 +249,14 @@ export default function SobrePage() {
         <div className="site-container grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
-              Proximo passo
+              Próximo passo
             </span>
             <h2 className="site-heading-inverse mb-6">
-              Se quiser abrir a conversa certa, o primeiro passo comeca aqui.
+              Se quiser abrir a conversa certa, o primeiro passo começa aqui.
             </h2>
             <p className="site-copy-inverse mb-8">
-              Entre em contato para receber uma orientacao inicial, identificar a empresa mais aderente
-              e avancar com consultoria comercial e catalogo tecnico.
+              Entre em contato para receber uma orientação inicial, identificar a empresa mais aderente
+              e avançar com consultoria comercial e catálogo técnico.
             </p>
             <div className="space-y-4 text-slate-200">
               <div className="flex items-center gap-3">
@@ -273,7 +273,7 @@ export default function SobrePage() {
               </div>
               <div className="flex items-center gap-3">
                 <HiOutlineLocationMarker className="h-5 w-5 text-amber-400" />
-                <span>Taubate - SP</span>
+                <span>Taubaté - SP</span>
               </div>
             </div>
           </div>
@@ -281,14 +281,14 @@ export default function SobrePage() {
           <div className="site-card-dark p-8 md:p-10">
             <h3 className="mb-3 text-2xl font-black text-white">Fale com Elcio</h3>
             <p className="mb-8 text-sm text-slate-300">
-              Escolha o canal mais rapido para iniciar a conversa.
+              Escolha o canal mais rápido para iniciar a conversa.
             </p>
             <div className="flex flex-col gap-4">
               <Link
                 href={buildContactHref({ assunto: "consultoria-catalogo", origem: "sobre-cta" })}
                 className="site-button-primary"
               >
-                Solicitar consultoria + catalogo
+                Solicitar consultoria + catálogo
               </Link>
               <a
                 href={buildWhatsappHref({ origem: "sobre-cta" })}

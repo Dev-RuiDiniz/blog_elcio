@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BlockRenderer } from "@/components/blocks/BlockRenderer";
 import { COMPANY_OPTIONS, buildContactHref, getCompanyBySlug } from "@/lib/lead-context";
+import { getCompanyPageDetail } from "@/data/companyDetails";
 
 interface PageBlock {
   id: string;
@@ -29,12 +30,58 @@ interface DynamicPageData {
 function getFallbackCompanyPage(slug: string): DynamicPageData | null {
   const company = getCompanyBySlug(slug);
   if (!company) return null;
+  const detail = getCompanyPageDetail(company.slug);
 
   const contatoLink = buildContactHref({
     assunto: "consultoria-catalogo",
     empresa: company.slug,
     origem: company.ctaSource,
   });
+
+  const overviewParagraphs = detail?.overviewParagraphs || [company.teaser];
+  const sectors = detail?.sectors || [
+    "Aplicações industriais",
+    "Suporte comercial consultivo",
+    "Encaminhamento técnico e comercial",
+  ];
+  const differentiators = detail?.differentiators || [
+    "Atendimento consultivo",
+    "Catálogo técnico sob demanda",
+    "Apoio no primeiro contato comercial",
+  ];
+  const products = detail?.products || [
+    {
+      title: "Catálogo técnico",
+      description: `Conheça a linha de soluções da ${company.name} no material técnico disponível para consulta.`,
+    },
+    {
+      title: "Soluções por aplicação",
+      description: "Apoio para entender quais produtos fazem mais sentido para a sua operação.",
+    },
+    {
+      title: "Suporte comercial inicial",
+      description: "Encaminhamento com mais contexto para cotação, dúvidas e próximos passos.",
+    },
+  ];
+  const services = detail?.services || [
+    {
+      title: "Leitura de cenário",
+      description: "Apoio para traduzir a demanda e definir o melhor caminho comercial.",
+    },
+    {
+      title: "Encaminhamento orientado",
+      description: "Primeiro atendimento com mais clareza técnica e comercial.",
+    },
+    {
+      title: "Acesso a portfólio",
+      description: "Abertura do contato com suporte ao catálogo e à especificação inicial.",
+    },
+  ];
+  const overviewHtml = [
+    ...overviewParagraphs.map((paragraph) => `<p>${paragraph}</p>`),
+    `<p><strong>Setores e aplicações:</strong> ${sectors.join(", ")}.</p>`,
+    `<p><strong>Diferenciais:</strong> ${differentiators.join("; ")}.</p>`,
+  ].join("\n\n");
 
   const blocks: PageBlock[] = [
     {
@@ -47,6 +94,7 @@ function getFallbackCompanyPage(slug: string): DynamicPageData | null {
         title: company.name,
         subtitle: "Portfólio Comercial Elcio",
         description:
+          detail?.heroDescription ||
           "Soluções especializadas apresentadas com suporte comercial consultivo para facilitar especificação, comparação e primeiro contato.",
         image: company.coverPublicPath,
         button1Text: "Quero Consultoria + Catálogo",
@@ -63,9 +111,9 @@ function getFallbackCompanyPage(slug: string): DynamicPageData | null {
       order: 1,
       active: true,
       content: {
-        subtitle: "Proposta de Valor",
-        title: `Por que ${company.name}?`,
-        content: `${company.teaser}\n\nElcio atua como ponto de contato comercial para acelerar o entendimento técnico, apoiar na pré-venda e direcionar a melhor solução para cada cenário.`,
+        subtitle: "Sobre a Empresa",
+        title: detail?.overviewTitle || `Por que ${company.name}?`,
+        content: overviewHtml,
         align: "left",
         background: "white",
       },
@@ -76,54 +124,58 @@ function getFallbackCompanyPage(slug: string): DynamicPageData | null {
       order: 2,
       active: true,
       content: {
-        subtitle: "Aplicações",
-        title: "Onde essa empresa entrega resultado",
-        columns: 3,
-        items: [
-          {
-            icon: "star",
-            title: "Aplicação Industrial",
-            description: "Suporte para seleção de solução alinhada ao processo e à operação.",
-          },
-          {
-            icon: "star",
-            title: "Recomendação Técnica",
-            description: "Orientação comercial com foco em viabilidade e ganho de produtividade.",
-          },
-          {
-            icon: "star",
-            title: "Primeiro Contato Ágil",
-            description: "Atendimento rápido para cotação, dúvidas e encaminhamento de próximos passos.",
-          },
-        ],
+        subtitle: "Principais Produtos",
+        title: `O que a ${company.name} entrega`,
+        columns: products.length >= 4 ? 4 : 3,
+        items: products.map((item) => ({
+          icon: "star",
+          title: item.title,
+          description: item.description,
+        })),
+      },
+    },
+    {
+      id: `fallback-services-${company.slug}`,
+      type: "features",
+      order: 3,
+      active: true,
+      content: {
+        subtitle: "Serviços e Suporte",
+        title: "Como essa empresa apoia a operação",
+        columns: services.length >= 4 ? 4 : 3,
+        items: services.map((item) => ({
+          icon: "star",
+          title: item.title,
+          description: item.description,
+        })),
       },
     },
     {
       id: `fallback-cards-${company.slug}`,
       type: "cards",
-      order: 3,
+      order: 4,
       active: true,
       content: {
-        subtitle: "Material de Apoio",
-        title: "Conteúdos para avaliação",
+        subtitle: "Apoio Comercial",
+        title: "Setores, diferenciais e próximos passos",
         columns: 3,
         cards: [
           {
             image: company.coverPublicPath,
-            title: "Catálogo da Empresa",
-            description: `Material de referência: ${company.fileName}`,
+            title: "Catálogo técnico",
+            description: `Baixe o catálogo ${company.fileName} para consultar linhas, aplicações e escopo técnico.`,
             link: company.pdfPublicPath,
           },
           {
             image: company.logoPublicPath,
-            title: "Consultoria Inicial",
-            description: "Explique seu contexto e receba indicação comercial orientada.",
+            title: "Diferenciais comerciais",
+            description: differentiators.join("; "),
             link: contatoLink,
           },
           {
             image: company.coverPublicPath,
-            title: "Próximos Passos",
-            description: "Conheça também as demais empresas representadas e compare caminhos de atendimento.",
+            title: "Setores e aplicações",
+            description: sectors.join(", "),
             link: "/marcas",
           },
         ],
@@ -132,7 +184,7 @@ function getFallbackCompanyPage(slug: string): DynamicPageData | null {
     {
       id: `fallback-cta-${company.slug}`,
       type: "cta",
-      order: 4,
+      order: 5,
       active: true,
       content: {
         title: `Falar sobre ${company.name}`,
@@ -152,7 +204,9 @@ function getFallbackCompanyPage(slug: string): DynamicPageData | null {
     title: `${company.name} | Representação Comercial Elcio`,
     description: company.teaser,
     metaTitle: `${company.name} | Consultoria + Catálogo`,
-    metaDescription: `${company.teaser} Solicite consultoria comercial e catálogo técnico com o Elcio.`,
+    metaDescription:
+      detail?.seoDescription ||
+      `${company.teaser} Solicite consultoria comercial e catálogo técnico com o Elcio.`,
     metaKeywords: COMPANY_OPTIONS.map((option) => option.name).join(", "),
     ogImage: company.coverPublicPath,
     published: true,

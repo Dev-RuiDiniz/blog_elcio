@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sobre Elcio | Representacao Comercial",
+  title: "Sobre Elcio | Representação Comercial",
   description:
-    "Conheca a trajetoria do Elcio, sua forma de atendimento consultivo e como ele conecta demandas B2B as empresas representadas.",
+    "Conheça a trajetória do Elcio, sua forma de atendimento consultivo e como ele conecta demandas B2B às empresas representadas.",
   openGraph: {
-    title: "Sobre Elcio | Representacao Comercial",
+    title: "Sobre Elcio | Representação Comercial",
     description:
-      "Conheca a trajetoria do Elcio, sua forma de atendimento consultivo e como ele conecta demandas B2B as empresas representadas.",
+      "Conheça a trajetória do Elcio, sua forma de atendimento consultivo e como ele conecta demandas B2B às empresas representadas.",
     type: "website",
   },
 };

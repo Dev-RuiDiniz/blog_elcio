@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
+    qualities: [45, 75, 92],
     minimumCacheTTL: 300,
   },
   experimental: {
