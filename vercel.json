@@ -1,5 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "pnpm run build:vercel"
+  "buildCommand": "pnpm run build:frontend",
+  "env": {
+    "FRONTEND_ONLY_DEPLOY": "1"
+  }
 }

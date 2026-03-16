@@ -6,6 +6,7 @@ import { COMPANY_OPTIONS } from "@/lib/lead-context";
 function resolveBaseUrl(host: string | null): string {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL;
   if (envUrl) return envUrl.replace(/\/$/, "");
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   if (!host) return "http://localhost:3003";
   return host.includes("localhost") ? `http://${host}` : `https://${host}`;
 }

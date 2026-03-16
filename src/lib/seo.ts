@@ -21,7 +21,9 @@ const baseConfig: SeoSiteConfig = {
 const seoMap: Record<SeoKey, SeoSiteConfig> = { elcio: baseConfig };
 
 function resolveMetadataBase(): URL {
-  const rawUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3003";
+  const rawUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3003");
 
   try {
     return new URL(rawUrl);

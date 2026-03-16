@@ -10,6 +10,21 @@ const COMPANY_SLUG_REDIRECTS: Record<string, string> = {
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const frontendOnly = process.env.FRONTEND_ONLY_DEPLOY === "1";
+
+  if (frontendOnly) {
+    if (pathname.startsWith("/admin") || pathname.startsWith("/login")) {
+      return NextResponse.redirect(new URL("/", request.url), 307);
+    }
+
+    if (
+      pathname.startsWith("/api/admin") ||
+      pathname.startsWith("/api/auth") ||
+      pathname.startsWith("/api/upload")
+    ) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
+  }
 
   if (
     pathname.startsWith("/_next") ||

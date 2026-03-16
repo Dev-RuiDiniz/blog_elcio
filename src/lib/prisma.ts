@@ -46,6 +46,11 @@ function createPrismaMock(): PrismaClient {
 function createPrismaClient(): PrismaClient {
   if (globalForPrisma.prisma) return globalForPrisma.prisma;
 
+  if (!process.env.DATABASE_URL) {
+    console.warn("[prisma] DATABASE_URL ausente. Usando fallback sem banco.");
+    return createPrismaMock();
+  }
+
   try {
     return new PrismaClient();
   } catch (error) {

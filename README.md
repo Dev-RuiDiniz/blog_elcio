@@ -127,5 +127,6 @@ URL local: `http://localhost:3003`
 - `pnpm dev` -> `next dev -p 3003`
 - `pnpm build` -> `prisma generate && next build`
 - `pnpm run build:vercel` -> `prisma generate && prisma migrate deploy && next build`
+- `pnpm run build:frontend` -> build de vitrine sem depender de banco configurado
 - `pnpm start` -> produção
 - `pnpm lint` -> ESLint
