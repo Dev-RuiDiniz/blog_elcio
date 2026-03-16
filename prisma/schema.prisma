@@ -27,9 +27,7 @@ enum ScriptPosition {
 }
 
 enum ScriptSite {
-  SHR
-  MALETTI
-  BOTH
+  ELCIO
 }
 
 enum ContactSource {
@@ -81,11 +79,6 @@ enum AgendaEventType {
   VISIT
 }
 
-enum KommoSyncStatus {
-  PENDING
-  SYNCED
-  ERROR
-}
 
 model User {
   id                  String   @id @default(cuid())
@@ -427,31 +420,12 @@ model Script {
   position  ScriptPosition @default(HEAD)
   code      String
   active    Boolean        @default(true)
-  site      ScriptSite     @default(BOTH)
+  site      ScriptSite     @default(ELCIO)
   order     Int            @default(0)
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
 }
 
-model KommoSettings {
-  id           String   @id @default(cuid())
-  enabled      Boolean  @default(false)
-  subdomain    String?
-  clientId     String?
-  clientSecret String?
-  redirectUri  String?
-  accessToken  String?
-  refreshToken String?
-  tokenType    String?
-  tokenExpiresAt DateTime?
-  pipelineId   Int?
-  pipelineName String?
-  statusId     Int?
-  statusName   String?
-  lastSyncAt   DateTime?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-}
 
 model Contact {
   id              String          @id @default(cuid())
@@ -466,9 +440,6 @@ model Contact {
   notes           String?
   ownerUserId     String?
   ownerUser       User?           @relation("ContactOwner", fields: [ownerUserId], references: [id], onDelete: SetNull)
-  kommoContactId  Int?
-  kommoLeadId     Int?
-  kommoSyncStatus KommoSyncStatus @default(PENDING)
   lastSyncedAt    DateTime?
   isActive        Boolean         @default(true)
   clientLinks     ClientContact[]
@@ -494,9 +465,6 @@ model Client {
   statusHistory     ClientStatusHistory[]
   calls             CallLog[]
   agendaEvents      AgendaEvent[]
-  kommoContactId    Int?
-  kommoLeadId       Int?
-  kommoSyncStatus   KommoSyncStatus       @default(PENDING)
   lastSyncedAt      DateTime?
   createdAt         DateTime              @default(now())
   updatedAt         DateTime              @updatedAt

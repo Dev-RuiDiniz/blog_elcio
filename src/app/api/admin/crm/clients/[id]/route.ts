@@ -96,8 +96,6 @@ export async function PUT(
       ownerUserId?: string | null;
       contactIds?: string[];
       valueEstimate?: number | string | null;
-      kommoContactId?: number | null;
-      kommoLeadId?: number | null;
       historyNote?: string | null;
     };
 
@@ -111,8 +109,6 @@ export async function PUT(
       ownerUserId: body.ownerUserId,
       contactIds: Array.isArray(body.contactIds) ? body.contactIds : undefined,
       valueEstimate: body.valueEstimate,
-      kommoContactId: body.kommoContactId,
-      kommoLeadId: body.kommoLeadId,
       changedByUserId: session.userId,
       historyNote: body.historyNote,
     });

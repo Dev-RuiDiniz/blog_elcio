@@ -21,8 +21,9 @@ O editor visual do admin define e persiste esses blocos.
 ## Conteudo
 
 - `featured-products`
+- `featured-products`
 - `why-choose-us`
-- `maletti-partnership`
+- `brand-partnership`
 - `maintenance-preview`
 - `features`
 - `cards`
@@ -76,14 +77,14 @@ O editor visual do admin define e persiste esses blocos.
 - `about-partnership`
 - `about-cta`
 
-## Maletti
+## Landing Pages Específicas
 
-- `maletti-hero`
-- `maletti-essencia`
-- `maletti-brasil`
-- `maletti-headspa`
-- `maletti-design`
-- `maletti-catalogo`
+- `lp-hero`
+- `lp-essence`
+- `lp-region`
+- `lp-special`
+- `lp-design`
+- `lp-catalog`
 
 ## FAQ
 
@@ -109,8 +110,8 @@ O editor visual do admin define e persiste esses blocos.
 
 - Nem todo bloco e renderizado pelo mesmo componente.
 - `BlockRenderer` cobre os blocos genericos e varias paginas dinamicas.
-- Algumas paginas (ex.: Maletti, FAQ, Garantia, Blog, 404) leem blocos/configs com logica propria.
-- A rota `/api/seed-home` popula templates base para slugs principais (`home`, `contato`, `manutencao`, `produtos`, `marcas`, `sobre`, `maletti`).
+- Algumas paginas (ex.: FAQ, Garantia, Blog, 404) leem blocos/configs com logica propria.
+- A rota `/api/seed-home` popula templates base para slugs principais (`home`, `contato`, `manutencao`, `produtos`, `marcas`, `sobre`).
 
 ## Onde editar
 

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { HiOutlinePencil, HiOutlineCheck, HiOutlineX, HiOutlineHome } from "react-icons/hi";
-import { ImageUpload } from "@/components/admin/ImageUpload";
 
 interface HomeSection {
   id: string;
@@ -19,7 +18,6 @@ interface HomeSection {
 
 const sectionLabels: Record<string, string> = {
   "why-choose-us": "Por que nos escolher",
-  "maletti-partnership": "Parceria Maletti",
   "maintenance-preview": "Manutenção",
   "catalog-cta": "CTA Catálogo",
 };
@@ -204,20 +202,6 @@ export default function HomeAdminPage() {
                   />
                 </div>
 
-                {/* Imagem (para seções que têm) */}
-                {section.sectionId === "maletti-partnership" && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Imagem de Fundo
-                    </label>
-                    <ImageUpload
-                      value={editData.image || ""}
-                      onChange={(url) => updateEditData("image", url)}
-                      folder="home"
-                    />
-                  </div>
-                )}
-
                 {/* Campos específicos por seção */}
                 {section.sectionId === "catalog-cta" && editData.content && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-200 dark:border-zinc-700">
@@ -251,55 +235,6 @@ export default function HomeAdminPage() {
                         type="text"
                         value={(editData.content as Record<string, string>).whatsappMessage || ""}
                         onChange={(e) => updateContentField("whatsappMessage", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {section.sectionId === "maletti-partnership" && editData.content && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-200 dark:border-zinc-700">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Ano de Fundação
-                      </label>
-                      <input
-                        type="text"
-                        value={(editData.content as Record<string, string>).foundationYear || ""}
-                        onChange={(e) => updateContentField("foundationYear", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Texto Botão 1
-                      </label>
-                      <input
-                        type="text"
-                        value={(editData.content as Record<string, string>).button1Text || ""}
-                        onChange={(e) => updateContentField("button1Text", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Link Botão 1
-                      </label>
-                      <input
-                        type="text"
-                        value={(editData.content as Record<string, string>).button1Link || ""}
-                        onChange={(e) => updateContentField("button1Link", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Texto Botão 2
-                      </label>
-                      <input
-                        type="text"
-                        value={(editData.content as Record<string, string>).button2Text || ""}
-                        onChange={(e) => updateContentField("button2Text", e.target.value)}
                         className="w-full px-4 py-2 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                       />
                     </div>

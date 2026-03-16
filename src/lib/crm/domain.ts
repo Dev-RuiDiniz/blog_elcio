@@ -5,7 +5,6 @@ import {
   ClientStage,
   ClientStatus,
   ContactSource,
-  KommoSyncStatus,
   Prisma,
 } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
@@ -43,8 +42,6 @@ export interface ClientCreateInput {
   ownerUserId?: OptionalString;
   contactIds?: string[];
   valueEstimate?: number | string | null;
-  kommoContactId?: number | null;
-  kommoLeadId?: number | null;
 }
 
 export interface ClientUpdateInput {
@@ -57,8 +54,6 @@ export interface ClientUpdateInput {
   ownerUserId?: OptionalString;
   contactIds?: string[];
   valueEstimate?: number | string | null;
-  kommoContactId?: number | null;
-  kommoLeadId?: number | null;
   changedByUserId?: OptionalString;
   historyNote?: OptionalString;
 }
@@ -82,9 +77,6 @@ export async function createClientWithHistory(input: ClientCreateInput, changedB
         notes: cleanString(input.notes),
         ownerUserId: cleanString(input.ownerUserId),
         valueEstimate: parseDecimal(input.valueEstimate),
-        kommoContactId: input.kommoContactId ?? null,
-        kommoLeadId: input.kommoLeadId ?? null,
-        kommoSyncStatus: KommoSyncStatus.PENDING,
         contactLinks:
           input.contactIds && input.contactIds.length > 0
             ? {
@@ -141,10 +133,6 @@ export async function updateClientWithHistory(input: ClientUpdateInput) {
         ownerUserId: input.ownerUserId !== undefined ? cleanString(input.ownerUserId) : current.ownerUserId,
         valueEstimate:
           input.valueEstimate !== undefined ? parseDecimal(input.valueEstimate) : current.valueEstimate,
-        kommoContactId:
-          input.kommoContactId !== undefined ? input.kommoContactId : current.kommoContactId,
-        kommoLeadId: input.kommoLeadId !== undefined ? input.kommoLeadId : current.kommoLeadId,
-        kommoSyncStatus: KommoSyncStatus.PENDING,
       },
     });
 
@@ -242,8 +230,6 @@ export interface ContactCreateInput {
   origin?: OptionalString;
   notes?: OptionalString;
   ownerUserId?: OptionalString;
-  kommoContactId?: number | null;
-  kommoLeadId?: number | null;
   clientIds?: string[];
 }
 
@@ -261,9 +247,6 @@ export async function createContactWithLinks(input: ContactCreateInput) {
         origin: cleanString(input.origin),
         notes: cleanString(input.notes),
         ownerUserId: cleanString(input.ownerUserId),
-        kommoContactId: input.kommoContactId ?? null,
-        kommoLeadId: input.kommoLeadId ?? null,
-        kommoSyncStatus: KommoSyncStatus.PENDING,
       },
     });
 

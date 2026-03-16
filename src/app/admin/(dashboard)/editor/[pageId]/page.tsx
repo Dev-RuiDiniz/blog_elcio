@@ -23,7 +23,6 @@ import {
   HiOutlineSpeakerphone,
   HiOutlineNewspaper,
   HiOutlineSparkles,
-  HiOutlineCube,
   HiOutlineShoppingBag,
   HiOutlineSupport,
   HiX,
@@ -56,7 +55,6 @@ const BLOCK_TYPES = [
   { type: "hero", name: "Hero Simples", icon: HiOutlinePhotograph, description: "Seção de destaque com imagem", category: "hero" },
   { type: "featured-products", name: "Produtos em Destaque", icon: HiOutlineShoppingBag, description: "Carrossel de produtos", category: "content" },
   { type: "why-choose-us", name: "Por que nos Escolher", icon: HiOutlineSparkles, description: "Features com estatísticas", category: "content" },
-  { type: "maletti-partnership", name: "Parceria Maletti", icon: HiOutlineCube, description: "Seção sobre parceria", category: "content" },
   { type: "maintenance-preview", name: "Manutenção", icon: HiOutlineSupport, description: "Preview de serviços", category: "content" },
   { type: "catalog-cta", name: "CTA Consultoria + Catálogo", icon: HiOutlineSpeakerphone, description: "Formulário de lead + WhatsApp", category: "cta" },
   { type: "text", name: "Texto", icon: HiOutlineMenuAlt2, description: "Bloco de texto", category: "basic" },
@@ -83,14 +81,7 @@ const BLOCK_TYPES = [
   { type: "about-hero", name: "Hero Sobre", icon: HiOutlinePhotograph, description: "Hero da página sobre", category: "about" },
   { type: "about-mission", name: "Missão", icon: HiOutlineSparkles, description: "Citação da missão", category: "about" },
   { type: "about-values", name: "Valores", icon: HiOutlineCollection, description: "Cards de valores", category: "about" },
-  { type: "about-partnership", name: "Parceria Maletti", icon: HiOutlineSupport, description: "Seção da parceria", category: "about" },
   { type: "about-cta", name: "CTA Sobre", icon: HiOutlineSpeakerphone, description: "Chamada para ação", category: "about" },
-  { type: "maletti-hero", name: "Hero Maletti", icon: HiOutlinePhotograph, description: "Hero com vídeo", category: "maletti" },
-  { type: "maletti-essencia", name: "Essência", icon: HiOutlineSparkles, description: "História e valores", category: "maletti" },
-  { type: "maletti-brasil", name: "Brasil", icon: HiOutlineSupport, description: "Distribuição Brasil", category: "maletti" },
-  { type: "maletti-headspa", name: "Head SPA", icon: HiOutlineSparkles, description: "Seção Head SPA", category: "maletti" },
-  { type: "maletti-design", name: "Design", icon: HiOutlinePhotograph, description: "Produtos e vídeo", category: "maletti" },
-  { type: "maletti-catalogo", name: "Catálogo", icon: HiOutlineMenuAlt2, description: "Formulário catálogo", category: "maletti" },
   { type: "faq-hero", name: "Hero FAQ", icon: HiOutlinePhotograph, description: "Título e busca do FAQ", category: "faq" },
   { type: "faq-items", name: "Itens FAQ", icon: HiOutlineCollection, description: "Perguntas e respostas por categoria", category: "faq" },
   { type: "faq-cta", name: "CTA FAQ", icon: HiOutlineSpeakerphone, description: "Chamada para ação", category: "faq" },
@@ -111,7 +102,6 @@ const BLOCK_CATEGORIES = [
   { id: "products", name: "Produtos" },
   { id: "brands", name: "Marcas" },
   { id: "about", name: "Sobre" },
-  { id: "maletti", name: "Maletti" },
   { id: "faq", name: "FAQ" },
   { id: "garantia", name: "Garantia" },
   { id: "blog", name: "Blog" },
@@ -284,26 +274,6 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
             { value: "100%", label: "Original" },
           ],
         };
-      case "maletti-partnership":
-        return {
-          title: "A tradição italiana no seu salão",
-          subtitle: "Parceria Exclusiva",
-          image: "/images/site/Shirobody_showroom.jpg",
-          paragraphs: [
-            "Parágrafo 1...",
-            "Parágrafo 2...",
-          ],
-          features: [
-            "Feature 1",
-            "Feature 2",
-            "Feature 3",
-          ],
-          foundationYear: "1965",
-          button1Text: "Conhecer a Maletti",
-          button1Link: "/marcas",
-          button2Text: "Agendar Visita",
-          button2Link: buildContactHref({ assunto: "consultoria-catalogo", origem: "home-partnership" }),
-        };
       case "maintenance-preview":
         return {
           title: "Manutenção",
@@ -390,8 +360,8 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
             {
               name: "Produtos",
               items: [
-                { question: "Quais marcas vocês representam?", answer: "Somos distribuidores exclusivos da Maletti no Brasil." },
-                { question: "Os produtos possuem garantia?", answer: "Sim, todos os produtos possuem garantia de fábrica." },
+                { question: "Quais marcas vocês representam?", answer: "Representamos marcas líderes globais em mobiliário e tecnologia para o setor de beleza e bem-estar." },
+                { question: "Os produtos possuem garantia?", answer: "Sim, todos os produtos comercializados possuem garantia oficial de fábrica." },
               ],
             },
             {
@@ -415,7 +385,7 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
         return {
           badge: "Sua Segurança",
           title: "Garantia de Qualidade",
-          description: "Nosso compromisso é com a sua satisfação. Todos os produtos comercializados pela SHR possuem garantia e suporte técnico especializado.",
+          description: "Nosso compromisso é com a sua satisfação. Todos os produtos comercializados possuem garantia e suporte técnico especializado de alto padrão.",
         };
       case "garantia-info":
         return {

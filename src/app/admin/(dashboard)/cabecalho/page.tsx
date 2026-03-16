@@ -29,9 +29,9 @@ interface HeaderConfig {
   contactCity?: string;
 }
 
-const DEFAULT_SHR_HEADER: HeaderConfig = {
-  logoUrl: "/logoshr-dark.png",
-  logoWhiteUrl: "/logoshr-white.png",
+const DEFAULT_HEADER: HeaderConfig = {
+  logoUrl: "/logo-dark.png",
+  logoWhiteUrl: "/logo-white.png",
   subtitle: "Representação Comercial",
   subtitleLine2: "Consultoria + Catálogo",
   navLinks: [
@@ -42,55 +42,30 @@ const DEFAULT_SHR_HEADER: HeaderConfig = {
   ],
   ctaButtons: [
     { label: "Consultoria + Catálogo", href: "/contato?assunto=consultoria-catalogo&origem=header", variant: "outline" },
-    { label: "Falar no WhatsApp", href: "https://wa.me/5511981982279?text=Olá! Quero consultoria e catálogo.", variant: "solid" },
+    { label: "Falar no WhatsApp", href: "https://wa.me/5512988737347?text=Olá! Quero consultoria e catálogo.", variant: "solid" },
   ],
-  contactEmail: "contato@elcio.com.br",
-  contactPhone: "(11) 98198-2279",
-  contactCity: "São Paulo, SP",
+  contactEmail: "vendas@raemtools.com.br",
+  contactPhone: "+55 12 98873-7347",
+  contactCity: "Taubaté - SP",
 };
-
-const DEFAULT_MALETTI_HEADER: HeaderConfig = {
-  logoUrl: "/images/site/malliti-preto.png",
-  navLinks: [
-    { label: "A Essência", href: "essencia" },
-    { label: "Head SPA", href: "head-spa" },
-    { label: "Design & Experiências", href: "design" },
-    { label: "Catálogo", href: "catalogo" },
-    { label: "Blog", href: "/blog" },
-  ],
-  ctaButtons: [],
-};
-
-type Variant = "shr" | "maletti";
 
 export default function CabecalhoPage() {
-  const [activeVariant, setActiveVariant] = useState<Variant>("shr");
-  const [configs, setConfigs] = useState<Record<Variant, HeaderConfig>>({
-    shr: DEFAULT_SHR_HEADER,
-    maletti: DEFAULT_MALETTI_HEADER,
-  });
+  const [config, setConfig] = useState<HeaderConfig>(DEFAULT_HEADER);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    loadConfigs();
+    loadConfig();
   }, []);
 
-  const loadConfigs = async () => {
+  const loadConfig = async () => {
     try {
-      const [shrRes, malettiRes] = await Promise.all([
-        fetch("/api/admin/layout?type=header&variant=shr"),
-        fetch("/api/admin/layout?type=header&variant=maletti"),
-      ]);
-      const [shrData, malettiData] = await Promise.all([shrRes.json(), malettiRes.json()]);
-
-      setConfigs({
-        shr: shrData.config?.content || DEFAULT_SHR_HEADER,
-        maletti: malettiData.config?.content || DEFAULT_MALETTI_HEADER,
-      });
+      const res = await fetch("/api/admin/layout?type=header&variant=elcio");
+      const data = await res.json();
+      setConfig(data.config?.content || DEFAULT_HEADER);
     } catch (error) {
-      console.error("Error loading header configs:", error);
+      console.error("Error loading header config:", error);
     } finally {
       setLoading(false);
     }
@@ -104,8 +79,8 @@ export default function CabecalhoPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "header",
-          variant: activeVariant,
-          content: configs[activeVariant],
+          variant: "elcio",
+          content: config,
         }),
       });
       setSaved(true);
@@ -119,13 +94,8 @@ export default function CabecalhoPage() {
   };
 
   const updateConfig = (updates: Partial<HeaderConfig>) => {
-    setConfigs((prev) => ({
-      ...prev,
-      [activeVariant]: { ...prev[activeVariant], ...updates },
-    }));
+    setConfig((prev) => ({ ...prev, ...updates }));
   };
-
-  const config = configs[activeVariant];
 
   const updateNavLink = (index: number, field: keyof NavLink, value: string) => {
     const newLinks = [...config.navLinks];
@@ -172,7 +142,7 @@ export default function CabecalhoPage() {
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Cabeçalho</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Edite o cabeçalho do site SHR e da página Maletti
+            Edite o cabeçalho do site Elcio Representação Comercial
           </p>
         </div>
         <Button onClick={handleSave} disabled={saving}>
@@ -190,23 +160,6 @@ export default function CabecalhoPage() {
         </Button>
       </div>
 
-      {/* Variant Tabs */}
-      <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
-        {(["shr", "maletti"] as Variant[]).map((v) => (
-          <button
-            key={v}
-            onClick={() => setActiveVariant(v)}
-            className={`px-6 py-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
-              activeVariant === v
-                ? "border-black text-black dark:border-white dark:text-white"
-                : "border-transparent text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            {v === "shr" ? "SHR (Principal)" : "Maletti"}
-          </button>
-        ))}
-      </div>
-
       {/* Editor */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Logo & Info */}
@@ -219,81 +172,77 @@ export default function CabecalhoPage() {
           <ImageUpload
             value={config.logoUrl || ""}
             onChange={(url) => updateConfig({ logoUrl: url })}
-            label={activeVariant === "shr" ? "Logo (escuro)" : "Logo"}
+            label="Logo (escuro)"
             folder="layout"
           />
 
-          {activeVariant === "shr" && (
-            <>
-              <ImageUpload
-                value={config.logoWhiteUrl || ""}
-                onChange={(url) => updateConfig({ logoWhiteUrl: url })}
-                label="Logo (branco)"
-                folder="layout"
+          <ImageUpload
+            value={config.logoWhiteUrl || ""}
+            onChange={(url) => updateConfig({ logoWhiteUrl: url })}
+            label="Logo (branco)"
+            folder="layout"
+          />
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Subtítulo Linha 1
+              </label>
+              <input
+                type="text"
+                value={config.subtitle || ""}
+                onChange={(e) => updateConfig({ subtitle: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Subtítulo Linha 2
+              </label>
+              <input
+                type="text"
+                value={config.subtitleLine2 || ""}
+                onChange={(e) => updateConfig({ subtitleLine2: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+              />
+            </div>
+          </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Subtítulo Linha 1
-                  </label>
-                  <input
-                    type="text"
-                    value={config.subtitle || ""}
-                    onChange={(e) => updateConfig({ subtitle: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Subtítulo Linha 2
-                  </label>
-                  <input
-                    type="text"
-                    value={config.subtitleLine2 || ""}
-                    onChange={(e) => updateConfig({ subtitleLine2: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    E-mail
-                  </label>
-                  <input
-                    type="text"
-                    value={config.contactEmail || ""}
-                    onChange={(e) => updateConfig({ contactEmail: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Telefone
-                  </label>
-                  <input
-                    type="text"
-                    value={config.contactPhone || ""}
-                    onChange={(e) => updateConfig({ contactPhone: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Cidade
-                  </label>
-                  <input
-                    type="text"
-                    value={config.contactCity || ""}
-                    onChange={(e) => updateConfig({ contactCity: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                  />
-                </div>
-              </div>
-            </>
-          )}
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                E-mail
+              </label>
+              <input
+                type="text"
+                value={config.contactEmail || ""}
+                onChange={(e) => updateConfig({ contactEmail: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Telefone
+              </label>
+              <input
+                type="text"
+                value={config.contactPhone || ""}
+                onChange={(e) => updateConfig({ contactPhone: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Cidade
+              </label>
+              <input
+                type="text"
+                value={config.contactCity || ""}
+                onChange={(e) => updateConfig({ contactCity: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Nav Links */}

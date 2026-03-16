@@ -20,8 +20,6 @@ A base segue o App Router do Next.js com separacao clara entre:
   - Dashboard, CRUDs, editor visual, scripts, configuracoes e mini-CRM (contatos, clientes, chamadas, agenda).
 - `api`
   - Endpoints para dados publicos e operacoes admin.
-- `maletti`, `spa`, `tricologia`, `salao-de-beleza`
-  - Experiencias e LPs dedicadas.
 - `login`
   - Setup inicial e login admin.
 
@@ -35,8 +33,6 @@ A base segue o App Router do Next.js com separacao clara entre:
   - Header, footer, busca e botao de WhatsApp.
 - `sections`
   - Fallback estatico da home quando nao ha blocos no banco.
-- `maletti`
-  - Componentes especificos da pagina Maletti.
 
 ## 3) Libs (`src/lib`)
 
@@ -47,7 +43,7 @@ A base segue o App Router do Next.js com separacao clara entre:
 - `crm/*`
   - Servicos de dominio para funil comercial, historico de status e follow-up de agenda.
 - `seo.ts`
-  - SEO por chave de site (`shr`, `maletti`, `tricologia`, `spa`, `salao`).
+  - SEO por chave de site (`elcio`).
 - `getPageData.ts`
   - Busca blocos ativos por slug.
 
@@ -58,12 +54,11 @@ A base segue o App Router do Next.js com separacao clara entre:
 3. No front, paginas usam API/public query + `BlockRenderer` para montar a tela.
 4. Se nao houver blocos (ex.: home), existem componentes fallback estaticos.
 
-## Multi-site e dominio
+## Protecao de admin
 
 O `middleware.ts` faz:
-- Rewrite para contexto Maletti quando host corresponde ao dominio Maletti.
-- Protecao de `/admin` por cookie de sessao.
-- Bloqueio de `/maletti` em dominio SHR (exceto preview).
+- Protecao de `/admin` por cookie de sessao (`elcio-admin-session`).
+- Redirects de slugs legados de empresas.
 
 ## Conteudo de layout editavel
 
@@ -71,21 +66,17 @@ Header e footer sao configurados por `layoutConfig` via:
 - `/admin/cabecalho`
 - `/admin/rodape`
 
-Leitura publica:
-- `/api/layout?type=header&variant=shr`
-- `/api/layout?type=footer&variant=shr`
-
 ## Upload de arquivos
 
 - `ImageUpload` e editores visuais usam upload direto para Vercel Blob via `/api/upload/client`.
 - Endpoint tradicional `/api/upload` permanece para casos server-side.
 
-## Integracoes
+## Captacao de leads
 
-- Kommo CRM:
-  - configuracao no admin (`/admin/kommo`)
-  - envio de lead publico em `/api/kommo/leads`
-  - sincronizacao administrativa CRM local + Kommo em `/api/admin/crm/sync`
-- Scripts dinamicos:
-  - cadastrados no admin (`/admin/scripts`)
-  - injetados no client por `DynamicScripts` com filtro por site/posicao.
+- Formularios publicos enviam dados para `/api/leads`.
+- Leads sao salvos no CRM interno (model `Contact`).
+
+## Scripts dinamicos
+
+- Cadastrados no admin (`/admin/scripts`).
+- Injetados no client por `DynamicScripts` com filtro por site/posicao.

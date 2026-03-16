@@ -119,8 +119,25 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(circle at 20% 10%, oklch(0.93 0.006 252 / 36%), transparent 38%),
-      radial-gradient(circle at 85% 5%, oklch(0.9 0.005 245 / 22%), transparent 34%);
   }
+}
+
+/* ===== Logo Carousel ===== */
+@keyframes logo-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.logo-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: logo-scroll 28s linear infinite;
+}
+
+.logo-carousel-item {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }

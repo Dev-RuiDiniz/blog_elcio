@@ -33,27 +33,19 @@ interface FooterConfig {
   description?: string;
   contactEmail?: string;
   contactPhone?: string;
-  contactAddress?: string;
   contactCity?: string;
   linkGroups: FooterLinkGroup[];
   socialLinks: SocialLink[];
   copyrightText?: string;
-  copyrightSubtext?: string;
-  // Maletti-specific
-  ctaTitle?: string;
-  ctaDescription?: string;
-  ctaButtonText?: string;
-  ctaButtonLink?: string;
-  companyName?: string;
 }
 
-const DEFAULT_SHR_FOOTER: FooterConfig = {
-  logoUrl: "/logoshr-white.png",
+const DEFAULT_FOOTER: FooterConfig = {
+  logoUrl: "/logo-white.png",
   subtitle: "Representação Comercial B2B",
   description: "Atendimento consultivo para conectar sua demanda técnica e comercial à empresa mais aderente.",
-  contactEmail: "contato@elcio.com.br",
-  contactPhone: "(11) 98198-2279",
-  contactCity: "São Paulo, SP",
+  contactEmail: "vendas@raemtools.com.br",
+  contactPhone: "+55 12 98873-7347",
+  contactCity: "Taubaté - SP",
   linkGroups: [
     {
       title: "Empresas",
@@ -84,76 +76,28 @@ const DEFAULT_SHR_FOOTER: FooterConfig = {
     },
   ],
   socialLinks: [
-    { platform: "instagram", href: "https://instagram.com/shrhair" },
-    { platform: "facebook", href: "https://facebook.com/shrhair" },
-    { platform: "linkedin", href: "https://linkedin.com/company/shrhair" },
-    { platform: "youtube", href: "https://youtube.com/@shrhair" },
+    { platform: "whatsapp", href: "https://wa.me/5512988737347" },
   ],
-  copyrightText: "© {year} SHR. Todos os direitos reservados.",
+  copyrightText: "© {year} Elcio Representação Comercial. Todos os direitos reservados.",
 };
-
-const DEFAULT_MALETTI_FOOTER: FooterConfig = {
-  logoUrl: "/images/site/Maletti - Logo bianco.png",
-  ctaTitle: "Sinta a excelência de perto.",
-  ctaDescription: "Visite nosso Showroom e conheça todo o universo Maletti.",
-  ctaButtonText: "Agendar Visita",
-  ctaButtonLink: "/contato",
-  companyName: "SHR Comércio e Manutenção de Móveis LTDA",
-  description: "Distribuidor exclusivo Maletti no Brasil",
-  contactPhone: "(11) 4040-1437",
-  contactEmail: "contato@elcio.com.br",
-  contactAddress: "Av. Jônia, 439 – Vila Alexandria\n04634-011 São Paulo – SP",
-  linkGroups: [
-    {
-      title: "Links",
-      links: [
-        { label: "SHR Hair", href: "/" },
-        { label: "Produtos", href: "/marcas" },
-        { label: "Marcas", href: "/marcas" },
-        { label: "Manutenção", href: "/contato" },
-        { label: "Maletti Global", href: "https://www.maletti.it/pt/pt" },
-      ],
-    },
-  ],
-  socialLinks: [
-    { platform: "instagram", href: "https://instagram.com" },
-    { platform: "linkedin", href: "https://linkedin.com" },
-    { platform: "whatsapp", href: "https://wa.me/5511981982279" },
-  ],
-  copyrightText: "© {year} Maletti. Todos os direitos reservados.",
-  copyrightSubtext: "Distribuído exclusivamente por SHR Hair no Brasil",
-};
-
-type Variant = "shr" | "maletti";
 
 export default function RodapePage() {
-  const [activeVariant, setActiveVariant] = useState<Variant>("shr");
-  const [configs, setConfigs] = useState<Record<Variant, FooterConfig>>({
-    shr: DEFAULT_SHR_FOOTER,
-    maletti: DEFAULT_MALETTI_FOOTER,
-  });
+  const [config, setConfig] = useState<FooterConfig>(DEFAULT_FOOTER);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    loadConfigs();
+    loadConfig();
   }, []);
 
-  const loadConfigs = async () => {
+  const loadConfig = async () => {
     try {
-      const [shrRes, malettiRes] = await Promise.all([
-        fetch("/api/admin/layout?type=footer&variant=shr"),
-        fetch("/api/admin/layout?type=footer&variant=maletti"),
-      ]);
-      const [shrData, malettiData] = await Promise.all([shrRes.json(), malettiRes.json()]);
-
-      setConfigs({
-        shr: shrData.config?.content || DEFAULT_SHR_FOOTER,
-        maletti: malettiData.config?.content || DEFAULT_MALETTI_FOOTER,
-      });
+      const res = await fetch("/api/admin/layout?type=footer&variant=elcio");
+      const data = await res.json();
+      setConfig(data.config?.content || DEFAULT_FOOTER);
     } catch (error) {
-      console.error("Error loading footer configs:", error);
+      console.error("Error loading footer config:", error);
     } finally {
       setLoading(false);
     }
@@ -167,8 +111,8 @@ export default function RodapePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "footer",
-          variant: activeVariant,
-          content: configs[activeVariant],
+          variant: "elcio",
+          content: config,
         }),
       });
       setSaved(true);
@@ -182,13 +126,8 @@ export default function RodapePage() {
   };
 
   const updateConfig = (updates: Partial<FooterConfig>) => {
-    setConfigs((prev) => ({
-      ...prev,
-      [activeVariant]: { ...prev[activeVariant], ...updates },
-    }));
+    setConfig((prev) => ({ ...prev, ...updates }));
   };
-
-  const config = configs[activeVariant];
 
   // Link Groups helpers
   const updateLinkGroup = (groupIdx: number, field: string, value: string) => {
@@ -261,7 +200,7 @@ export default function RodapePage() {
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Rodapé</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Edite o rodapé do site SHR e da página Maletti
+            Edite o rodapé do site Elcio Representação Comercial
           </p>
         </div>
         <Button onClick={handleSave} disabled={saving}>
@@ -277,23 +216,6 @@ export default function RodapePage() {
             </>
           )}
         </Button>
-      </div>
-
-      {/* Variant Tabs */}
-      <div className="flex gap-2 border-b border-gray-200 dark:border-gray-700">
-        {(["shr", "maletti"] as Variant[]).map((v) => (
-          <button
-            key={v}
-            onClick={() => setActiveVariant(v)}
-            className={`px-6 py-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
-              activeVariant === v
-                ? "border-black text-black dark:border-white dark:text-white"
-                : "border-transparent text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            {v === "shr" ? "SHR (Principal)" : "Maletti"}
-          </button>
-        ))}
       </div>
 
       {/* Editor */}
@@ -312,19 +234,17 @@ export default function RodapePage() {
             folder="layout"
           />
 
-          {activeVariant === "shr" && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Subtítulo
-              </label>
-              <input
-                type="text"
-                value={config.subtitle || ""}
-                onChange={(e) => updateConfig({ subtitle: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-              />
-            </div>
-          )}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Subtítulo
+            </label>
+            <input
+              type="text"
+              value={config.subtitle || ""}
+              onChange={(e) => updateConfig({ subtitle: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+            />
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -363,46 +283,17 @@ export default function RodapePage() {
             </div>
           </div>
 
-          {activeVariant === "shr" && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Cidade
-              </label>
-              <input
-                type="text"
-                value={config.contactCity || ""}
-                onChange={(e) => updateConfig({ contactCity: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-              />
-            </div>
-          )}
-
-          {activeVariant === "maletti" && (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Endereço Completo
-                </label>
-                <textarea
-                  value={config.contactAddress || ""}
-                  onChange={(e) => updateConfig({ contactAddress: e.target.value })}
-                  rows={2}
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Nome da Empresa
-                </label>
-                <input
-                  type="text"
-                  value={config.companyName || ""}
-                  onChange={(e) => updateConfig({ companyName: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                />
-              </div>
-            </>
-          )}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Cidade
+            </label>
+            <input
+              type="text"
+              value={config.contactCity || ""}
+              onChange={(e) => updateConfig({ contactCity: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+            />
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -416,77 +307,10 @@ export default function RodapePage() {
               placeholder="Use {year} para o ano atual"
             />
           </div>
-
-          {activeVariant === "maletti" && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Subtexto Copyright
-              </label>
-              <input
-                type="text"
-                value={config.copyrightSubtext || ""}
-                onChange={(e) => updateConfig({ copyrightSubtext: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-              />
-            </div>
-          )}
         </div>
 
-        {/* CTA (Maletti) ou Redes Sociais (SHR) */}
+        {/* Redes Sociais */}
         <div className="space-y-6">
-          {activeVariant === "maletti" && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 space-y-4">
-              <h3 className="font-medium text-gray-900 dark:text-white">Seção CTA</h3>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Título CTA
-                </label>
-                <input
-                  type="text"
-                  value={config.ctaTitle || ""}
-                  onChange={(e) => updateConfig({ ctaTitle: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Descrição CTA
-                </label>
-                <input
-                  type="text"
-                  value={config.ctaDescription || ""}
-                  onChange={(e) => updateConfig({ ctaDescription: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Texto do Botão
-                  </label>
-                  <input
-                    type="text"
-                    value={config.ctaButtonText || ""}
-                    onChange={(e) => updateConfig({ ctaButtonText: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Link do Botão
-                  </label>
-                  <input
-                    type="text"
-                    value={config.ctaButtonLink || ""}
-                    onChange={(e) => updateConfig({ ctaButtonLink: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Redes Sociais */}
           <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-medium text-gray-900 dark:text-white">Redes Sociais</h3>

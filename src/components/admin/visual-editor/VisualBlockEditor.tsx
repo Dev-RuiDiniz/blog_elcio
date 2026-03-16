@@ -21,8 +21,6 @@ export function VisualBlockEditor({ type, content, onChange }: VisualBlockEditor
       return <FeaturedProductsEditor content={content} onChange={onChange} />;
     case "why-choose-us":
       return <WhyChooseUsEditor content={content} onChange={onChange} />;
-    case "maletti-partnership":
-      return <MalettiPartnershipEditor content={content} onChange={onChange} />;
     case "maintenance-preview":
       return <MaintenancePreviewEditor content={content} onChange={onChange} />;
     case "catalog-cta":
@@ -715,123 +713,6 @@ function WhyChooseUsEditor({ content, onChange }: { content: Record<string, unkn
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  );
-}
-
-// Maletti Partnership Editor
-function MalettiPartnershipEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
-  const paragraphs = (content.paragraphs as string[]) || [];
-  const features = (content.features as string[]) || [];
-
-  return (
-    <div className="space-y-3">
-      <InputField
-        label="Título"
-        value={(content.title as string) || ""}
-        onChange={(v) => onChange({ ...content, title: v })}
-      />
-      <InputField
-        label="Subtítulo"
-        value={(content.subtitle as string) || ""}
-        onChange={(v) => onChange({ ...content, subtitle: v })}
-      />
-      <ImageUploader
-        label="Imagem"
-        value={(content.image as string) || ""}
-        onChange={(v) => onChange({ ...content, image: v })}
-      />
-      <InputField
-        label="Ano de Fundação"
-        value={(content.foundationYear as string) || "1965"}
-        onChange={(v) => onChange({ ...content, foundationYear: v })}
-      />
-
-      {/* Parágrafos */}
-      <div className="space-y-2">
-        <span className="text-xs font-medium text-gray-600">Parágrafos</span>
-        {paragraphs.map((p, index) => (
-          <div key={index} className="flex gap-2">
-            <textarea
-              value={p}
-              onChange={(e) => {
-                const newParagraphs = [...paragraphs];
-                newParagraphs[index] = e.target.value;
-                onChange({ ...content, paragraphs: newParagraphs });
-              }}
-              rows={2}
-              className="flex-1 px-2 py-1 text-xs border rounded"
-            />
-            <button
-              onClick={() => onChange({ ...content, paragraphs: paragraphs.filter((_, i) => i !== index) })}
-              className="text-red-500"
-            >
-              <HiOutlineTrash className="w-3 h-3" />
-            </button>
-          </div>
-        ))}
-        <button
-          onClick={() => onChange({ ...content, paragraphs: [...paragraphs, "Novo parágrafo..."] })}
-          className="w-full py-1 text-xs border border-dashed rounded hover:border-gray-400"
-        >
-          + Adicionar Parágrafo
-        </button>
-      </div>
-
-      {/* Features */}
-      <div className="space-y-2">
-        <span className="text-xs font-medium text-gray-600">Features (lista)</span>
-        {features.map((f, index) => (
-          <div key={index} className="flex gap-2">
-            <input
-              value={f}
-              onChange={(e) => {
-                const newFeatures = [...features];
-                newFeatures[index] = e.target.value;
-                onChange({ ...content, features: newFeatures });
-              }}
-              className="flex-1 px-2 py-1 text-xs border rounded"
-            />
-            <button
-              onClick={() => onChange({ ...content, features: features.filter((_, i) => i !== index) })}
-              className="text-red-500"
-            >
-              <HiOutlineTrash className="w-3 h-3" />
-            </button>
-          </div>
-        ))}
-        <button
-          onClick={() => onChange({ ...content, features: [...features, "Nova feature"] })}
-          className="w-full py-1 text-xs border border-dashed rounded hover:border-gray-400"
-        >
-          + Adicionar Feature
-        </button>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2">
-        <InputField
-          label="Botão 1 - Texto"
-          value={(content.button1Text as string) || ""}
-          onChange={(v) => onChange({ ...content, button1Text: v })}
-        />
-        <InputField
-          label="Botão 1 - Link"
-          value={(content.button1Link as string) || ""}
-          onChange={(v) => onChange({ ...content, button1Link: v })}
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <InputField
-          label="Botão 2 - Texto"
-          value={(content.button2Text as string) || ""}
-          onChange={(v) => onChange({ ...content, button2Text: v })}
-        />
-        <InputField
-          label="Botão 2 - Link"
-          value={(content.button2Link as string) || ""}
-          onChange={(v) => onChange({ ...content, button2Link: v })}
-        />
       </div>
     </div>
   );

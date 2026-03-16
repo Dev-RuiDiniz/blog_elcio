@@ -27,9 +27,9 @@ const fallbackSlides: Banner[] = [
   {
     id: "1",
     badge: null,
-    title: "Maletti",
+    title: "Design Italiano",
     subtitle: "A referência mundial em design e inovação",
-    description: "Como distribuidor exclusivo no Brasil, a SHR traz a excelência da Maletti Group, unindo tradição artesanal e tecnologia avançada.",
+    description: "Através de representação exclusiva no Brasil, trazemos a excelência de marcas globais que unem tradição artesanal e tecnologia avançada.",
     image: "/images/hero/1.jpg",
     video: null,
     button1Text: "Conhecer Produtos",

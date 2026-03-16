@@ -12,8 +12,7 @@ interface SeoSiteConfig {
 }
 
 interface SeoConfig {
-  shr: SeoSiteConfig;
-  maletti: SeoSiteConfig;
+  elcio: SeoSiteConfig;
   tricologia: SeoSiteConfig;
   spa: SeoSiteConfig;
   salao: SeoSiteConfig;
@@ -39,48 +38,42 @@ interface Settings {
 }
 
 const defaultSeoConfig: SeoConfig = {
-  shr: {
-    title: "SHR | Distribuidor Exclusivo Maletti no Brasil",
-    description: "Somos o único distribuidor exclusivo da Maletti no Brasil. Conheça nossa linha completa de lavatórios, cadeiras e mobiliário para salões de beleza e spas.",
-    favicon: "/shr-favicon.png",
-    keywords: "Maletti, SHR, lavatórios, salão de beleza, mobiliário",
-  },
-  maletti: {
-    title: "Maletti | Design Italiano de Luxo para Salões",
-    description: "Transforme espaços, eleve experiências. As estações Maletti Head SPA unem o design italiano a tecnologia inovadora para redefinir o luxo em seu salão.",
-    favicon: "/malleti-fav.png",
-    keywords: "Maletti, design italiano, Head SPA, salão de luxo",
+  elcio: {
+    title: "Elcio Representação Comercial | Consultoria + Catálogo",
+    description: "Representação comercial B2B com atendimento consultivo",
+    favicon: "/favicon.ico",
+    keywords: "representação comercial, B2B, consultoria, catálogo",
   },
   tricologia: {
-    title: "Tricologia | Tecnologia Maletti para Clínicas Premium",
-    description: "A união do Design Italiano com a Tecnologia Coreana: A revolução no tratamento capilar chegou à sua clínica.",
-    favicon: "/malleti-fav.png",
-    keywords: "tricologia, tratamento capilar, Maletti, clínica de estética",
+    title: "Tricologia | Soluções Avançadas para Clínicas Premium",
+    description: "Tecnologia de ponta para tratamento capilar: A revolução tecnológica chegou à sua clínica.",
+    favicon: "/favicon.ico",
+    keywords: "tricologia, tratamento capilar, clínica de estética",
   },
   spa: {
-    title: "SPA Profissional | Equipamentos Maletti para Wellness",
-    description: "Transforme seu espaço em um SPA de alto padrão com equipamentos Maletti. Design italiano, tecnologia de ponta.",
-    favicon: "/malleti-fav.png",
-    keywords: "spa profissional, head spa, Maletti, wellness",
+    title: "SPA Profissional | Equipamentos de Alto Padrão para Wellness",
+    description: "Transforme seu espaço em um SPA de alto padrão. Design sofisticado, tecnologia de ponta.",
+    favicon: "/favicon.ico",
+    keywords: "spa profissional, head spa, wellness",
   },
   salao: {
-    title: "Salão de Beleza Premium | Equipamentos Maletti para Head SPA",
-    description: "O Padrão Ouro do Head SPA: Design Italiano e Tecnologia de Wellness.",
-    favicon: "/malleti-fav.png",
-    keywords: "salão de beleza, head spa, Maletti, mobiliário salão de luxo",
+    title: "Salão de Beleza Premium | Equipamentos para Head SPA",
+    description: "O Padrão Ouro do Head SPA: Design Sofisticado e Tecnologia de Wellness.",
+    favicon: "/favicon.ico",
+    keywords: "salão de beleza, head spa, mobiliário salão de luxo",
   },
 };
 
 const defaultSettings: Settings = {
-  siteName: "SHR - Distribuidor Exclusivo Maletti",
-  siteDescription: "Somos o único distribuidor exclusivo da Maletti no Brasil.",
-  logo: "/logoshr-dark.png",
-  logoDark: "/logoshr-white.png",
+  siteName: "Elcio Representação Comercial",
+  siteDescription: "Representação comercial B2B com atendimento consultivo",
+  logo: "/logo-dark.png",
+  logoDark: "/logo-white.png",
   favicon: "/favicon.ico",
-  phone: "(11) 99999-9999",
-  whatsapp: "5511999999999",
-  email: "contato@shr.com.br",
-  address: "São Paulo, SP - Brasil",
+  phone: "+55 12 98873-7347",
+  whatsapp: "5512988737347",
+  email: "vendas@raemtools.com.br",
+  address: "Taubaté - SP",
   cnpj: "00.000.000/0001-00",
   workingHours: "Seg à Sex: 9h às 18h",
   instagram: "",
@@ -213,8 +206,7 @@ export default function ConfiguracoesPage() {
         </h2>
         <p className="text-xs text-gray-400">Configure título, descrição, favicon e palavras-chave de cada site e landing page individualmente.</p>
         {([
-          { key: "shr" as const, label: "SHR (Site Principal)" },
-          { key: "maletti" as const, label: "Maletti (LP)" },
+          { key: "elcio" as const, label: "Elcio (Site Principal)" },
           { key: "tricologia" as const, label: "Tricologia (LP)" },
           { key: "spa" as const, label: "SPA (LP)" },
           { key: "salao" as const, label: "Salão de Beleza (LP)" },

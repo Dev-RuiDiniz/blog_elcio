@@ -4,15 +4,10 @@ import { prisma } from "@/lib/prisma";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const site = searchParams.get("site") || "SHR";
     const position = searchParams.get("position");
 
     const where: any = {
       active: true,
-      OR: [
-        { site: "BOTH" },
-        { site: site.toUpperCase() },
-      ],
     };
 
     if (position) {

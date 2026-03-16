@@ -61,12 +61,6 @@ const menuItems = [
     ],
   },
   {
-    section: "Integrações",
-    items: [
-      { title: "Kommo CRM", href: "/admin/kommo", icon: HiOutlineLightningBolt },
-    ],
-  },
-  {
     section: "Sistema",
     items: [
       { title: "Acesso", href: "/admin/acesso", icon: HiOutlineKey },

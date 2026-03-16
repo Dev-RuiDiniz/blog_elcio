@@ -169,7 +169,7 @@ function ContatoContent() {
       const interestType = normalizedSubject === "catalogo" ? DEFAULT_SUBJECT : normalizedSubject;
       const source = `Formulário Contato - ${originContext}`;
 
-      const response = await fetch("/api/kommo/leads", {
+      const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -202,7 +202,7 @@ function ContatoContent() {
       const companyName = getCompanyNameFromSlug(companySlug);
       const source = `Formulário Catálogo - ${originContext}`;
 
-      const response = await fetch("/api/kommo/leads", {
+      const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

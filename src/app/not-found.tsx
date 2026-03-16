@@ -162,7 +162,7 @@ export default function NotFound() {
       {/* Footer simples */}
       <footer className="px-6 lg:px-12 py-6 border-t border-gray-100 text-center">
         <p className="text-xs text-gray-400">
-          {data.footerText || `© ${new Date().getFullYear()} SHR — Distribuidor Exclusivo Maletti no Brasil`}
+          {data.footerText || `© ${new Date().getFullYear()} Elcio Representação Comercial`}
         </p>
       </footer>
     </div>

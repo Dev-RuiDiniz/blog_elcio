@@ -114,8 +114,6 @@ export async function POST(request: NextRequest) {
       ownerUserId?: string;
       contactIds?: string[];
       valueEstimate?: number | string | null;
-      kommoContactId?: number | null;
-      kommoLeadId?: number | null;
     };
 
     if (!body.name || body.name.trim().length < 2) {
@@ -135,8 +133,6 @@ export async function POST(request: NextRequest) {
         ownerUserId: body.ownerUserId,
         contactIds: Array.isArray(body.contactIds) ? body.contactIds : [],
         valueEstimate: body.valueEstimate,
-        kommoContactId: body.kommoContactId,
-        kommoLeadId: body.kommoLeadId,
       },
       session.userId
     );

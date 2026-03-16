@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildMetadata("shr");
+  return buildMetadata("elcio");
 }
 
 export default function RootLayout({

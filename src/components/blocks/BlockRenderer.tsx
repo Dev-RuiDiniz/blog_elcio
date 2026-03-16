@@ -85,8 +85,6 @@ function RenderBlock({ block }: { block: Block }) {
       return <FeaturedProductsBlock content={content} />;
     case "why-choose-us":
       return <WhyChooseUsBlock content={content} />;
-    case "maletti-partnership":
-      return <MalettiPartnershipBlock content={content} />;
     case "maintenance-preview":
       return <MaintenancePreviewBlock content={content} />;
     case "catalog-cta":
@@ -901,77 +899,6 @@ function WhyChooseUsBlock({ content }: { content: Record<string, unknown> }) {
   );
 }
 
-// Maletti Partnership Block
-function MalettiPartnershipBlock({ content }: { content: Record<string, unknown> }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const paragraphs = (content.paragraphs as string[]) || [];
-  const features = (content.features as string[]) || [];
-
-  return (
-    <section ref={ref} className="py-24 lg:py-32 bg-zinc-900 text-white overflow-hidden">
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <motion.div initial={{ opacity: 0, x: -50 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8 }} className="relative">
-            <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-800 to-zinc-900 overflow-hidden">
-              <Image src={(content.image as string) || "/images/site/Shirobody_showroom.jpg"} alt="Showroom Maletti" fill className="object-cover" />
-              <div className="absolute inset-0 bg-zinc-900/45 flex items-center justify-center">
-                <Image src="/images/site/Maletti - Logo bianco.png" alt="Maletti" width={200} height={80} className="opacity-90" />
-              </div>
-            </div>
-            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={isInView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay: 0.4 }} className="absolute -bottom-6 -right-6 lg:bottom-8 lg:-right-8 bg-white text-zinc-900 p-6 shadow-2xl">
-              <span className="text-4xl font-serif font-bold">{(content.foundationYear as string) || "1965"}</span>
-              <p className="text-xs uppercase tracking-wider text-zinc-600 mt-1">Fundação Maletti</p>
-            </motion.div>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: 50 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8, delay: 0.2 }}>
-            <span className="text-sm uppercase tracking-[0.2em] text-zinc-400 mb-4 block">
-              {(content.subtitle as string) || "Parceria Exclusiva"}
-            </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold mb-6 leading-tight">
-              {((content.title as string) || "A tradição italiana no seu salão").split(" ").slice(0, 3).join(" ")}
-              <br />
-              {((content.title as string) || "A tradição italiana no seu salão").split(" ").slice(3).join(" ")}
-            </h2>
-            <div className="space-y-4 text-zinc-300 leading-relaxed mb-8">
-              {paragraphs.map((p, index) => <p key={index}>{p}</p>)}
-            </div>
-
-            <ul className="space-y-3 mb-10">
-              {features.map((item, index) => (
-                <motion.li key={index} initial={{ opacity: 0, x: 20 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }} className="flex items-center gap-3 text-sm">
-                  <span className="w-1.5 h-1.5 bg-white rounded-full" />
-                  {item}
-                </motion.li>
-              ))}
-            </ul>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              {(content.button1Text as string) && (
-                <Link href={(content.button1Link as string) || "/marcas"}>
-                  <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300 group">
-                    {content.button1Text as string}
-                    <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              )}
-              {(content.button2Text as string) && (
-                <Link href={resolveContactHref(content.button2Link as string, "home-partnership")}>
-                  <Button size="lg" variant="outline" className="border-white/30 text-white bg-transparent hover:bg-white/10 transition-all duration-300">
-                    {content.button2Text as string}
-                  </Button>
-                </Link>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // Maintenance Preview Block
 function MaintenancePreviewBlock({ content }: { content: Record<string, unknown> }) {
   const ref = useRef(null);
@@ -1046,7 +973,7 @@ function CatalogCTABlock({ content }: { content: Record<string, unknown> }) {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/kommo/leads", {
+      const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1640,7 +1567,7 @@ function BrandsHeroBlock({ content }: { content: Record<string, unknown> }) {
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="hidden lg:block">
             <div className="aspect-square bg-gradient-to-br from-zinc-800 to-zinc-900 relative overflow-hidden flex items-center justify-center">
-              <Image src="/logoshr-white.png" alt="SHR Hair" width={280} height={112} className="object-contain" />
+              <div className="text-white/20 text-6xl font-serif italic font-bold">ELCIO</div>
               <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-white/20" />
               <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-white/20" />
             </div>
@@ -1701,10 +1628,10 @@ function BrandsPartnershipBlock({ content }: { content: Record<string, unknown> 
         <div className="max-w-5xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{(content.badge as string) || "Nossas Parcerias"}</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-zinc-900 mb-8 leading-tight">{(content.title as string) || "Marcas que confiam na SHR"}</h2>
-            <p className="text-zinc-600 text-lg leading-relaxed mb-12">{(content.description as string) || "A SHR é o elo entre as maiores marcas internacionais e o mercado brasileiro."}</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-zinc-900 mb-8 leading-tight">{(content.title as string) || "Marcas que representamos"}</h2>
+            <p className="text-zinc-600 text-lg leading-relaxed mb-12">{(content.description as string) || "Somos o elo entre as maiores marcas internacionais e o mercado brasileiro."}</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
-              <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"><Image src="/images/site/malliti-preto.png" alt="Maletti" width={120} height={48} className="object-contain" /></div>
+              <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-center justify-center font-serif font-bold text-zinc-300">BRAND</div>
               <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"><Image src="/images/site/nilo.jpg" alt="Nilo" width={120} height={48} className="object-contain" /></div>
               <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"><Image src="/images/site/UKI.jpg" alt="UKI" width={120} height={48} className="object-contain" /></div>
               <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-center justify-center"><Image src="/images/site/LogoMarcoboni.png" alt="Marco Boni" width={120} height={48} className="object-contain" /></div>
@@ -1756,7 +1683,7 @@ function AboutHeroBlock({ content }: { content: Record<string, unknown> }) {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold text-zinc-900 mb-6 leading-tight">
               {titleParts.map((part, i) => <span key={i}>{part}{i < titleParts.length - 1 && <br />}</span>)}
             </h1>
-            <p className="text-zinc-600 text-lg leading-relaxed mb-8">{(content.description as string) || "Há mais de uma década, a SHR é referência no mercado brasileiro de mobiliário para salões de beleza e spas."}</p>
+            <p className="text-zinc-600 text-lg leading-relaxed mb-8">{(content.description as string) || "Há mais de uma década, somos referência no mercado brasileiro de representação de mobiliário para salões de beleza e spas."}</p>
             <div className="flex flex-col sm:flex-row gap-4">
               {(content.buttonText as string) && (
                 <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group" asChild>
@@ -1777,8 +1704,8 @@ function AboutHeroBlock({ content }: { content: Record<string, unknown> }) {
               <Image src="/images/site/Shirobody_showroom.jpg" alt="Showroom SHR" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
               <div className="absolute bottom-8 left-8 right-8">
-                <Image src="/logoshr-white.png" alt="SHR" width={100} height={40} className="mb-3" />
-                <p className="text-white/80 text-sm">Distribuidor Exclusivo Maletti</p>
+              <div className="text-white/20 text-3xl font-serif italic font-bold mb-3">ELCIO</div>
+              <p className="text-white/80 text-sm">Representação Comercial Premium</p>
               </div>
               <div className="absolute top-0 right-0 w-24 h-24 border-t-2 border-r-2 border-white/30" />
             </div>
@@ -1806,7 +1733,7 @@ function AboutMissionBlock({ content }: { content: Record<string, unknown> }) {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-zinc-900 mb-8 leading-tight">
               &ldquo;{(content.quote as string) || "Transformar salões de beleza em espaços de excelência, proporcionando aos profissionais as melhores ferramentas para encantar seus clientes."}&rdquo;
             </h2>
-            <p className="text-zinc-600 text-lg">{(content.author as string) || "— Equipe SHR"}</p>
+            <p className="text-zinc-600 text-lg">{(content.author as string) || "— Nossa Equipe"}</p>
           </motion.div>
         </div>
       </div>
@@ -1853,9 +1780,9 @@ function AboutPartnershipBlock({ content }: { content: Record<string, unknown> }
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">{(content.badge as string) || "Parceria Exclusiva"}</span>
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900 mb-6">{(content.title as string) || "Maletti: Tradição italiana desde 1965"}</h2>
-            <p className="text-zinc-600 text-lg leading-relaxed mb-6">{(content.description1 as string) || "A Maletti é uma das mais prestigiadas fabricantes de mobiliário para salões de beleza do mundo. Com mais de 55 anos de história, a marca italiana é sinônimo de inovação, qualidade e design sofisticado."}</p>
-            <p className="text-zinc-600 leading-relaxed mb-8">{(content.description2 as string) || "Como distribuidor exclusivo no Brasil, a SHR oferece toda a linha de produtos Maletti com garantia de originalidade, suporte técnico especializado e peças de reposição originais."}</p>
+            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900 mb-6">{(content.title as string) || "Tradição italiana e design de ponta"}</h2>
+            <p className="text-zinc-600 text-lg leading-relaxed mb-6">{(content.description1 as string) || "Representamos as mais prestigiadas fabricantes de mobiliário para salões de beleza do mundo. Com décadas de história, nossas marcas parceiras são sinônimo de inovação, qualidade e design sofisticado."}</p>
+            <p className="text-zinc-600 leading-relaxed mb-8">{(content.description2 as string) || "Como representantes oficiais no Brasil, oferecemos linhas de produtos exclusivos com garantia de originalidade e suporte técnico especializado."}</p>
             {(content.buttonText as string) && (
               <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300 group" asChild>
                 <Link href={(content.buttonLink as string) || "/marcas"}>{content.buttonText as string}<HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
@@ -1866,7 +1793,7 @@ function AboutPartnershipBlock({ content }: { content: Record<string, unknown> }
             <div className="aspect-square bg-zinc-900 relative overflow-hidden">
               <Image src="/images/site/heaven2.jpg" alt="Maletti Heaven" fill className="object-cover opacity-60" />
               <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-                <Image src="/images/site/Maletti - Logo bianco.png" alt="Maletti" width={180} height={70} className="mb-4" />
+                <div className="text-white/20 text-5xl font-serif italic font-bold mb-4">DESIGN</div>
                 <p className="text-white/70 text-sm tracking-widest">SINCE 1965</p>
               </div>
               <div className="absolute bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-white/20" />
@@ -1889,7 +1816,7 @@ function AboutCTABlock({ content }: { content: Record<string, unknown> }) {
       <div className="container mx-auto px-6 lg:px-12 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-zinc-900 mb-6">{(content.title as string) || "Pronto para transformar seu salão?"}</h2>
-          <p className="text-zinc-600 max-w-2xl mx-auto mb-8">{(content.description as string) || "Entre em contato conosco e descubra como os produtos Maletti podem elevar o padrão do seu negócio."}</p>
+          <p className="text-zinc-600 max-w-2xl mx-auto mb-8">{(content.description as string) || "Entre em contato conosco e descubra como as marcas que representamos podem elevar o padrão do seu negócio."}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             {(content.buttonText as string) && (
               <Button size="lg" className="bg-zinc-900 text-white hover:bg-zinc-800 transition-all duration-300" asChild>

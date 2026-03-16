@@ -11,7 +11,6 @@ export interface Product {
   gallery: string[];
   video?: string;
   featured: boolean;
-  brands?: string[]; // "maletti", "nilo" para mostrar logos
 }
 
 export interface Category {
@@ -69,7 +68,6 @@ export const products: Product[] = [
     image: "/images/site/Shirobody_showroom.jpg",
     gallery: ["/images/site/Shirobody_showroom.jpg"],
     featured: true,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "heaven",
@@ -122,7 +120,6 @@ export const products: Product[] = [
     image: "/images/site/heaven2.jpg",
     gallery: ["/images/site/heaven2.jpg"],
     featured: false,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "divina-armchair-easy",
@@ -136,7 +133,6 @@ export const products: Product[] = [
     image: "/images/site/heaven2.jpg",
     gallery: ["/images/site/heaven2.jpg"],
     featured: false,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "divina-armchair-super",
@@ -150,7 +146,6 @@ export const products: Product[] = [
     image: "/images/site/heaven2.jpg",
     gallery: ["/images/site/heaven2.jpg"],
     featured: false,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "eden",
@@ -244,7 +239,6 @@ export const products: Product[] = [
     image: "/images/site/nilo.jpg",
     gallery: ["/images/site/nilo.jpg"],
     featured: true,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "daisy",
@@ -284,7 +278,6 @@ export const products: Product[] = [
     image: "/images/site/nilo.jpg",
     gallery: ["/images/site/nilo.jpg"],
     featured: false,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "ninfea",
@@ -298,7 +291,6 @@ export const products: Product[] = [
     image: "/images/site/nilo.jpg",
     gallery: ["/images/site/nilo.jpg"],
     featured: false,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "sensus-basic",
@@ -312,7 +304,6 @@ export const products: Product[] = [
     image: "/images/site/nilo.jpg",
     gallery: ["/images/site/nilo.jpg"],
     featured: false,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "sensus-cabinet",
@@ -326,7 +317,6 @@ export const products: Product[] = [
     image: "/images/site/nilo.jpg",
     gallery: ["/images/site/nilo.jpg"],
     featured: false,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "dubai",
@@ -340,7 +330,6 @@ export const products: Product[] = [
     image: "/images/site/nilo.jpg",
     gallery: ["/images/site/nilo.jpg"],
     featured: false,
-    brands: ["maletti", "nilo"],
   },
   {
     id: "total-body",
@@ -354,7 +343,6 @@ export const products: Product[] = [
     image: "/images/site/Total-Body-356.jpg",
     gallery: ["/images/site/Total-Body-356.jpg"],
     featured: true,
-    brands: ["maletti", "nilo"],
   },
 
   // ========== POLTRONAS ==========

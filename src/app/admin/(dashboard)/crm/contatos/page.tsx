@@ -23,7 +23,7 @@ const CONTACT_SOURCE_LABELS: Record<ContactSource, string> = {
   WHATSAPP: "WhatsApp",
   BLOG: "Blog",
   INDICACAO: "Indicação",
-  IMPORT_KOMMO: "Kommo",
+  IMPORT_KOMMO: "Importação",
 };
 
 export default function AdminCrmContatosPage() {

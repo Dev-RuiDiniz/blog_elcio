@@ -26,12 +26,12 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 const defaultData: SectionData = {
   title: "Manutenção",
   subtitle: "Suporte Técnico",
-  description: "Nossa equipe técnica especializada está preparada para manter seus equipamentos Maletti sempre em perfeito funcionamento. Oferecemos suporte completo, desde a instalação até a manutenção preventiva e corretiva.",
+  description: "Nossa equipe técnica especializada está preparada para manter seus equipamentos profissionais sempre em perfeito funcionamento. Oferecemos suporte completo, desde a instalação até a manutenção preventiva e corretiva.",
   content: {
     services: [
       { icon: "wrench", title: "Manutenção Preventiva", description: "Prolongue a vida útil dos seus equipamentos com revisões periódicas." },
       { icon: "clock", title: "Atendimento Rápido", description: "Equipe técnica disponível para atendimento em todo o Brasil." },
-      { icon: "check", title: "Peças Originais", description: "Utilizamos apenas peças originais Maletti em todos os reparos." },
+      { icon: "check", title: "Peças Certificadas", description: "Utilizamos apenas peças certificadas de fábrica em todos os reparos, garantindo a integridade do seu equipamento." },
     ],
     buttonText: "Solicitar Manutenção",
     buttonLink: "/contato",

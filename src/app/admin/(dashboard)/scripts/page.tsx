@@ -11,7 +11,7 @@ interface Script {
   position: "HEAD" | "BODY_START" | "BODY_END";
   code: string;
   active: boolean;
-  site: "SHR" | "MALETTI" | "BOTH";
+  site: "ELCIO";
   order: number;
 }
 
@@ -21,7 +21,7 @@ const emptyScript: Omit<Script, "id"> = {
   position: "HEAD",
   code: "",
   active: true,
-  site: "BOTH",
+  site: "ELCIO",
   order: 0,
 };
 
@@ -40,9 +40,7 @@ const scriptPositions = [
 ];
 
 const siteTargets = [
-  { value: "BOTH", label: "Ambos os sites" },
-  { value: "SHR", label: "Apenas SHR" },
-  { value: "MALETTI", label: "Apenas Maletti" },
+  { value: "ELCIO", label: "Elcio Representação" },
 ];
 
 export default function ScriptsPage() {
@@ -154,7 +152,6 @@ export default function ScriptsPage() {
 
   const getTypeLabel = (type: string) => scriptTypes.find((t) => t.value === type)?.label || type;
   const getPositionLabel = (position: string) => scriptPositions.find((p) => p.value === position)?.label || position;
-  const getSiteLabel = (site: string) => siteTargets.find((s) => s.value === site)?.label || site;
 
   return (
     <div className="p-6">
@@ -214,10 +211,7 @@ export default function ScriptsPage() {
                     <span className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400">
                       {getTypeLabel(script.type)}
                     </span>
-                    <span className="px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                      {getSiteLabel(script.site)}
-                    </span>
-                    {script.active ? (
+{script.active ? (
                       <span className="px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
                         Ativo
                       </span>
@@ -285,7 +279,7 @@ export default function ScriptsPage() {
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Tipo
@@ -315,23 +309,6 @@ export default function ScriptsPage() {
                 {scriptPositions.map((pos) => (
                   <option key={pos.value} value={pos.value}>
                     {pos.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Aplicar em
-              </label>
-              <select
-                value={formData.site}
-                onChange={(e) => setFormData({ ...formData, site: e.target.value as any })}
-                className="w-full px-4 py-2.5 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-black dark:text-white focus:border-black dark:focus:border-white outline-none"
-              >
-                {siteTargets.map((site) => (
-                  <option key={site.value} value={site.value}>
-                    {site.label}
                   </option>
                 ))}
               </select>

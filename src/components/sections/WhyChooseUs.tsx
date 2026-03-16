@@ -24,10 +24,10 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 const defaultData: SectionData = {
   title: "Excelência em cada detalhe",
   subtitle: "Por que nos escolher",
-  description: "Há mais de uma década, a SHR é referência no mercado brasileiro de mobiliário para salões de beleza e spas. Nossa parceria exclusiva com a Maletti nos permite oferecer o que há de mais sofisticado em design e tecnologia italiana.",
+  description: "Há mais de uma década, somos referência no mercado brasileiro de representação de mobiliário para salões de beleza e spas. Nossa especialização permite oferecer o que há de mais sofisticado em design e tecnologia de padrão internacional.",
   content: {
     features: [
-      { icon: "shield", title: "Distribuidor Exclusivo", description: "Somos o único representante oficial da Maletti no Brasil, garantindo produtos originais e suporte direto da fábrica." },
+      { icon: "shield", title: "Representação Especializada", description: "Atuamos como ponte oficial com grandes marcas globais, garantindo produtos de alto padrão e suporte técnico direto." },
       { icon: "cube", title: "Design Italiano", description: "Cada peça é projetada na Itália com os mais altos padrões de design, ergonomia e qualidade de materiais." },
       { icon: "support", title: "Suporte Especializado", description: "Equipe técnica treinada para instalação, manutenção e suporte completo durante toda a vida útil do produto." },
       { icon: "sparkles", title: "Experiência Premium", description: "Transforme seu salão em um ambiente de luxo e proporcione aos seus clientes uma experiência inesquecível." },
@@ -35,7 +35,7 @@ const defaultData: SectionData = {
     stats: [
       { value: "10+", label: "Anos de mercado" },
       { value: "500+", label: "Clientes atendidos" },
-      { value: "100%", label: "Original Maletti" },
+      { value: "100%", label: "Qualidade Premium" },
     ],
   },
 };

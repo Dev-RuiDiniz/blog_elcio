@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-type SeoKey = "shr";
+type SeoKey = "elcio";
 
 interface SeoSiteConfig {
   title: string;
@@ -18,7 +18,7 @@ const baseConfig: SeoSiteConfig = {
     "elcio, representacao comercial, consultoria comercial, catalogo tecnico, b2b, empresas representadas",
 };
 
-const seoMap: Record<SeoKey, SeoSiteConfig> = { shr: baseConfig };
+const seoMap: Record<SeoKey, SeoSiteConfig> = { elcio: baseConfig };
 
 export async function getSeoConfig(key: SeoKey): Promise<SeoSiteConfig> {
   return seoMap[key] || baseConfig;

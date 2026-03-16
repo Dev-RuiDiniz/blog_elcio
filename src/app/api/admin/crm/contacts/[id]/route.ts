@@ -1,4 +1,4 @@
-import { ContactSource, KommoSyncStatus, Prisma } from "@prisma/client";
+import { ContactSource, Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdminAuth } from "@/lib/admin-auth";
@@ -79,8 +79,6 @@ export async function PUT(
       notes?: string | null;
       ownerUserId?: string | null;
       clientIds?: string[];
-      kommoContactId?: number | null;
-      kommoLeadId?: number | null;
       isActive?: boolean;
     };
 
@@ -101,9 +99,6 @@ export async function PUT(
       origin: body.origin !== undefined ? cleanString(body.origin) : existing.origin,
       notes: body.notes !== undefined ? cleanString(body.notes) : existing.notes,
       ownerUserId: body.ownerUserId !== undefined ? cleanString(body.ownerUserId) : existing.ownerUserId,
-      kommoContactId: body.kommoContactId !== undefined ? body.kommoContactId : existing.kommoContactId,
-      kommoLeadId: body.kommoLeadId !== undefined ? body.kommoLeadId : existing.kommoLeadId,
-      kommoSyncStatus: KommoSyncStatus.PENDING,
       isActive: body.isActive ?? existing.isActive,
     };
 

@@ -86,7 +86,7 @@ export function CatalogCTA() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/kommo/leads", {
+      const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

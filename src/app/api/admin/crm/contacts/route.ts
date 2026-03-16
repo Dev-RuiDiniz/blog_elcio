@@ -88,8 +88,6 @@ export async function POST(request: NextRequest) {
       notes?: string;
       ownerUserId?: string;
       clientIds?: string[];
-      kommoContactId?: number | null;
-      kommoLeadId?: number | null;
     };
 
     if (!body.fullName || body.fullName.trim().length < 2) {
@@ -109,8 +107,6 @@ export async function POST(request: NextRequest) {
       notes: body.notes,
       ownerUserId: body.ownerUserId,
       clientIds: Array.isArray(body.clientIds) ? body.clientIds : [],
-      kommoContactId: body.kommoContactId,
-      kommoLeadId: body.kommoLeadId,
     });
 
     return NextResponse.json({ success: true, contact });

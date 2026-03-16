@@ -19,13 +19,13 @@ Use esta lista para transformar esta base em um novo projeto rapidamente.
 ## 3) Identidade visual
 
 - Atualizar logos e favicon em `/admin/configuracoes`.
-- Ajustar SEO de `shr`, `maletti`, `spa`, `tricologia`, `salao`.
+- Ajustar SEO e metadados das marcas e categorias principais.
 - Revisar textos de contato e redes sociais.
 
 ## 4) Header e footer
 
-- Editar `/admin/cabecalho` (variants `shr` e `maletti`).
-- Editar `/admin/rodape` (variants `shr` e `maletti`).
+- Editar `/admin/cabecalho` (variantes de layout).
+- Editar `/admin/rodape` (variantes de layout).
 - Validar links internos e externos.
 
 ## 5) Conteudo principal
@@ -33,7 +33,7 @@ Use esta lista para transformar esta base em um novo projeto rapidamente.
 - Revisar paginas em `/admin/paginas`.
 - Usar `/admin/editor/[pageId]` para montar blocos.
 - Para bootstrap rapido, usar `/api/seed-home?page=...`.
-- Ajustar blocos das paginas dinamicas (`home`, `contato`, `manutencao`, `produtos`, `marcas`, `sobre`, `maletti`).
+- Ajustar blocos das paginas dinamicas (`home`, `contato`, `manutencao`, `produtos`, `marcas`, `sobre`).
 
 ## 6) Catalogo e blog
 
@@ -51,7 +51,7 @@ Use esta lista para transformar esta base em um novo projeto rapidamente.
 
 - Validar regra do `middleware.ts` para dominio alvo.
 - Conferir `robots.txt` e `sitemap.xml`.
-- Validar comportamento de rotas maletti vs shr.
+- Validar comportamento de rotas e redirecionamentos.
 
 ## 9) Qualidade
 

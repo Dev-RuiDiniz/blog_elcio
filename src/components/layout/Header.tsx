@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { HiOutlineMail, HiOutlinePhone, HiOutlineLocationMarker } from "react-icons/hi";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -68,10 +69,34 @@ export function Header() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        showDarkElements ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-transparent"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50"
     >
+      {/* Topbar — visível em desktop, some ao rolar */}
+      <div
+        className={`hidden md:flex transition-all duration-300 overflow-hidden bg-[#0a1d37] text-white px-4 md:px-12 justify-between items-center text-xs border-b border-white/10 ${
+          isScrolled ? "max-h-0 py-0 opacity-0" : "max-h-12 py-2 opacity-100"
+        }`}
+      >
+        <div className="flex gap-6">
+          <div className="flex items-center gap-2">
+            <HiOutlineMail className="text-amber-400 w-4 h-4" />
+            <span>vendas@raemtools.com.br</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <HiOutlinePhone className="text-amber-400 w-4 h-4" />
+            <span>+55 12 98873-7347</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <HiOutlineLocationMarker className="text-amber-400 w-4 h-4" />
+          <span>Taubaté – SP</span>
+        </div>
+      </div>
+
+      {/* Nav principal */}
+      <div className={`transition-all duration-300 ${
+        showDarkElements ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-transparent"
+      }`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex items-center justify-between h-[4.5rem] sm:h-20">
           <Link href="/" className="flex items-center gap-3">
@@ -148,9 +173,7 @@ export function Header() {
               ) : (
                 <Button
                   key={button.label}
-                  className={`font-medium tracking-wide transition-all duration-300 ${
-                    showDarkElements ? "bg-zinc-900 text-white hover:bg-zinc-800" : "bg-white text-zinc-900 hover:bg-zinc-100"
-                  }`}
+                  className="font-medium tracking-wide bg-amber-500 hover:bg-amber-600 text-white transition-all duration-300"
                   asChild
                 >
                   {href.startsWith("http") ? (
@@ -238,6 +261,7 @@ export function Header() {
             </SheetContent>
           </Sheet>
         </div>
+      </div>
       </div>
     </motion.header>
   );
