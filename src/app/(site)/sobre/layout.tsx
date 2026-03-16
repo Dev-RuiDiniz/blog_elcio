@@ -1,0 +1,17 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sobre Elcio | Representacao Comercial",
+  description:
+    "Conheca a trajetoria do Elcio, sua forma de atendimento consultivo e como ele conecta demandas B2B as empresas representadas.",
+  openGraph: {
+    title: "Sobre Elcio | Representacao Comercial",
+    description:
+      "Conheca a trajetoria do Elcio, sua forma de atendimento consultivo e como ele conecta demandas B2B as empresas representadas.",
+    type: "website",
+  },
+};
+
+export default function SobreLayout({ children }: { children: React.ReactNode }) {
+  return children;
+}

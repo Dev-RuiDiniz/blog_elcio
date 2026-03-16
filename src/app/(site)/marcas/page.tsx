@@ -91,7 +91,7 @@ export default function MarcasPage() {
                 className="ml-3 border-white text-white bg-transparent hover:bg-white hover:text-[#0a1d37]"
                 asChild
               >
-                <Link href="/blog">Explorar Blog Comercial</Link>
+                <Link href="/sobre">Conhecer o Elcio</Link>
               </Button>
             </motion.div>
           </div>
@@ -236,8 +236,8 @@ export default function MarcasPage() {
                 className="border-white text-white bg-transparent hover:bg-white hover:text-[#0a1d37]"
                 asChild
               >
-                <Link href={(ctaBlock.secondaryLink as string) || "/blog"}>
-                  {(ctaBlock.secondaryButtonText as string) || "Ler o Blog"}
+                <Link href={(ctaBlock.secondaryLink as string) || "/sobre"}>
+                  {(ctaBlock.secondaryButtonText as string) || "Conhecer o Elcio"}
                 </Link>
               </Button>
             </div>

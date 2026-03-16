@@ -63,7 +63,7 @@ const DEFAULT_FOOTER: FooterConfig = {
       links: [
         { label: "Home", href: "/" },
         { label: "Marcas", href: "/marcas" },
-        { label: "Blog", href: "/blog" },
+        { label: "Sobre", href: "/sobre" },
         { label: "Contato", href: "/contato" },
       ],
     },

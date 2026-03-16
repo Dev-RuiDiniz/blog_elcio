@@ -439,11 +439,10 @@ export default function VisualEditorPage({ params }: { params: Promise<{ pageId:
           quickLinksTitle: "Ou acesse diretamente:",
           quickLinks: [
             { label: "Produtos", href: "/marcas" },
-            { label: "Marcas", href: "/marcas" },
-            { label: "Sobre", href: "/marcas" },
-            { label: "Blog", href: "/blog" },
-            {
-              label: "Contato",
+              { label: "Marcas", href: "/marcas" },
+              { label: "Sobre", href: "/sobre" },
+              {
+                label: "Contato",
               href: buildContactHref({ assunto: "consultoria-catalogo", origem: "404-quick-links" }),
             },
           ],

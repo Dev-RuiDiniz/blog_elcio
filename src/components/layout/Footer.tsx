@@ -12,7 +12,7 @@ const linkGroups = [
     links: [
       { href: "/", label: "Home" },
       { href: "/marcas", label: "Empresas" },
-      { href: "/blog", label: "Blog" },
+      { href: "/sobre", label: "Sobre" },
       { href: "/contato", label: "Contato" },
     ],
   },

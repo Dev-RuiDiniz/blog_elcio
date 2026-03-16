@@ -33,8 +33,7 @@ const defaults: NotFoundData = {
   quickLinks: [
     { label: "Produtos", href: "/marcas" },
     { label: "Marcas", href: "/marcas" },
-    { label: "Sobre", href: "/marcas" },
-    { label: "Blog", href: "/blog" },
+    { label: "Sobre", href: "/sobre" },
     { label: "Contato", href: "/contato" },
   ],
   footerText: "",

@@ -37,7 +37,7 @@ const DEFAULT_HEADER: HeaderConfig = {
   navLinks: [
     { label: "Home", href: "/" },
     { label: "Empresas", href: "/marcas" },
-    { label: "Blog", href: "/blog" },
+    { label: "Sobre", href: "/sobre" },
     { label: "Contato", href: "/contato" },
   ],
   ctaButtons: [

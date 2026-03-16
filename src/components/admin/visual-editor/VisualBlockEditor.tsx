@@ -3193,11 +3193,10 @@ function LP404ContentEditor({ content, onChange }: { content: Record<string, unk
 
   const quickLinks = (content.quickLinks as Array<{ label: string; href: string }>) || [
     { label: "Produtos", href: "/marcas" },
-    { label: "Marcas", href: "/marcas" },
-    { label: "Sobre", href: "/marcas" },
-    { label: "Blog", href: "/blog" },
-    { label: "Contato", href: "/contato" },
-  ];
+      { label: "Marcas", href: "/marcas" },
+      { label: "Sobre", href: "/sobre" },
+      { label: "Contato", href: "/contato" },
+    ];
 
   return (
     <div className="space-y-4">

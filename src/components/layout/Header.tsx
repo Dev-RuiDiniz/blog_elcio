@@ -12,7 +12,7 @@ import { HiOutlineMail, HiOutlinePhone, HiOutlineLocationMarker } from "react-ic
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/marcas", label: "Empresas" },
-  { href: "/blog", label: "Blog" },
+  { href: "/sobre", label: "Sobre" },
   { href: "/contato", label: "Contato" },
 ];
 
