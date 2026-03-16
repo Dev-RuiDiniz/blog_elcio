@@ -122,6 +122,89 @@
   }
 }
 
+@layer components {
+  .site-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12;
+  }
+
+  .site-badge {
+    @apply inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-500;
+  }
+
+  .site-heading {
+    @apply text-3xl md:text-5xl font-black leading-tight text-[#0a1d37];
+  }
+
+  .site-heading-inverse {
+    @apply text-3xl md:text-5xl font-black leading-tight text-white;
+  }
+
+  .site-copy {
+    @apply text-base md:text-lg leading-relaxed text-slate-600;
+  }
+
+  .site-copy-inverse {
+    @apply text-base md:text-lg leading-relaxed text-slate-300;
+  }
+
+  .site-card {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+  }
+
+  .site-card-dark {
+    @apply rounded-2xl border border-white/10 bg-[#0a1d37] shadow-xl;
+  }
+
+  .site-button-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 px-6 py-3 font-bold text-white transition-all hover:scale-[1.01] hover:bg-amber-600;
+  }
+
+  .site-button-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#0a1d37] px-6 py-3 font-bold text-[#0a1d37] transition-all hover:bg-[#0a1d37] hover:text-white;
+  }
+
+  .site-button-secondary-inverse {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-6 py-3 font-bold text-white transition-all hover:bg-white hover:text-[#0a1d37];
+  }
+
+  .site-richtext {
+    @apply text-slate-700;
+  }
+
+  .site-richtext h1,
+  .site-richtext h2,
+  .site-richtext h3,
+  .site-richtext h4 {
+    @apply mt-10 mb-4 font-black leading-tight text-[#0a1d37];
+  }
+
+  .site-richtext h2 {
+    @apply text-3xl;
+  }
+
+  .site-richtext h3 {
+    @apply text-2xl;
+  }
+
+  .site-richtext p,
+  .site-richtext li {
+    @apply text-base leading-8 text-slate-700;
+  }
+
+  .site-richtext ul,
+  .site-richtext ol {
+    @apply my-6 space-y-2 pl-6;
+  }
+
+  .site-richtext a {
+    @apply font-semibold text-amber-600 underline decoration-amber-300 underline-offset-4;
+  }
+
+  .site-richtext blockquote {
+    @apply my-8 border-l-4 border-amber-500 bg-amber-50 px-6 py-4 italic text-slate-700;
+  }
+}
+
 /* ===== Logo Carousel ===== */
 @keyframes logo-scroll {
   0%   { transform: translateX(0); }

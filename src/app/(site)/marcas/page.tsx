@@ -46,18 +46,19 @@ export default function MarcasPage() {
 
   return (
     <>
-      <section className="pt-32 pb-20 lg:pb-28 bg-zinc-900 text-white">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="relative overflow-hidden pt-40 pb-20 lg:pb-28 bg-[#0a1d37] text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.22),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.08),_transparent_30%)]" />
+        <div className="site-container relative z-10">
           <div className="max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-sm uppercase tracking-[0.2em] text-zinc-400 mb-4 block">
+              <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
                 {(heroBlock.badge as string) || "Empresas Representadas"}
               </span>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold mb-6 leading-tight">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
                 {titleParts.map((part, index) => (
                   <span key={`${part}-${index}`}>
                     {part}
@@ -65,13 +66,13 @@ export default function MarcasPage() {
                   </span>
                 ))}
               </h1>
-              <p className="text-zinc-300 text-lg leading-relaxed mb-8 max-w-3xl">
+              <p className="text-slate-200 text-lg leading-relaxed mb-8 max-w-3xl">
                 {(heroBlock.description as string) ||
                   "Conheça as 6 empresas do portfólio de representação comercial do Elcio e encontre a opção ideal para abrir sua conversa comercial."}
               </p>
               <Button
                 size="lg"
-                className="bg-white text-zinc-900 hover:bg-zinc-100 transition-all duration-300 group"
+                className="bg-amber-500 text-white hover:bg-amber-600 transition-all duration-300 group"
                 asChild
               >
                 <Link
@@ -87,7 +88,7 @@ export default function MarcasPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="ml-3 border-white/30 text-white bg-transparent hover:bg-white/10"
+                className="ml-3 border-white text-white bg-transparent hover:bg-white hover:text-[#0a1d37]"
                 asChild
               >
                 <Link href="/blog">Explorar Blog Comercial</Link>
@@ -98,17 +99,17 @@ export default function MarcasPage() {
       </section>
 
       <section ref={brandsRef} className="py-24 bg-white">
-        <div className="container mx-auto px-6 lg:px-12">
+        <div className="site-container">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={brandsInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55 }}
             className="text-center mb-14"
           >
-            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-500 mb-4">
               {(sectionBlock.badge as string) || "Portfólio"}
             </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">
+            <h2 className="text-4xl md:text-5xl font-black text-[#0a1d37]">
               {(sectionBlock.title as string) || "Empresas representadas"}
             </h2>
           </motion.div>
@@ -120,7 +121,7 @@ export default function MarcasPage() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={brandsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="border border-zinc-200 bg-zinc-50/60 h-full flex flex-col overflow-hidden"
+                className="h-full flex flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className={COMPANY_CARD_CONTAINER_CLASS}>
                   <Image
@@ -132,7 +133,7 @@ export default function MarcasPage() {
                     sizes={COMPANY_CARD_IMAGE_SIZES}
                     className={COMPANY_CARD_IMAGE_CLASS}
                   />
-                  <div className="absolute top-4 left-4 bg-white/95 px-3 py-2">
+                  <div className="absolute top-4 left-4 rounded-lg bg-white/95 px-3 py-2 shadow-sm">
                     <Image
                       src={company.logoPublicPath}
                       alt={`Logo da ${company.name}`}
@@ -143,23 +144,23 @@ export default function MarcasPage() {
                   </div>
                 </div>
                 <div className="p-8 flex flex-col flex-1">
-                  <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-500 mb-3">
+                  <span className="text-[11px] uppercase tracking-[0.24em] text-amber-600 font-bold mb-3">
                     Empresa {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="text-2xl font-serif font-semibold text-zinc-900 mb-3">
+                  <h3 className="text-2xl font-black text-[#0a1d37] mb-3">
                     {company.name}
                   </h3>
-                  <p className="text-zinc-600 text-sm leading-relaxed mb-6 flex-1">
+                  <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-1">
                     {company.teaser}
                   </p>
                   <div className="flex flex-col gap-3">
-                    <Button className="bg-zinc-900 text-white hover:bg-zinc-800" asChild>
+                    <Button className="bg-amber-500 text-white hover:bg-amber-600" asChild>
                       <Link href={`/p/${company.slug}`}>
                         Ver página da empresa
                         <HiArrowRight className="ml-2 w-4 h-4" />
                       </Link>
                     </Button>
-                    <Button variant="outline" className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white" asChild>
+                    <Button variant="outline" className="border-[#0a1d37] text-[#0a1d37] hover:bg-[#0a1d37] hover:text-white" asChild>
                       <Link
                         href={buildContactHref({
                           assunto: "consultoria-catalogo",
@@ -170,7 +171,7 @@ export default function MarcasPage() {
                         Solicitar consultoria
                       </Link>
                     </Button>
-                    <Button variant="outline" className="border-zinc-300 text-zinc-700 hover:bg-zinc-100" asChild>
+                    <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100" asChild>
                       <a href={getCompanyCatalogHref(company.slug)} target="_blank" rel="noopener noreferrer">
                         Ver catálogo PDF
                       </a>
@@ -183,16 +184,16 @@ export default function MarcasPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-zinc-50">
-        <div className="container mx-auto px-6 lg:px-12">
+      <section className="py-20 bg-slate-50">
+        <div className="site-container">
           <div className="max-w-4xl mx-auto text-center">
-            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-500 mb-4">
               {(partnershipBlock.badge as string) || "Atendimento Comercial"}
             </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-semibold text-zinc-900 mb-6">
+            <h2 className="text-3xl md:text-5xl font-black text-[#0a1d37] mb-6">
               {(partnershipBlock.title as string) || "Centralize seu primeiro contato"}
             </h2>
-            <p className="text-zinc-600 text-lg leading-relaxed">
+            <p className="text-slate-600 text-lg leading-relaxed">
               {(partnershipBlock.description as string) ||
                 "Com o Elcio, você inicia o contato comercial de forma orientada, comparando opções entre empresas representadas e acelerando a tomada de decisão."}
             </p>
@@ -200,23 +201,26 @@ export default function MarcasPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-zinc-900 text-white">
-        <div className="container mx-auto px-6 lg:px-12 text-center">
+      <section className="py-24 bg-[#0a1d37] text-white">
+        <div className="site-container text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
           >
-            <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-6">
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
+              Próximo passo
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black mb-6">
               {(ctaBlock.title as string) || "Pronto para avançar com sua demanda?"}
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto mb-8">
+            <p className="text-slate-300 max-w-2xl mx-auto mb-8">
               {(ctaBlock.description as string) ||
                 "Clique abaixo e inicie sua conversa com o CTA oficial: consultoria comercial + catálogo técnico."}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="bg-white text-zinc-900 hover:bg-zinc-100" asChild>
+              <Button size="lg" className="bg-amber-500 text-white hover:bg-amber-600" asChild>
                 <Link
                   href={buildContactHref({
                     assunto: "consultoria-catalogo",
@@ -229,7 +233,7 @@ export default function MarcasPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white bg-transparent hover:bg-white/10"
+                className="border-white text-white bg-transparent hover:bg-white hover:text-[#0a1d37]"
                 asChild
               >
                 <Link href={(ctaBlock.secondaryLink as string) || "/blog"}>

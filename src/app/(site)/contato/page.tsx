@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -13,6 +14,7 @@ import {
   HiOutlineDownload,
   HiOutlineChat,
   HiOutlineCalendar,
+  HiArrowRight,
 } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -239,35 +241,53 @@ function ContatoContent() {
 
   return (
     <>
-      <section className="pt-32 pb-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+      <section className="relative overflow-hidden pt-40 pb-20 px-4 md:px-10">
+        <div className="absolute inset-0 bg-[#0a1d37]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.22),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.08),_transparent_30%)]" />
+        <div className="site-container relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
-            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
               Consultoria + Catálogo
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-semibold text-zinc-900 mb-6">
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
               Primeiro Contato Comercial
             </h1>
-            <p className="text-zinc-600 text-lg leading-relaxed">
+            <p className="max-w-3xl text-lg text-slate-200 leading-relaxed">
               Centralize o atendimento com o Elcio para receber catálogo técnico,
               orientação comercial e encaminhamento rápido da sua demanda.
             </p>
             {(empresaParam || originContext !== "contato") && (
-              <p className="text-sm text-zinc-500 mt-4">
+              <p className="text-sm text-slate-300 mt-4">
                 Contexto: {selectedCompanyName || "Empresa não definida"} | Origem: {originContext}
               </p>
             )}
+            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="site-button-primary">
+                Falar no WhatsApp
+                <HiArrowRight className="w-4 h-4" />
+              </a>
+              <Link
+                href={buildContactHref({
+                  assunto: DEFAULT_SUBJECT,
+                  empresa: selectedCompanySlug,
+                  origem: `${originContext}-hero`,
+                })}
+                className="site-button-secondary-inverse"
+              >
+                Reforçar contexto no formulário
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="py-12 bg-zinc-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+      <section className="py-12 bg-slate-50">
+        <div className="site-container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {contactOptions.map((option, index) => (
               <motion.button
@@ -279,14 +299,14 @@ function ContatoContent() {
                   setActiveForm(option.action === "catalog" ? "catalog" : "contact");
                   setSubmitSuccess(false);
                 }}
-                className="flex items-start gap-4 p-6 bg-white border border-zinc-200 hover:border-zinc-700 hover:shadow-md transition-all text-left group"
+                className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all group hover:-translate-y-1 hover:border-amber-400 hover:shadow-lg"
               >
-                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-zinc-100 group-hover:bg-zinc-900 group-hover:text-white transition-all">
+                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-amber-100 text-amber-600 group-hover:bg-[#0a1d37] group-hover:text-white transition-all">
                   <option.icon className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-zinc-900 mb-1">{option.title}</h3>
-                  <p className="text-zinc-500 text-sm">{option.description}</p>
+                  <h3 className="font-bold text-[#0a1d37] mb-1">{option.title}</h3>
+                  <p className="text-slate-500 text-sm">{option.description}</p>
                 </div>
               </motion.button>
             ))}
@@ -295,7 +315,7 @@ function ContatoContent() {
       </section>
 
       <section className="py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="site-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
             <motion.div
               initial={{ opacity: 0, x: -24 }}
@@ -310,8 +330,8 @@ function ContatoContent() {
                   }}
                   className={`px-5 sm:px-6 py-3 text-sm font-medium transition-all w-full sm:w-auto ${
                     activeForm === "contact"
-                      ? "bg-zinc-900 text-white"
-                      : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
+                      ? "bg-[#0a1d37] text-white"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                   }`}
                 >
                   Consultoria Comercial
@@ -323,8 +343,8 @@ function ContatoContent() {
                   }}
                   className={`px-5 sm:px-6 py-3 text-sm font-medium transition-all w-full sm:w-auto ${
                     activeForm === "catalog"
-                      ? "bg-zinc-900 text-white"
-                      : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
+                      ? "bg-[#0a1d37] text-white"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                   }`}
                 >
                   Receber Catálogo
@@ -335,29 +355,29 @@ function ContatoContent() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-zinc-50 p-12 text-center"
+                  className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-12 text-center"
                 >
-                  <div className="w-16 h-16 mx-auto mb-6 bg-zinc-900 text-white rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto mb-6 bg-amber-500 text-white rounded-full flex items-center justify-center">
                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-serif font-semibold text-zinc-900 mb-3">
+                  <h3 className="text-2xl font-black text-[#0a1d37] mb-3">
                     Solicitação Enviada
                   </h3>
-                  <p className="text-zinc-600 mb-6">
+                  <p className="text-slate-600 mb-6">
                     Recebemos seus dados e retornaremos com o primeiro atendimento em breve.
                   </p>
                   <Button
                     onClick={() => setSubmitSuccess(false)}
                     variant="outline"
-                    className="border-zinc-700 text-zinc-900 hover:bg-zinc-900 hover:text-white"
+                    className="border-[#0a1d37] text-[#0a1d37] hover:bg-[#0a1d37] hover:text-white"
                   >
                     Enviar nova solicitação
                   </Button>
                 </motion.div>
               ) : activeForm === "contact" ? (
-                <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-6">
+                <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-6 rounded-[1.75rem] border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="name">Nome completo *</Label>
@@ -449,14 +469,14 @@ function ContatoContent() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
+                    className="w-full bg-amber-500 text-white hover:bg-amber-600"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Enviando..." : "Solicitar Consultoria"}
                   </Button>
                 </form>
               ) : (
-                <form onSubmit={catalogForm.handleSubmit(onCatalogSubmit)} className="space-y-6">
+                <form onSubmit={catalogForm.handleSubmit(onCatalogSubmit)} className="space-y-6 rounded-[1.75rem] border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="cat-name">Nome completo *</Label>
@@ -535,13 +555,13 @@ function ContatoContent() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-zinc-900 text-white hover:bg-zinc-800"
+                    className="w-full bg-amber-500 text-white hover:bg-amber-600"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Enviando..." : "Receber Catálogo"}
                   </Button>
 
-                  <p className="text-xs text-zinc-500 text-center">
+                  <p className="text-xs text-slate-500 text-center">
                     Ao enviar, você concorda em receber contato comercial para continuidade do atendimento.
                   </p>
                 </form>
@@ -553,33 +573,33 @@ function ContatoContent() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.55, delay: 0.1 }}
             >
-              <div className="bg-zinc-900 text-white p-6 sm:p-8 lg:p-12 h-full">
-                <h2 className="text-2xl font-serif font-semibold mb-8">
+              <div className="site-card-dark p-6 sm:p-8 lg:p-12 h-full">
+                <h2 className="text-2xl font-black mb-8">
                   Canal Comercial
                 </h2>
 
                 <div className="space-y-8">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-white/10">
+                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/10 text-amber-400">
                       <HiOutlinePhone className="w-6 h-6" />
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">Telefone / WhatsApp</h3>
-                      <a href="tel:+5512988737347" className="text-zinc-400 hover:text-white transition-colors">
+                      <a href="tel:+5512988737347" className="text-slate-300 hover:text-white transition-colors">
                         +55 12 98873-7347
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-white/10">
+                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/10 text-amber-400">
                       <HiOutlineMail className="w-6 h-6" />
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">E-mail</h3>
                       <a
                         href="mailto:vendas@raemtools.com.br"
-                        className="text-zinc-400 hover:text-white transition-colors"
+                        className="text-slate-300 hover:text-white transition-colors"
                       >
                         vendas@raemtools.com.br
                       </a>
@@ -587,12 +607,12 @@ function ContatoContent() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-white/10">
+                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/10 text-amber-400">
                       <HiOutlineLocationMarker className="w-6 h-6" />
                     </div>
                     <div>
                       <h3 className="font-medium mb-1">Atendimento</h3>
-                      <p className="text-zinc-400">
+                      <p className="text-slate-300">
                         Taubaté - SP
                         <br />
                         Comercial remoto e sob agendamento
@@ -603,7 +623,7 @@ function ContatoContent() {
 
                 <div className="mt-12 pt-8 border-t border-white/10">
                   <h3 className="font-medium mb-4">Fluxo recomendado</h3>
-                  <div className="space-y-2 text-zinc-400 text-sm">
+                  <div className="space-y-2 text-slate-300 text-sm">
                     <p>1. Informe empresa e contexto</p>
                     <p>2. Receba catálogo e direcionamento</p>
                     <p>3. Avance para proposta comercial</p>
@@ -611,13 +631,13 @@ function ContatoContent() {
                 </div>
 
                 <div className="mt-12 space-y-3">
-                  <Button size="lg" className="w-full bg-white text-zinc-900 hover:bg-zinc-100" asChild>
+                  <Button size="lg" className="w-full bg-amber-500 text-white hover:bg-amber-600" asChild>
                     <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                       Falar no WhatsApp
                     </a>
                   </Button>
                   <Button size="lg" variant="outline" className="w-full border-white/30 text-white bg-transparent hover:bg-white/10" asChild>
-                    <a
+                    <Link
                       href={buildContactHref({
                         assunto: DEFAULT_SUBJECT,
                         empresa: selectedCompanySlug,
@@ -625,7 +645,7 @@ function ContatoContent() {
                       })}
                     >
                       Reabrir com contexto
-                    </a>
+                    </Link>
                   </Button>
                 </div>
               </div>

@@ -140,6 +140,7 @@ function BlogContent() {
   const selectedCompanySlug = normalizeCompanySlug(leadForm.companySlug);
   const selectedCompanyName = getCompanyNameFromSlug(selectedCompanySlug);
   const ctaOrigin = selectedCompanySlug ? `${selectedCompanySlug}-blog-cta` : "blog-cta";
+  const heroImage = orderedCompanies[0]?.coverPublicPath || "/images/empresas/dormer-pramet/cover.jpg";
 
   const handleLeadSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -181,22 +182,26 @@ function BlogContent() {
     <>
       <section
         ref={heroRef}
-        className="relative pt-32 pb-20 bg-gradient-to-b from-zinc-100 to-white"
+        className="relative overflow-hidden px-4 pt-40 pb-24 md:px-10"
       >
-        <div className="container mx-auto px-6">
+        <div className="absolute inset-0 bg-[#0a1d37]" />
+        <div className="absolute inset-0 opacity-15">
+          <Image src={heroImage} alt="" fill priority className="object-cover" />
+        </div>
+        <div className="site-container relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <span className="text-[11px] uppercase tracking-[0.25em] text-zinc-500 mb-4 block">
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
               {settings.heroBadge || "Blog"}
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-semibold text-zinc-900 mb-6">
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
               {settings.heroTitle || "Blog Comercial do Elcio"}
             </h1>
-            <p className="text-lg text-zinc-600 leading-relaxed">
+            <p className="max-w-2xl text-lg text-slate-200 leading-relaxed">
               {settings.heroDescription ||
                 "Conteúdo de autoridade para acelerar decisões comerciais, comparação de fornecedores e abertura de atendimento técnico."}
             </p>
@@ -205,15 +210,15 @@ function BlogContent() {
       </section>
 
       {visibleCategories.length > 0 && (
-        <section className="border-b border-zinc-200 sticky top-20 bg-white z-30">
-          <div className="container mx-auto px-6">
+        <section className="sticky top-20 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
+          <div className="site-container">
             <div className="flex items-center gap-2 py-4 overflow-x-auto">
               <button
                 onClick={() => setSelectedCategory(null)}
                 className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
                   !selectedCategory
-                    ? "bg-zinc-900 text-white"
-                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+                    ? "bg-[#0a1d37] text-white"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
                 Todos
@@ -224,8 +229,8 @@ function BlogContent() {
                   onClick={() => setSelectedCategory(category.slug)}
                   className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
                     selectedCategory === category.slug
-                      ? "bg-zinc-900 text-white"
-                      : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+                      ? "bg-[#0a1d37] text-white"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >
                   {category.name}
@@ -236,15 +241,15 @@ function BlogContent() {
         </section>
       )}
 
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-6">
+      <section className="py-16 lg:py-24 bg-white">
+        <div className="site-container">
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <div className="w-8 h-8 border-2 border-zinc-700 border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-[#0a1d37] border-t-transparent rounded-full animate-spin" />
             </div>
           ) : filteredPosts.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-zinc-500 text-lg">Nenhum post encontrado.</p>
+              <p className="text-slate-500 text-lg">Nenhum post encontrado.</p>
             </div>
           ) : (
             <>
@@ -255,9 +260,9 @@ function BlogContent() {
                   transition={{ duration: 0.6 }}
                   className="mb-16"
                 >
-                  <Link href={`/blog/${featuredPost.slug}`} className="group block">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                      <div className="relative aspect-[16/10] overflow-hidden bg-zinc-100">
+                  <Link href={`/blog/${featuredPost.slug}`} className="group block rounded-[1.75rem] border border-slate-200 bg-white shadow-sm overflow-hidden hover:shadow-xl transition-shadow">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-8">
+                      <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                         {(featuredPost.cover || featuredPost.image) && (
                           <Image
                             src={featuredPost.cover || featuredPost.image || ""}
@@ -267,24 +272,24 @@ function BlogContent() {
                           />
                         )}
                       </div>
-                      <div className="flex flex-col justify-center">
+                      <div className="flex flex-col justify-center p-8 md:p-10">
                         <div className="flex items-center gap-3 mb-4">
                           {featuredPost.categories.slice(0, 2).map((item) => (
                             <span
                               key={item.category.id}
-                              className="px-3 py-1 text-xs font-medium bg-zinc-900 text-white"
+                              className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-amber-700"
                             >
                               {item.category.name}
                             </span>
                           ))}
                         </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif font-semibold text-zinc-900 mb-4 group-hover:text-zinc-700 transition-colors">
+                        <h2 className="text-2xl md:text-4xl font-black text-[#0a1d37] mb-4 group-hover:text-amber-600 transition-colors">
                           {featuredPost.title}
                         </h2>
-                        <p className="text-zinc-600 leading-relaxed mb-6 line-clamp-3">
+                        <p className="text-slate-600 leading-relaxed mb-6 line-clamp-3">
                           {featuredPost.excerpt}
                         </p>
-                        <div className="flex items-center gap-6 text-sm text-zinc-500">
+                        <div className="flex items-center gap-6 text-sm text-slate-500">
                           <span className="flex items-center gap-2">
                             <HiOutlineCalendar className="w-4 h-4" />
                             {new Date(featuredPost.createdAt).toLocaleDateString(
@@ -297,6 +302,10 @@ function BlogContent() {
                             {featuredPost.views} views
                           </span>
                         </div>
+                        <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-amber-600">
+                          Ler artigo completo
+                          <HiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </span>
                       </div>
                     </div>
                   </Link>
@@ -311,10 +320,10 @@ function BlogContent() {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="group"
+                      className="group rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-lg"
                     >
                       <Link href={`/blog/${post.slug}`}>
-                        <div className="relative aspect-[16/10] overflow-hidden bg-zinc-100 mb-5">
+                        <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100 mb-5">
                           {(post.cover || post.image) && (
                             <Image
                               src={post.cover || post.image || ""}
@@ -328,21 +337,21 @@ function BlogContent() {
                           {post.categories.slice(0, 1).map((item) => (
                             <span
                               key={item.category.id}
-                              className="px-2 py-0.5 text-[10px] uppercase tracking-wider font-medium bg-zinc-100 text-zinc-600"
+                              className="rounded-full bg-slate-100 px-3 py-1 text-[10px] uppercase tracking-[0.18em] font-bold text-slate-600"
                             >
                               {item.category.name}
                             </span>
                           ))}
                         </div>
-                        <h3 className="text-xl font-serif font-semibold text-zinc-900 mb-3 group-hover:text-zinc-700 transition-colors line-clamp-2">
+                        <h3 className="text-xl font-black text-[#0a1d37] mb-3 group-hover:text-amber-600 transition-colors line-clamp-2">
                           {post.title}
                         </h3>
-                        <p className="text-zinc-600 text-sm leading-relaxed mb-4 line-clamp-2">
+                        <p className="text-slate-600 text-sm leading-relaxed mb-4 line-clamp-2">
                           {post.excerpt}
                         </p>
-                        <div className="flex items-center justify-between text-sm text-zinc-500">
+                        <div className="flex items-center justify-between text-sm text-slate-500">
                           <span>{new Date(post.createdAt).toLocaleDateString("pt-BR")}</span>
-                          <span className="flex items-center gap-1 text-zinc-900 font-medium group-hover:gap-2 transition-all">
+                          <span className="flex items-center gap-1 text-amber-600 font-bold group-hover:gap-2 transition-all">
                             Ler mais
                             <HiArrowRight className="w-4 h-4" />
                           </span>
@@ -358,31 +367,34 @@ function BlogContent() {
       </section>
 
       {settings.showCta !== false && (
-        <section className="py-20 bg-zinc-900 text-white">
-          <div className="container mx-auto px-6">
+        <section className="py-20 bg-[#0a1d37] text-white">
+          <div className="site-container">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">
+              <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
+                Conversão
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black mb-4">
                 {settings.ctaTitle || "Feche sua jornada com Consultoria + Catálogo"}
               </h2>
-              <p className="text-zinc-400 mb-8">
+              <p className="text-slate-300 mb-8">
                 {settings.ctaDescription ||
                   "Depois de ler os conteúdos, envie seu contato para receber orientação comercial do Elcio e direcionamento para a empresa mais aderente."}
               </p>
               {selectedCompanyName && (
-                <p className="text-sm text-zinc-500 mb-6">
+                <p className="text-sm text-slate-400 mb-6">
                   Empresa selecionada: {selectedCompanyName}
                 </p>
               )}
 
               {leadSuccess ? (
                 <div className="max-w-md mx-auto text-center">
-                  <div className="w-14 h-14 mx-auto mb-4 bg-white text-zinc-900 rounded-full flex items-center justify-center">
+                  <div className="w-14 h-14 mx-auto mb-4 bg-amber-500 text-white rounded-full flex items-center justify-center">
                     <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <p className="text-white font-medium">Solicitação enviada com sucesso.</p>
-                  <p className="text-zinc-400 text-sm mt-1">
+                  <p className="text-slate-300 text-sm mt-1">
                     Em breve você receberá o primeiro retorno comercial.
                   </p>
                 </div>
@@ -395,7 +407,7 @@ function BlogContent() {
                       value={leadForm.name}
                       onChange={(event) => setLeadForm((prev) => ({ ...prev, name: event.target.value }))}
                       placeholder="Nome completo"
-                      className="px-5 py-3 bg-white/10 border border-white/20 text-white placeholder:text-zinc-500 outline-none focus:border-white/40 transition-colors"
+                      className="rounded-xl px-5 py-3 bg-white/10 border border-white/20 text-white placeholder:text-slate-400 outline-none focus:border-amber-400 transition-colors"
                     />
                     <input
                       type="email"
@@ -403,7 +415,7 @@ function BlogContent() {
                       value={leadForm.email}
                       onChange={(event) => setLeadForm((prev) => ({ ...prev, email: event.target.value }))}
                       placeholder={settings.ctaEmailPlaceholder || "Seu melhor e-mail"}
-                      className="px-5 py-3 bg-white/10 border border-white/20 text-white placeholder:text-zinc-500 outline-none focus:border-white/40 transition-colors"
+                      className="rounded-xl px-5 py-3 bg-white/10 border border-white/20 text-white placeholder:text-slate-400 outline-none focus:border-amber-400 transition-colors"
                     />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -413,7 +425,7 @@ function BlogContent() {
                       value={leadForm.phone}
                       onChange={(event) => setLeadForm((prev) => ({ ...prev, phone: event.target.value }))}
                       placeholder="Telefone / WhatsApp"
-                      className="px-5 py-3 bg-white/10 border border-white/20 text-white placeholder:text-zinc-500 outline-none focus:border-white/40 transition-colors"
+                      className="rounded-xl px-5 py-3 bg-white/10 border border-white/20 text-white placeholder:text-slate-400 outline-none focus:border-amber-400 transition-colors"
                     />
                     <select
                       value={leadForm.companySlug || NONE_VALUE}
@@ -423,13 +435,13 @@ function BlogContent() {
                           companySlug: event.target.value === NONE_VALUE ? "" : event.target.value,
                         }))
                       }
-                      className="px-5 py-3 bg-white/10 border border-white/20 text-white outline-none focus:border-white/40 transition-colors"
+                      className="rounded-xl px-5 py-3 bg-white/10 border border-white/20 text-white outline-none focus:border-amber-400 transition-colors"
                     >
-                      <option value={NONE_VALUE} className="text-zinc-900">
+                      <option value={NONE_VALUE} className="text-slate-900">
                         Empresa de interesse (opcional)
                       </option>
                       {orderedCompanies.map((company) => (
-                        <option key={company.slug} value={company.slug} className="text-zinc-900">
+                        <option key={company.slug} value={company.slug} className="text-slate-900">
                           {company.name}
                         </option>
                       ))}
@@ -439,7 +451,7 @@ function BlogContent() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full md:w-auto px-8 py-3 bg-white text-zinc-900 font-medium hover:bg-zinc-100 transition-colors disabled:opacity-50"
+                    className="w-full md:w-auto rounded-lg px-8 py-3 bg-amber-500 text-white font-bold hover:bg-amber-600 transition-colors disabled:opacity-50"
                   >
                     {submitting ? "Enviando..." : settings.ctaButtonText || "Quero Consultoria + Catálogo"}
                   </button>
@@ -453,7 +465,7 @@ function BlogContent() {
                     empresa: selectedCompanySlug,
                     origem: ctaOrigin,
                   })}
-                  className="px-6 py-3 border border-white/30 hover:bg-white/10 transition-colors"
+                  className="site-button-secondary-inverse"
                 >
                   Ir para formulário completo
                 </Link>
@@ -465,13 +477,13 @@ function BlogContent() {
                   })}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 border border-white/30 hover:bg-white/10 transition-colors"
+                  className="site-button-secondary-inverse"
                 >
                   Falar no WhatsApp
                 </a>
                 <Link
                   href="/marcas"
-                  className="px-6 py-3 border border-white/30 hover:bg-white/10 transition-colors"
+                  className="site-button-secondary-inverse"
                 >
                   Ver as 6 empresas
                 </Link>

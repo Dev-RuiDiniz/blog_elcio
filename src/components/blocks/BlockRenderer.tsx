@@ -158,9 +158,14 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
     center: "text-center items-center",
     right: "text-right items-end",
   }[align] || "text-center items-center";
+  const buttonRowClass = {
+    left: "justify-start",
+    center: "justify-center",
+    right: "justify-end",
+  }[align] || "justify-center";
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-zinc-900">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a1d37]">
       {imageSrc && (
         <div className="absolute inset-0">
           {isCompanyImage ? (
@@ -186,7 +191,7 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
                 unoptimized
               />
               <div
-                className="absolute inset-0 bg-zinc-900"
+                className="absolute inset-0 bg-[#0a1d37]"
                 style={{ opacity: Math.min(overlay, 55) / 100 }}
               />
             </>
@@ -202,13 +207,15 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
                 quality={85}
               />
               <div
-                className="absolute inset-0 bg-zinc-900"
+                className="absolute inset-0 bg-[#0a1d37]"
                 style={{ opacity: overlay / 100 }}
               />
             </>
           )}
         </div>
       )}
+
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.18),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.08),_transparent_32%)]" />
 
       <div className={`relative z-10 container mx-auto px-6 lg:px-12 text-white flex flex-col ${alignClass} py-32`}>
         <motion.div
@@ -218,32 +225,32 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
           className={`max-w-4xl ${align === "center" ? "mx-auto" : ""}`}
         >
           {(content.badge as string) && (
-            <span className="inline-block px-4 py-1 text-xs uppercase tracking-[0.2em] border border-white/30 text-white/80 mb-6">
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-6">
               {content.badge as string}
             </span>
           )}
 
           {(content.subtitle as string) && (
-            <p className="text-lg md:text-xl text-zinc-300 mb-4">
+            <p className="text-lg md:text-xl text-slate-200 mb-4">
               {content.subtitle as string}
             </p>
           )}
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-semibold mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
             {content.title as string}
           </h1>
 
           {(content.description as string) && (
-            <p className="text-lg md:text-xl text-zinc-300 mb-10 leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">
               {content.description as string}
             </p>
           )}
 
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className={`flex flex-wrap gap-4 ${buttonRowClass}`}>
             {(content.button1Text as string) && (
               <Button
                 size="lg"
-                className="bg-white text-zinc-900 hover:bg-zinc-100"
+                className="bg-amber-500 text-white hover:bg-amber-600"
                 asChild
               >
                 <Link href={(content.button1Link as string) || "#"}>
@@ -256,7 +263,7 @@ function HeroBlock({ content }: { content: Record<string, unknown> }) {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/30 text-white bg-transparent hover:bg-white/10"
+                className="border-white text-white bg-transparent hover:bg-white hover:text-[#0a1d37]"
                 asChild
               >
                 <Link href={(content.button2Link as string) || "#"}>
@@ -278,10 +285,10 @@ function TextBlock({ content }: { content: Record<string, unknown> }) {
   const background = (content.background as string) || "white";
 
   const bgClass = {
-    white: "bg-white text-gray-900",
-    gray: "bg-zinc-50 text-gray-900",
-    black: "bg-zinc-900 text-white",
-  }[background] || "bg-white text-gray-900";
+    white: "bg-white text-slate-900",
+    gray: "bg-slate-50 text-slate-900",
+    black: "bg-[#0a1d37] text-white",
+  }[background] || "bg-white text-slate-900";
 
   const alignClass = {
     left: "text-left",
@@ -299,20 +306,20 @@ function TextBlock({ content }: { content: Record<string, unknown> }) {
           className={`max-w-4xl ${alignClass}`}
         >
           {(content.subtitle as string) && (
-            <span className={`text-sm uppercase tracking-[0.2em] ${background === "black" ? "text-zinc-400" : "text-zinc-500"} mb-4 block`}>
+            <span className={`text-sm font-bold uppercase tracking-[0.24em] ${background === "black" ? "text-amber-400" : "text-amber-500"} mb-4 block`}>
               {content.subtitle as string}
             </span>
           )}
 
           {(content.title as string) && (
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold mb-6">
+            <h2 className="text-4xl md:text-5xl font-black mb-6">
               {content.title as string}
             </h2>
           )}
 
           {(content.content as string) && (
             <div
-              className={`text-lg leading-relaxed ${background === "black" ? "text-zinc-300" : "text-zinc-600"}`}
+              className={`text-lg leading-relaxed ${background === "black" ? "text-slate-200" : "text-slate-600"}`}
               dangerouslySetInnerHTML={{ __html: (content.content as string).replace(/\n/g, "<br/>") }}
             />
           )}
@@ -449,11 +456,11 @@ function FeaturesBlock({ content }: { content: Record<string, unknown> }) {
             className="text-center mb-16"
           >
             {(content.subtitle as string) && (
-              <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
+              <span className="text-sm font-bold uppercase tracking-[0.24em] text-amber-500 mb-4 block">
                 {content.subtitle as string}
               </span>
             )}
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">
+            <h2 className="text-4xl md:text-5xl font-black text-[#0a1d37]">
               {content.title as string}
             </h2>
           </motion.div>
@@ -467,15 +474,15 @@ function FeaturesBlock({ content }: { content: Record<string, unknown> }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="text-center p-8 bg-zinc-50 hover:bg-zinc-100 transition-colors"
+              className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-8 text-center transition-all hover:-translate-y-1 hover:border-amber-300 hover:bg-white hover:shadow-lg"
             >
-              <div className="w-12 h-12 mx-auto mb-4 bg-zinc-900 text-white flex items-center justify-center">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-amber-500 text-white flex items-center justify-center">
                 <span className="text-xl">★</span>
               </div>
-              <h3 className="text-xl font-serif font-semibold text-zinc-900 mb-3">
+              <h3 className="text-xl font-black text-[#0a1d37] mb-3">
                 {item.title}
               </h3>
-              <p className="text-zinc-600">{item.description}</p>
+              <p className="text-slate-600">{item.description}</p>
             </motion.div>
           ))}
         </div>
@@ -489,14 +496,14 @@ function CTABlock({ content }: { content: Record<string, unknown> }) {
   const background = (content.background as string) || "black";
 
   const bgClass = {
-    white: "bg-white text-zinc-900",
-    gray: "bg-zinc-100 text-zinc-900",
-    black: "bg-zinc-900 text-white",
-  }[background] || "bg-zinc-900 text-white";
+    white: "bg-white text-slate-900",
+    gray: "bg-slate-100 text-slate-900",
+    black: "bg-[#0a1d37] text-white",
+  }[background] || "bg-[#0a1d37] text-white";
 
   const btnClass = background === "black"
-    ? "bg-white text-zinc-900 hover:bg-zinc-100"
-    : "bg-zinc-900 text-white hover:bg-zinc-800";
+    ? "bg-amber-500 text-white hover:bg-amber-600"
+    : "bg-[#0a1d37] text-white hover:bg-[#13335c]";
 
   return (
     <section className={`py-24 ${bgClass}`}>
@@ -506,12 +513,12 @@ function CTABlock({ content }: { content: Record<string, unknown> }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-serif font-semibold mb-6">
+          <h2 className="text-4xl md:text-5xl font-black mb-6">
             {content.title as string}
           </h2>
 
           {(content.description as string) && (
-            <p className={`text-lg mb-8 ${background === "black" ? "text-zinc-400" : "text-zinc-600"}`}>
+            <p className={`text-lg mb-8 ${background === "black" ? "text-slate-300" : "text-slate-600"}`}>
               {content.description as string}
             </p>
           )}
@@ -542,7 +549,7 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
   }[columns] || "md:grid-cols-3";
 
   return (
-    <section className="py-24 bg-zinc-50">
+    <section className="py-24 bg-slate-50">
       <div className="container mx-auto px-6 lg:px-12">
         {(content.title as string) && (
           <motion.div
@@ -552,11 +559,11 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
             className="text-center mb-16"
           >
             {(content.subtitle as string) && (
-              <span className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-4 block">
+              <span className="text-sm font-bold uppercase tracking-[0.24em] text-amber-500 mb-4 block">
                 {content.subtitle as string}
               </span>
             )}
-            <h2 className="text-4xl md:text-5xl font-serif font-semibold text-zinc-900">
+            <h2 className="text-4xl md:text-5xl font-black text-[#0a1d37]">
               {content.title as string}
             </h2>
           </motion.div>
@@ -573,14 +580,14 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white overflow-hidden group"
+                className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-sm group transition-all hover:-translate-y-1 hover:shadow-xl"
               >
                 {card.image && (
                   <div
                     className={`relative overflow-hidden ${
                       isCompanyImage
                         ? "aspect-[2/1] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200"
-                        : "aspect-[4/3] bg-zinc-100"
+                        : "aspect-[4/3] bg-slate-100"
                     }`}
                   >
                     <Image
@@ -598,14 +605,14 @@ function CardsBlock({ content }: { content: Record<string, unknown> }) {
                   </div>
                 )}
                 <div className="p-6">
-                  <h3 className="text-xl font-serif font-semibold text-zinc-900 mb-2">
+                  <h3 className="text-xl font-black text-[#0a1d37] mb-2">
                     {card.title}
                   </h3>
-                  <p className="text-zinc-600 mb-4">{card.description}</p>
+                  <p className="text-slate-600 mb-4">{card.description}</p>
                   {card.link && (
                     <Link
                       href={card.link}
-                      className="text-sm font-medium text-zinc-900 hover:underline inline-flex items-center"
+                      className="inline-flex items-center text-sm font-bold text-amber-600 hover:text-amber-700"
                     >
                       Saiba mais
                       <HiArrowRight className="ml-1 w-3 h-3" />

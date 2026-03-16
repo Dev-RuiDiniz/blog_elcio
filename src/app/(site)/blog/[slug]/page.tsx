@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   HiArrowLeft,
   HiOutlineCalendar,
@@ -74,31 +74,28 @@ export default function BlogPostPage() {
   const [submitting, setSubmitting] = useState(false);
   const [commentSuccess, setCommentSuccess] = useState(false);
 
-  const heroRef = useRef(null);
-  const heroInView = useInView(heroRef, { once: true });
-
   useEffect(() => {
-    if (slug) {
-      fetchPost();
-    }
-  }, [slug]);
+    if (!slug) return;
 
-  const fetchPost = async () => {
-    try {
-      const res = await fetch(`/api/blog/${slug}`);
-      if (!res.ok) {
-        setPost(null);
-        return;
+    const loadPost = async () => {
+      try {
+        const res = await fetch(`/api/blog/${slug}`);
+        if (!res.ok) {
+          setPost(null);
+          return;
+        }
+        const data = await res.json();
+        setPost(data.post);
+        setRelatedPosts(data.relatedPosts || []);
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setLoading(false);
       }
-      const data = await res.json();
-      setPost(data.post);
-      setRelatedPosts(data.relatedPosts || []);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    void loadPost();
+  }, [slug]);
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,21 +121,21 @@ export default function BlogPostPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="w-8 h-8 border-2 border-[#0a1d37] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!post) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-serif font-semibold text-black mb-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 text-center">
+        <h1 className="text-2xl font-black text-[#0a1d37] mb-4">
           Post não encontrado
         </h1>
         <Link
           href="/blog"
-          className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors"
+          className="flex items-center gap-2 text-slate-600 hover:text-[#0a1d37] transition-colors"
         >
           <HiArrowLeft className="w-4 h-4" />
           Voltar para o blog
@@ -151,10 +148,21 @@ export default function BlogPostPage() {
     <>
       {/* Hero Section */}
       <section
-        ref={heroRef}
-        className="relative pt-40 pb-16 bg-gradient-to-b from-gray-50 to-white"
+        className="relative overflow-hidden pt-40 pb-20 px-4 md:px-10"
       >
-        <div className="container mx-auto px-6">
+        <div className="absolute inset-0 bg-[#0a1d37]" />
+        {(post.cover || post.image) && (
+          <div className="absolute inset-0 opacity-20">
+            <Image
+              src={post.cover || post.image || ""}
+              alt=""
+              fill
+              priority
+              className="object-cover"
+            />
+          </div>
+        )}
+        <div className="site-container relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -164,7 +172,7 @@ export default function BlogPostPage() {
             {/* Back Link */}
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-slate-300 hover:text-white transition-colors mb-8"
             >
               <HiArrowLeft className="w-4 h-4" />
               Voltar para o blog
@@ -175,7 +183,7 @@ export default function BlogPostPage() {
               {post.categories.map((c) => (
                 <span
                   key={c.category.id}
-                  className="px-3 py-1 text-xs font-medium bg-black text-white"
+                  className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-amber-700"
                 >
                   {c.category.name}
                 </span>
@@ -183,12 +191,12 @@ export default function BlogPostPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-semibold text-black mb-6 leading-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
               {post.title}
             </h1>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 mb-8">
+            <div className="flex flex-wrap items-center gap-6 text-sm text-slate-300 mb-8">
               <span className="flex items-center gap-2">
                 <HiOutlineCalendar className="w-4 h-4" />
                 {new Date(post.publishedAt || post.createdAt).toLocaleDateString(
@@ -204,7 +212,7 @@ export default function BlogPostPage() {
 
             {/* Excerpt */}
             {post.excerpt && (
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-xl text-slate-200 leading-relaxed">
                 {post.excerpt}
               </p>
             )}
@@ -214,10 +222,10 @@ export default function BlogPostPage() {
 
       {/* Cover Image */}
       {(post.cover || post.image) && (
-        <section className="pb-12">
-          <div className="container mx-auto px-6">
+        <section className="-mt-8 pb-12 px-4 md:px-10">
+          <div className="site-container">
             <div className="max-w-5xl mx-auto">
-              <div className="relative aspect-[21/9] overflow-hidden bg-gray-100">
+              <div className="relative aspect-[21/9] overflow-hidden rounded-[2rem] bg-slate-100 shadow-2xl">
                 <Image
                   src={post.cover || post.image || ""}
                   alt={post.title}
@@ -232,27 +240,27 @@ export default function BlogPostPage() {
       )}
 
       {/* Content */}
-      <section className="py-12">
-        <div className="container mx-auto px-6">
+      <section className="py-12 bg-white">
+        <div className="site-container">
           <div className="max-w-3xl mx-auto">
             {/* Article Content */}
-            <article className="prose prose-lg prose-gray max-w-none">
+            <article className="site-richtext max-w-none">
               <div
-                className="text-gray-700 leading-relaxed whitespace-pre-wrap"
+                className="leading-relaxed whitespace-pre-wrap"
                 dangerouslySetInnerHTML={{ __html: post.content?.replace(/\n/g, "<br/>") || "" }}
               />
             </article>
 
             {/* Tags */}
             {post.tags.length > 0 && (
-              <div className="mt-12 pt-8 border-t border-gray-200">
+              <div className="mt-12 pt-8 border-t border-slate-200">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <HiOutlineTag className="w-5 h-5 text-gray-400" />
+                  <HiOutlineTag className="w-5 h-5 text-amber-500" />
                   {post.tags.map((t) => (
                     <Link
                       key={t.tag.id}
                       href={`/blog?tag=${t.tag.slug}`}
-                      className="px-3 py-1 bg-gray-100 text-gray-600 text-sm hover:bg-gray-200 transition-colors"
+                      className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600 hover:bg-slate-200 transition-colors"
                     >
                       #{t.tag.name}
                     </Link>
@@ -262,9 +270,9 @@ export default function BlogPostPage() {
             )}
 
             {/* Share */}
-            <div className="mt-8 pt-8 border-t border-gray-200">
+            <div className="mt-8 pt-8 border-t border-slate-200">
               <div className="flex items-center gap-4">
-                <span className="flex items-center gap-2 text-gray-500">
+                <span className="flex items-center gap-2 text-slate-500">
                   <HiOutlineShare className="w-5 h-5" />
                   Compartilhar:
                 </span>
@@ -309,10 +317,10 @@ export default function BlogPostPage() {
       </section>
 
       {/* Comments Section */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-6">
+      <section className="py-12 bg-slate-50">
+        <div className="site-container">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl font-serif font-semibold text-black mb-8">
+            <h2 className="text-2xl font-black text-[#0a1d37] mb-8">
               Comentários ({post.comments.length})
             </h2>
 
@@ -322,35 +330,35 @@ export default function BlogPostPage() {
                 {post.comments.map((comment) => (
                   <div
                     key={comment.id}
-                    className="bg-white p-6 border border-gray-200"
+                    className="rounded-2xl bg-white p-6 border border-slate-200 shadow-sm"
                   >
                     <div className="flex items-center justify-between mb-4">
-                      <span className="font-medium text-black">{comment.name}</span>
-                      <span className="text-sm text-gray-500">
+                      <span className="font-bold text-[#0a1d37]">{comment.name}</span>
+                      <span className="text-sm text-slate-500">
                         {new Date(comment.createdAt).toLocaleDateString("pt-BR")}
                       </span>
                     </div>
-                    <p className="text-gray-600">{comment.content}</p>
+                    <p className="text-slate-600">{comment.content}</p>
                   </div>
                 ))}
               </div>
             )}
 
             {/* Comment Form */}
-            <div className="bg-white p-8 border border-gray-200">
-              <h3 className="text-xl font-serif font-semibold text-black mb-6">
+            <div className="rounded-[1.75rem] bg-white p-8 border border-slate-200 shadow-sm">
+              <h3 className="text-xl font-black text-[#0a1d37] mb-6">
                 Deixe um comentário
               </h3>
 
               {commentSuccess ? (
-                <div className="p-4 bg-green-50 text-green-700 text-center">
+                <div className="rounded-xl p-4 bg-green-50 text-green-700 text-center">
                   Comentário enviado! Aguardando aprovação.
                 </div>
               ) : (
                 <form onSubmit={handleCommentSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
                         Nome *
                       </label>
                       <input
@@ -360,11 +368,11 @@ export default function BlogPostPage() {
                         onChange={(e) =>
                           setCommentForm({ ...commentForm, name: e.target.value })
                         }
-                        className="w-full px-4 py-3 border border-gray-200 outline-none focus:border-black transition-colors"
+                        className="w-full rounded-xl px-4 py-3 border border-slate-200 outline-none focus:border-[#0a1d37] transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
                         E-mail *
                       </label>
                       <input
@@ -374,12 +382,12 @@ export default function BlogPostPage() {
                         onChange={(e) =>
                           setCommentForm({ ...commentForm, email: e.target.value })
                         }
-                        className="w-full px-4 py-3 border border-gray-200 outline-none focus:border-black transition-colors"
+                        className="w-full rounded-xl px-4 py-3 border border-slate-200 outline-none focus:border-[#0a1d37] transition-colors"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
                       Comentário *
                     </label>
                     <textarea
@@ -389,13 +397,13 @@ export default function BlogPostPage() {
                       onChange={(e) =>
                         setCommentForm({ ...commentForm, content: e.target.value })
                       }
-                      className="w-full px-4 py-3 border border-gray-200 outline-none focus:border-black transition-colors resize-none"
+                      className="w-full rounded-xl px-4 py-3 border border-slate-200 outline-none focus:border-[#0a1d37] transition-colors resize-none"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-8 py-3 bg-black text-white font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+                    className="rounded-lg px-8 py-3 bg-amber-500 text-white font-bold hover:bg-amber-600 transition-colors disabled:opacity-50"
                   >
                     {submitting ? "Enviando..." : "Enviar Comentário"}
                   </button>
@@ -408,9 +416,9 @@ export default function BlogPostPage() {
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <section className="py-16 lg:py-24">
-          <div className="container mx-auto px-6">
-            <h2 className="text-2xl md:text-3xl font-serif font-semibold text-black mb-12 text-center">
+        <section className="py-16 lg:py-24 bg-white">
+          <div className="site-container">
+            <h2 className="text-2xl md:text-4xl font-black text-[#0a1d37] mb-12 text-center">
               Posts Relacionados
             </h2>
 
@@ -421,10 +429,10 @@ export default function BlogPostPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group"
+                  className="group rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-lg"
                 >
                   <Link href={`/blog/${relatedPost.slug}`}>
-                    <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 mb-5">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100 mb-5">
                       {(relatedPost.cover || relatedPost.image) && (
                         <Image
                           src={relatedPost.cover || relatedPost.image || ""}
@@ -438,16 +446,16 @@ export default function BlogPostPage() {
                       {relatedPost.categories.slice(0, 1).map((c) => (
                         <span
                           key={c.category.id}
-                          className="px-2 py-0.5 text-[10px] uppercase tracking-wider font-medium bg-gray-100 text-gray-600"
+                          className="rounded-full bg-slate-100 px-3 py-1 text-[10px] uppercase tracking-[0.18em] font-bold text-slate-600"
                         >
                           {c.category.name}
                         </span>
                       ))}
                     </div>
-                    <h3 className="text-xl font-serif font-semibold text-black mb-3 group-hover:text-gray-700 transition-colors line-clamp-2">
+                    <h3 className="text-xl font-black text-[#0a1d37] mb-3 group-hover:text-amber-600 transition-colors line-clamp-2">
                       {relatedPost.title}
                     </h3>
-                    <span className="flex items-center gap-1 text-sm text-black font-medium group-hover:gap-2 transition-all">
+                    <span className="flex items-center gap-1 text-sm text-amber-600 font-bold group-hover:gap-2 transition-all">
                       Ler mais
                       <HiArrowRight className="w-4 h-4" />
                     </span>
