@@ -2,8 +2,25 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const db = prisma as any;
+interface KommoStatusPayload {
+  id: number;
+  name: string;
+  color: string;
+}
+
+interface KommoPipelinePayload {
+  id: number;
+  name: string;
+  _embedded?: {
+    statuses?: KommoStatusPayload[];
+  };
+}
+
+interface KommoPipelinesResponse {
+  _embedded?: {
+    pipelines?: KommoPipelinePayload[];
+  };
+}
 
 // GET - Buscar pipelines do Kommo
 export async function GET() {
@@ -13,7 +30,7 @@ export async function GET() {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
 
-    const settings = await db.kommoSettings.findFirst();
+    const settings = await prisma.kommoSettings.findFirst();
 
     if (!settings || !settings.accessToken || !settings.subdomain) {
       return NextResponse.json({ 
@@ -41,13 +58,13 @@ export async function GET() {
       return NextResponse.json({ error: "Erro ao buscar pipelines" }, { status: 500 });
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as KommoPipelinesResponse;
     
     // Formatar pipelines para o frontend
-    const pipelines = data._embedded?.pipelines?.map((pipeline: any) => ({
+    const pipelines = data._embedded?.pipelines?.map((pipeline) => ({
       id: pipeline.id,
       name: pipeline.name,
-      statuses: pipeline._embedded?.statuses?.map((status: any) => ({
+      statuses: pipeline._embedded?.statuses?.map((status) => ({
         id: status.id,
         name: status.name,
         color: status.color,

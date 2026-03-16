@@ -3,9 +3,6 @@ import { prisma } from "@/lib/prisma";
 import nodemailer from "nodemailer";
 import { getCompanyNameFromSlug, normalizeCompanySlug } from "@/lib/lead-context";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const db = prisma as any;
-
 interface LeadPayload {
   name: string;
   email?: string;
@@ -163,7 +160,7 @@ export async function POST(request: NextRequest) {
     const context = buildLeadContext(payload);
     const noteText = buildLeadNote(payload, context);
 
-    const settings = await db.kommoSettings.findFirst();
+    const settings = await prisma.kommoSettings.findFirst();
     const kommoReady =
       settings && settings.enabled && settings.accessToken && settings.subdomain;
 
@@ -185,8 +182,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const baseUrl = `https://${settings.subdomain}.kommo.com`;
-    const accessToken = settings.accessToken;
+    const subdomain = settings.subdomain as string;
+    const accessToken = settings.accessToken as string;
+    const baseUrl = `https://${subdomain}.kommo.com`;
 
     try {
       const contactId = await createContactInKommo(baseUrl, accessToken, payload);

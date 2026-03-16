@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Token de acesso não fornecido" }, { status: 400 });
     }
 
-    const settings = await (prisma as any).kommoSettings.findFirst();
+    const settings = await prisma.kommoSettings.findFirst();
 
     if (!settings || !settings.subdomain) {
       return NextResponse.json({ 
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     const expiresAt = new Date(Date.now() + 3 * 365 * 24 * 60 * 60 * 1000);
 
     // Salvar token no banco
-    await (prisma as any).kommoSettings.update({
+    await prisma.kommoSettings.update({
       where: { id: settings.id },
       data: {
         accessToken: accessToken,

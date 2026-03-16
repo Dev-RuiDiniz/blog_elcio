@@ -13,8 +13,8 @@ Site de apresentação comercial do Elcio com funil `Consultoria + Catálogo` e 
 Rotas ativas:
 - `/`
 - `/marcas`
+- `/sobre`
 - `/p/[slug]` (6 empresas)
-- `/blog`
 - `/contato`
 
 Rotas legadas públicas são redirecionadas para `/`.
@@ -126,5 +126,6 @@ URL local: `http://localhost:3003`
 
 - `pnpm dev` -> `next dev -p 3003`
 - `pnpm build` -> `prisma generate && next build`
+- `pnpm run build:vercel` -> `prisma generate && prisma migrate deploy && next build`
 - `pnpm start` -> produção
 - `pnpm lint` -> ESLint

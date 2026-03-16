@@ -2,9 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const db = prisma as any;
-
 // GET - Buscar configurações do Kommo
 export async function GET() {
   try {
@@ -13,11 +10,11 @@ export async function GET() {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
 
-    let settings = await db.kommoSettings.findFirst();
+    let settings = await prisma.kommoSettings.findFirst();
     
     if (!settings) {
       // Criar registro padrão se não existir
-      settings = await db.kommoSettings.create({
+      settings = await prisma.kommoSettings.create({
         data: {
           enabled: false,
         },
@@ -55,10 +52,10 @@ export async function PUT(request: NextRequest) {
     const data = await request.json();
     const { enabled, subdomain, clientId, clientSecret, pipelineId, pipelineName, statusId, statusName } = data;
 
-    let settings = await db.kommoSettings.findFirst();
+    let settings = await prisma.kommoSettings.findFirst();
 
     if (!settings) {
-      settings = await db.kommoSettings.create({
+      settings = await prisma.kommoSettings.create({
         data: {
           enabled: enabled ?? false,
           subdomain,
@@ -86,7 +83,7 @@ export async function PUT(request: NextRequest) {
         updateData.clientSecret = clientSecret;
       }
 
-      settings = await db.kommoSettings.update({
+      settings = await prisma.kommoSettings.update({
         where: { id: settings.id },
         data: updateData,
       });

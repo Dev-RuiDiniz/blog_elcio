@@ -8,7 +8,7 @@ const COMPANY_SLUG_REDIRECTS: Record<string, string> = {
   "/p/apresenta": "/p/mercosul-motores",
 };
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (

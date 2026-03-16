@@ -20,6 +20,16 @@ const baseConfig: SeoSiteConfig = {
 
 const seoMap: Record<SeoKey, SeoSiteConfig> = { elcio: baseConfig };
 
+function resolveMetadataBase(): URL {
+  const rawUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3003";
+
+  try {
+    return new URL(rawUrl);
+  } catch {
+    return new URL("http://localhost:3003");
+  }
+}
+
 export async function getSeoConfig(key: SeoKey): Promise<SeoSiteConfig> {
   return seoMap[key] || baseConfig;
 }
@@ -29,6 +39,7 @@ export async function buildMetadata(key: SeoKey): Promise<Metadata> {
   const keywords = seo.keywords.split(",").map((keyword) => keyword.trim());
 
   return {
+    metadataBase: resolveMetadataBase(),
     title: seo.title,
     description: seo.description,
     keywords,
