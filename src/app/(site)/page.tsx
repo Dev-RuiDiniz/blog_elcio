@@ -5,11 +5,8 @@ import {
   COMPANY_COUNT,
   COMPANY_OPTIONS,
   HUB_INTENT_OPTIONS,
-  HUB_SEGMENTS,
   buildContactHref,
   buildWhatsappHref,
-  getCompaniesBySegment,
-  getSolutionHref,
 } from "@/lib/lead-context";
 
 const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
@@ -41,7 +38,7 @@ const signals = [
 
 const counters = [
   { value: String(COMPANY_COUNT), label: "Empresas no hub" },
-  { value: String(HUB_SEGMENTS.length), label: "Clusters de solução" },
+  { value: "1", label: "Portfólio centralizado" },
   { value: "1", label: "Canal de entrada" },
   { value: "B2B", label: "Foco industrial" },
 ];
@@ -186,64 +183,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-24">
-        <div className="site-container">
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-3xl">
-              <span className="site-badge">Clusters de solução</span>
-              <h2 className="site-heading mt-4">
-                O hub agrupa as 7 empresas por necessidade real de compra.
-              </h2>
-              <p className="site-copy mt-4">
-                Cada cluster abaixo organiza empresas com foco semelhante para acelerar a
-                descoberta, a comparação e o próximo passo comercial.
-              </p>
-            </div>
-            <Link href="/marcas" className="site-button-secondary">
-              Ver todas as empresas
-            </Link>
-          </div>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {HUB_SEGMENTS.map((segment) => {
-              const companies = getCompaniesBySegment(segment.slug);
-
-              return (
-                <article
-                  key={segment.slug}
-                  className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 shadow-sm"
-                >
-                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
-                    {segment.label}
-                  </p>
-                  <h3 className="mt-3 text-3xl font-black text-[#0a1d37]">{segment.title}</h3>
-                  <p className="mt-4 text-slate-600 leading-relaxed">{segment.shortDescription}</p>
-
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {companies.map((company) => (
-                      <span
-                        key={company.slug}
-                        className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
-                      >
-                        {company.name}
-                      </span>
-                    ))}
-                  </div>
-
-                  <Link
-                    href={getSolutionHref(segment.slug)}
-                    className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0a1d37] transition-colors hover:text-amber-600"
-                  >
-                    Explorar este cluster
-                    <HiArrowRight className="h-4 w-4" />
-                  </Link>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       <section className="bg-[#0a1d37] py-24 text-white">
         <div className="site-container">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -298,12 +237,6 @@ export default function Home() {
                       className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-amber-600"
                     >
                       Ver página da empresa
-                    </Link>
-                    <Link
-                      href={getSolutionHref(company.segment)}
-                      className="inline-flex items-center justify-center rounded-xl border border-white/15 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-white/10"
-                    >
-                      Comparar dentro do cluster
                     </Link>
                   </div>
                 </div>
@@ -383,7 +316,7 @@ export default function Home() {
                 href="/marcas"
                 className="inline-flex items-center justify-between rounded-2xl border border-slate-200 px-5 py-4 font-semibold text-[#0a1d37] transition-colors hover:bg-slate-50"
               >
-                Explorar o hub por empresa e cluster
+                Explorar o hub por empresa
                 <HiArrowRight className="h-4 w-4" />
               </Link>
               <Link

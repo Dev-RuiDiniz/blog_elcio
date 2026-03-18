@@ -28,7 +28,6 @@ import {
   getCompanyNameFromSlug,
   getIntentDescription,
   getIntentLabel,
-  getSolutionHref,
   normalizeCompanySlug,
   normalizeIntent,
 } from "@/lib/lead-context";
@@ -198,9 +197,6 @@ function ContactContent() {
                 <div className="mt-6 flex flex-col gap-3">
                   <Link href={`/p/${selectedCompany.slug}`} className="text-sm font-bold text-[#0a1d37] hover:text-amber-600">
                     Ver página da empresa
-                  </Link>
-                  <Link href={getSolutionHref(selectedCompany.segment)} className="text-sm font-medium text-slate-600 hover:text-[#0a1d37]">
-                    Explorar cluster relacionado
                   </Link>
                 </div>
               </div>

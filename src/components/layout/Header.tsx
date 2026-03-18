@@ -54,8 +54,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const hasDarkHeroAtTop =
-    pathname === "/marcas" || pathname.startsWith("/p/") || pathname.startsWith("/solucoes/");
+  const hasDarkHeroAtTop = pathname === "/marcas" || pathname.startsWith("/p/");
   const showDarkElements = isScrolled || !hasDarkHeroAtTop;
 
   useEffect(() => {

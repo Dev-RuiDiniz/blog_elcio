@@ -29,17 +29,6 @@ export interface CompanyOption {
   comparisonTags: string[];
 }
 
-export interface HubSegmentDefinition {
-  slug: HubSegment;
-  label: string;
-  title: string;
-  description: string;
-  shortDescription: string;
-  heroTitle: string;
-  heroDescription: string;
-  idealFor: string[];
-}
-
 export interface BuyerIntentOption {
   value: BuyerIntent;
   label: string;
@@ -80,105 +69,6 @@ export const HUB_INTENT_OPTIONS: BuyerIntentOption[] = [
     value: "solicitar-contato-comercial",
     label: "Solicitar contato comercial",
     description: "Ideal para abrir orçamento, cotação ou próximo passo com contexto.",
-  },
-];
-
-export const HUB_SEGMENTS: HubSegmentDefinition[] = [
-  {
-    slug: "ferramentas-especiais",
-    label: "Ferramentas especiais",
-    title: "Soluções especiais sob aplicação",
-    description:
-      "Empresas com foco em demandas fora do padrão, proteção mecânica, lubrificação especial e soluções que exigem leitura dedicada da aplicação.",
-    shortDescription: "Projetos e produtos especiais para cenários fora do padrão.",
-    heroTitle: "Quando a solução padrão não resolve",
-    heroDescription:
-      "Compare empresas voltadas a aplicações especiais, lubrificação de alta performance e necessidades que exigem aderência técnica acima do catálogo básico.",
-    idealFor: [
-      "Demandas fora do padrão comercial",
-      "Proteção mecânica e lubrificação de alta performance",
-      "Projetos que exigem leitura técnica específica da aplicação",
-    ],
-  },
-  {
-    slug: "filtragem",
-    label: "Filtragem",
-    title: "Controle de contaminação e qualidade do ar",
-    description:
-      "Soluções para filtragem industrial, qualidade do ar interior, emissões atmosféricas e adequação regulatória.",
-    shortDescription: "Filtragem industrial e controle do ar para ambientes críticos.",
-    heroTitle: "Filtragem e qualidade do ar com apoio consultivo",
-    heroDescription:
-      "Identifique a empresa certa para retenção de partículas, controle de emissões e qualidade do ar em aplicações industriais e comerciais.",
-    idealFor: [
-      "HVAC e qualidade do ar",
-      "Controle de emissões atmosféricas",
-      "Ambientes críticos e industriais",
-    ],
-  },
-  {
-    slug: "ventilacao",
-    label: "Ventilação",
-    title: "Ventilação industrial e conservação energética",
-    description:
-      "Ventiladores, retrofits e consultoria para reduzir consumo de energia e melhorar performance de sistemas de ventilação.",
-    shortDescription: "Ventilação industrial com foco em desempenho e eficiência.",
-    heroTitle: "Ventilação industrial pensada para performance",
-    heroDescription:
-      "Avalie soluções para sistemas completos de ventilação, adaptação de hélices e ganhos de eficiência energética em aplicações industriais.",
-    idealFor: [
-      "Projetos com meta de eficiência energética",
-      "Ventilação e climatização industrial",
-      "Retrofit e controle acústico",
-    ],
-  },
-  {
-    slug: "acionamentos",
-    label: "Acionamentos",
-    title: "Acionamentos industriais",
-    description:
-      "Motorredutores, inversores, redutores, motores e soluções completas para transmissão, controle e eficiência operacional.",
-    shortDescription: "Acionamentos completos para movimento e transmissão.",
-    heroTitle: "Acionamentos e movimento com mais clareza na escolha",
-    heroDescription:
-      "Descubra empresas do portfólio focadas em sistemas de acionamento, integração entre redutores, motores e eletrônica de controle.",
-    idealFor: [
-      "Movimento e transmissão industrial",
-      "Dimensionamento de redutores e inversores",
-      "Projetos com foco em robustez e eficiência",
-    ],
-  },
-  {
-    slug: "motores",
-    label: "Motores",
-    title: "Motores elétricos e soluções de movimento",
-    description:
-      "Portfólio para motores elétricos, automação industrial, redutores e soluções ligadas a baixa tensão e mobilidade.",
-    shortDescription: "Motores elétricos, redutores e soluções industriais complementares.",
-    heroTitle: "Motores elétricos e soluções industriais conectadas ao seu cenário",
-    heroDescription:
-      "Compare opções para motores, automação e componentes de movimento com apoio comercial centralizado.",
-    idealFor: [
-      "Baixa tensão e aplicações industriais",
-      "Motores trifásicos e monofásicos",
-      "Automação e redutores de velocidade",
-    ],
-  },
-  {
-    slug: "assistencia-tecnica-industrial",
-    label: "Assistência técnica industrial",
-    title: "Manutenção elétrica e eletrônica industrial",
-    description:
-      "Atendimento para manutenção preventiva e corretiva de acionamentos, CNCs, IHMs, PLCs, placas e equipamentos eletrônicos industriais.",
-    shortDescription: "Assistência técnica industrial para recuperar disponibilidade e reduzir parada.",
-    heroTitle: "Quando a demanda é manutenção industrial com alta criticidade",
-    heroDescription:
-      "Encontre suporte para manutenção elétrica e eletrônica industrial, diagnóstico técnico e recuperação de ativos críticos.",
-    idealFor: [
-      "Paradas programadas e corretivas",
-      "CNCs, IHMs, PLCs e servo-drives",
-      "Recuperação de eletrônica industrial multimarcas",
-    ],
   },
 ];
 
@@ -300,8 +190,6 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
 
 export const COMPANY_COUNT = COMPANY_OPTIONS.length;
 
-export const HUB_SEGMENT_ORDER = HUB_SEGMENTS.map((segment) => segment.slug);
-
 export function normalizeCompanySlug(value?: string | null): string {
   if (!value) return "";
   const normalizedInput = value.trim().toLowerCase();
@@ -358,41 +246,6 @@ export function getCompanyBySlug(value?: string | null): CompanyOption | null {
 
 export function getCompanyCatalogHref(value?: string | null): string {
   return getCompanyBySlug(value)?.pdfPublicPath || "";
-}
-
-export function getHubSegmentBySlug(value?: string | null): HubSegmentDefinition | null {
-  if (!value) return null;
-  return HUB_SEGMENTS.find((segment) => segment.slug === value) || null;
-}
-
-export function getCompaniesBySegment(segment?: string | null): CompanyOption[] {
-  if (!segment) return [];
-  return COMPANY_OPTIONS.filter((company) => company.segment === segment);
-}
-
-export function getRelatedCompanies(slug?: string | null, limit = 3): CompanyOption[] {
-  const current = getCompanyBySlug(slug);
-  if (!current) return [];
-
-  return COMPANY_OPTIONS.filter((company) => company.slug !== current.slug)
-    .map((company) => {
-      const sharedTags = company.comparisonTags.filter((tag) => current.comparisonTags.includes(tag)).length;
-      const sharedSolutions = company.solutionTypes.filter((type) => current.solutionTypes.includes(type)).length;
-      const sameSegment = company.segment === current.segment ? 3 : 0;
-
-      return {
-        company,
-        score: sameSegment + sharedTags * 2 + sharedSolutions,
-      };
-    })
-    .sort((a, b) => b.score - a.score || a.company.order - b.company.order)
-    .slice(0, limit)
-    .map((item) => item.company);
-}
-
-export function getSolutionHref(segment?: string | null): string {
-  const normalized = getHubSegmentBySlug(segment);
-  return normalized ? `/solucoes/${normalized.slug}` : "/marcas";
 }
 
 export function isCompanyAssetPath(path?: string | null): boolean {

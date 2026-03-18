@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 import { HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
-import { HUB_SEGMENTS, buildContactHref, buildWhatsappHref, getSolutionHref } from "@/lib/lead-context";
+import { buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 const linkGroups = [
   {
@@ -15,13 +15,6 @@ const linkGroups = [
       { href: "/sobre", label: "Sobre" },
       { href: "/contato", label: "Contato" },
     ],
-  },
-  {
-    title: "Soluções",
-    links: HUB_SEGMENTS.slice(0, 4).map((segment) => ({
-      href: getSolutionHref(segment.slug),
-      label: segment.label,
-    })),
   },
   {
     title: "Conversão",
@@ -46,7 +39,7 @@ export function Footer() {
   return (
     <footer className="bg-[#0a1d37] text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-14 md:py-16 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div className="lg:col-span-2">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

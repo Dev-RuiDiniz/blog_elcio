@@ -9,7 +9,6 @@ import {
   getCompanyBySlug,
   getIntentDescription,
   getIntentLabel,
-  getSolutionHref,
 } from "@/lib/lead-context";
 
 function getCompanyPageData(slug: string) {
@@ -213,11 +212,9 @@ export default async function DynamicPage({
           </article>
 
           <article className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
-              Setores e comparação
-            </p>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">Setores atendidos</p>
             <h2 className="mt-4 text-3xl font-black text-[#0a1d37]">
-              Onde esta empresa entra no hub e com quem comparar
+              Onde esta empresa atua com mais aderência
             </h2>
             <div className="mt-6 flex flex-wrap gap-2">
               {detail.sectors.map((sector) => (
@@ -229,17 +226,10 @@ export default async function DynamicPage({
                 </span>
               ))}
             </div>
-
-            <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5">
-              <p className="text-sm font-semibold text-slate-500">Cluster principal</p>
-              <Link
-                href={getSolutionHref(company.segment)}
-                className="mt-2 inline-flex items-center gap-2 text-lg font-black text-[#0a1d37] hover:text-amber-600"
-              >
-                Explorar {company.segment.replace(/-/g, " ")}
-                <HiArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
+            <p className="mt-8 text-sm leading-relaxed text-slate-600">
+              A leitura comercial desta empresa continua focada em contexto de aplicação, setores
+              atendidos e aderência técnica, sem depender de páginas intermediárias de solução.
+            </p>
           </article>
         </div>
       </section>
