@@ -50,12 +50,13 @@ const DEFAULT_FOOTER: FooterConfig = {
     {
       title: "Empresas",
       links: [
-        { label: "Dormer Pramet", href: "/p/dormer-pramet" },
-        { label: "Fecial", href: "/p/fecial" },
+        { label: "Ardiri", href: "/p/ardiri" },
+        { label: "Autoplast", href: "/p/autoplast" },
         { label: "Solofil", href: "/p/solofil" },
         { label: "Deltajet", href: "/p/deltajet" },
         { label: "NORD DRIVESYSTEMS", href: "/p/nord-drivesystems" },
         { label: "Mercosul Motores", href: "/p/mercosul-motores" },
+        { label: "WMG Assistência Técnica", href: "/p/wmg-assistencia-tecnica" },
       ],
     },
     {
@@ -70,7 +71,7 @@ const DEFAULT_FOOTER: FooterConfig = {
     {
       title: "Atendimento",
       links: [
-        { label: "Consultoria + Catálogo", href: "/contato?assunto=consultoria-catalogo&origem=footer" },
+        { label: "Comparar e qualificar", href: "/contato?assunto=consultoria-catalogo&origem=footer" },
         { label: "Falar no WhatsApp", href: "https://wa.me/5512988737347?text=Olá! Quero consultoria e catálogo." },
       ],
     },

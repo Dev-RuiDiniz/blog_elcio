@@ -10,12 +10,12 @@ interface SeoSiteConfig {
 }
 
 const baseConfig: SeoSiteConfig = {
-  title: "Elcio Representação Comercial | Consultoria + Catálogo",
+  title: "Elcio Hub B2B | Descubra, compare e acione a empresa industrial certa",
   description:
-    "Representação comercial B2B para conectar sua demanda à empresa ideal com atendimento consultivo e catálogo técnico.",
+    "Hub B2B para descobrir, comparar e acionar 7 empresas industriais por solução, aplicação e contexto comercial.",
   favicon: "/favicon.ico",
   keywords:
-    "elcio, representacao comercial, consultoria comercial, catalogo tecnico, b2b, empresas representadas",
+    "elcio, hub b2b, representacao comercial, comparacao de empresas industriais, catalogo tecnico, qualidade de energia, lubrificacao especial",
 };
 
 const seoMap: Record<SeoKey, SeoSiteConfig> = { elcio: baseConfig };

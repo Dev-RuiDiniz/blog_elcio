@@ -7,16 +7,16 @@ import {
   HiOutlineMail,
   HiOutlinePhone,
 } from "react-icons/hi";
-import { COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
+import { COMPANY_COUNT, COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
-const DARK_BG_LOGO_SLUGS = ["fecial", "mercosul-motores"];
+const DARK_BG_LOGO_SLUGS = ["ardiri", "mercosul-motores"];
 
 const pillars = [
   {
     title: "Triagem Consultiva",
     description:
-      "Elcio entende o contexto comercial e técnico antes de apontar a empresa mais aderente.",
+      "Elcio começa pelo problema, pela intenção e pelo contexto antes de encaminhar a empresa mais coerente.",
   },
   {
     title: "Ponto Único de Contato",
@@ -31,13 +31,13 @@ const pillars = [
 ];
 
 const highlights = [
-  "Atendimento B2B com foco em demanda industrial.",
-  "Representação comercial com 6 empresas no portfólio.",
-  "Agilidade para abrir consultoria, catálogo e primeiro contato.",
+  "Hub B2B com foco em descoberta, comparação e encaminhamento comercial.",
+  `Portfólio consolidado com ${COMPANY_COUNT} empresas e clusters de solução.`,
+  "Entrada única para intenção, empresa e próximo passo comercial.",
 ];
 
 const counters = [
-  { value: "6", label: "Empresas representadas" },
+  { value: String(COMPANY_COUNT), label: "Empresas representadas" },
   { value: "1", label: "Canal consultivo inicial" },
   { value: "B2B", label: "Atendimento comercial" },
   { value: "SP", label: "Base em Taubaté" },
@@ -50,7 +50,7 @@ export default function SobrePage() {
         <div className="absolute inset-0 bg-[#0a1d37]" />
         <div className="absolute inset-0 opacity-15">
           <Image
-            src={orderedCompanies[0]?.coverPublicPath || "/images/empresas/dormer-pramet/cover.jpg"}
+            src={orderedCompanies[0]?.coverPublicPath || "/images/empresas/ardiri/cover.png"}
             alt=""
             fill
             priority
@@ -63,18 +63,18 @@ export default function SobrePage() {
               Sobre Elcio
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
-              Representação comercial orientada para aproximar demanda e solução.
+              O Elcio opera o hub B2B que conecta demanda, solução e próximo passo comercial.
             </h1>
             <p className="max-w-3xl text-lg text-slate-200 leading-relaxed mb-10">
-              Elcio atua como articulador comercial entre sua necessidade e as empresas representadas,
-              organizando o primeiro contato, direcionando o catálogo técnico e acelerando o início da conversa.
+              Mais do que representar empresas, o papel do Elcio é organizar a entrada comercial do
+              portfólio, comparar caminhos e encaminhar a conversa com mais aderência técnica.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href={buildContactHref({ assunto: "consultoria-catalogo", origem: "sobre-hero" })}
+                href={buildContactHref({ intent: "entender-melhor-opcao", origem: "sobre-hero" })}
                 className="site-button-primary"
               >
-                Falar com Elcio
+                Entender o hub
                 <HiArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/marcas" className="site-button-secondary-inverse">
@@ -98,13 +98,13 @@ export default function SobrePage() {
                   </h2>
                   <p className="site-copy">
                     A proposta do Elcio não é apenas encaminhar contatos. O trabalho começa na
-                    compreensão do cenário, no filtro inicial da demanda e na organização do fluxo
-                    comercial para que a conversa avance com mais precisão.
+                    leitura do cenário, no filtro inicial da demanda e na organização do fluxo
+                    comercial para que o contato avance com mais precisão entre as empresas do hub.
                   </p>
                 </div>
                 <div className="bg-[#0a1d37] p-8 flex flex-col justify-between">
                   <div>
-                    <p className="text-4xl font-black text-amber-400">6</p>
+                    <p className="text-4xl font-black text-amber-400">{COMPANY_COUNT}</p>
                     <p className="mt-2 text-sm uppercase tracking-[0.2em] text-slate-300">
                       Empresas no portfólio
                     </p>
@@ -130,9 +130,8 @@ export default function SobrePage() {
               Uma representação comercial menos dispersa e mais objetiva
             </h2>
             <p className="site-copy mb-8">
-              O foco está em reduzir o atrito do primeiro atendimento e fazer com que cada empresa
-              representada receba uma oportunidade mais bem contextualizada, com indicação mais aderente
-              ao que o cliente precisa.
+              O foco está em reduzir o atrito da descoberta e fazer com que cada empresa do portfólio
+              receba uma oportunidade com contexto, intenção e comparação mais claros.
             </p>
             <ul className="space-y-4">
               {highlights.map((item) => (
@@ -184,8 +183,8 @@ export default function SobrePage() {
               O portfólio que o Elcio conecta ao mercado
             </h2>
             <p className="mx-auto max-w-3xl site-copy">
-              A atuação comercial passa por empresas com foco em ferramentas, filtragem, acionamentos
-              e soluções industriais complementares.
+              A atuação comercial passa por empresas com foco em qualidade de energia, lubrificação
+              especial, filtragem, acionamentos, motores e manutenção industrial.
             </p>
           </div>
 
@@ -255,8 +254,8 @@ export default function SobrePage() {
               Se quiser abrir a conversa certa, o primeiro passo começa aqui.
             </h2>
             <p className="site-copy-inverse mb-8">
-              Entre em contato para receber uma orientação inicial, identificar a empresa mais aderente
-              e avançar com consultoria comercial e catálogo técnico.
+              Entre em contato para receber orientação inicial, descobrir o melhor caminho dentro do
+              hub e avançar com contexto comercial mais claro.
             </p>
             <div className="space-y-4 text-slate-200">
               <div className="flex items-center gap-3">
@@ -285,10 +284,10 @@ export default function SobrePage() {
             </p>
             <div className="flex flex-col gap-4">
               <Link
-                href={buildContactHref({ assunto: "consultoria-catalogo", origem: "sobre-cta" })}
+                href={buildContactHref({ intent: "entender-melhor-opcao", origem: "sobre-cta" })}
                 className="site-button-primary"
               >
-                Solicitar consultoria + catálogo
+                Quero ajuda para comparar
               </Link>
               <a
                 href={buildWhatsappHref({ origem: "sobre-cta" })}

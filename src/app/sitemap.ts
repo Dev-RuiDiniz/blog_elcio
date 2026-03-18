@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { COMPANY_OPTIONS } from "@/lib/lead-context";
+import { COMPANY_OPTIONS, HUB_SEGMENTS } from "@/lib/lead-context";
 
 function resolveBaseUrl(host: string | null): string {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -50,6 +50,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
+  const solutionPages: MetadataRoute.Sitemap = HUB_SEGMENTS.map((segment) => ({
+    url: `${baseUrl}/solucoes/${segment.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   try {
     const posts = await prisma.blogPost.findMany({
@@ -87,5 +94,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     dynamicPages = [];
   }
 
-  return [...staticPages, ...companyPages, ...blogPages, ...dynamicPages];
+  return [...staticPages, ...companyPages, ...solutionPages, ...blogPages, ...dynamicPages];
 }

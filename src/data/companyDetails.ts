@@ -11,123 +11,144 @@ export interface CompanyPageDetail {
   services: CompanyDetailItem[];
   sectors: string[];
   differentiators: string[];
+  idealFor: string[];
   seoDescription: string;
 }
 
 export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
-  autoplast: {
-    heroDescription:
-      "Fabricante brasileira de aditivos e lubrificantes especiais de alta performance com PTFE e MoS2, com mais de 30 anos no mercado, atuando na redução de atrito e proteção de equipamentos mecânicos em operações industriais.",
-    overviewTitle: "Lubrificação de alta performance que vai além do óleo convencional",
-    overviewParagraphs: [
-      "A Autoplast Motores está no mercado desde 1992, desenvolvendo aditivos e lubrificantes especiais com base em PTFE (Teflon®) e MoS2 para reduzir desgastes, ruído, vibração e prolongar a vida útil de equipamentos mecânicos.",
-      "Seus produtos tratam a superfície da zona de atrito, revestindo com lubrificante sólido que permanece no local como lubrificação de emergência, eliminando a partida a seco e protegendo contra oxidação mesmo em paradas prolongadas como entressafra.",
-    ],
-    products: [
-      {
-        title: "Graxas de alta performance",
-        description:
-          "Graxas com PTFE e/ou MoS2 para mancais, rolamentos, engrenagens e guias — incluindo MPF, GATFB, NZG-1004T e MPFBI — para operar em ambientes com alta carga, umidade, temperatura ou contaminantes.",
-      },
-      {
-        title: "Óleos e aditivos especiais",
-        description:
-          "Aditivos concentrados LCC-90, HD-68, ANTIGOTA-V400 e ANTIGOTA-V100 para redutores, sistemas hidráulicos, bombas e pneumática. Formam filme de PTFE que reduz desgaste e protege em paradas prolongadas.",
-      },
-      {
-        title: "Sprays com PTFE e MoS2",
-        description:
-          "AGBA, NZO SA, PTFE Powder Spray e PTFE+MoS2 Powder Spray para montagem mecânica, correntes, nórias e lubrificação seca — formando filme antiaderente e autolubrificante.",
-      },
-      {
-        title: "AutoCleaning — preparação de superfície",
-        description:
-          "Produto para dissolver vernizes, borras e carbonizados de óleo sem agredir pintura ou borrachas nitrílicas, preparando a superfície para fixação do PTFE.",
-      },
-    ],
-    services: [
-      {
-        title: "Diagnóstico e preparação de superfície",
-        description:
-          "Orientação sobre limpeza e preparo do circuito de lubrificação para garantir a adesão e eficácia do tratamento com PTFE.",
-      },
-      {
-        title: "Tratamento com PTFE e MoS2",
-        description:
-          "Aplicação dos produtos conforme a necessidade: graxas, óleos, aditivos ou sprays específicos para cada tipo de equipamento e condição operacional.",
-      },
-      {
-        title: "Suporte técnico de aplicação",
-        description:
-          "Orientação sobre taxas de aplicação, escolha do produto ideal e resultados esperados, com histórico de casos em usinas, colhedoras e equipamentos industriais.",
-      },
-    ],
-    sectors: [
-      "Siderurgia e metalurgia",
-      "Agronegócio — usinas de açúcar e álcool, colhedoras e implementos",
-      "Cerâmica, têxtil e indústrias alimentícias",
-      "Frigoríficos, transporte e armazéns",
-    ],
-    differentiators: [
-      "No mercado desde 1992, com clientes em múltiplos segmentos industriais",
-      "PTFE com coeficiente de atrito entre 0,02 e 0,1 — equivalente a gelo/gelo",
-      "Redução comprovada de 57% em ruído e vibração em redutores de usina de açúcar",
-      "AutoCleaning dissolve verniz de óleo sem agredir pintura ou borrachas nitrílicas",
-    ],
-    seoDescription:
-      "Conheça a Autoplast Motores: aditivos e lubrificantes especiais com PTFE e MoS2 para redução de atrito, proteção e aumento da vida útil de equipamentos industriais.",
-  },
   ardiri: {
     heroDescription:
-      "Soluções empresariais em qualidade de energia com Filtros Capacitivos certificados pelos principais institutos nacionais e internacionais, gerando proteção de equipamentos, aumento de produtividade e economia de energia elétrica com payback em 10 meses.",
-    overviewTitle: "Energia mais limpa que protege equipamentos e reduz custos",
+      "Soluções para qualidade de energia e proteção elétrica com filtros capacitivos certificados, voltadas a reduzir perdas, proteger ativos e elevar a eficiência industrial.",
+    overviewTitle: "Qualidade de energia como alavanca de proteção e produtividade",
     overviewParagraphs: [
-      "A Ardiri comercializa Filtros Capacitivos Lumilight que identificam distúrbios elétricos — distorções harmônicas, transitórios impulsivos, variações de tensão e espúrios — e os desviam para o aterramento, entregando energia mais limpa à rede interna.",
-      "Distribuidora oficial Lumilight do Brasil, a Ardiri instala os equipamentos em paralelo à rede por profissionais homologados pelo fabricante, garantindo proteção sem interrupção da operação e 10 anos de garantia.",
+      "A Ardiri Soluções Empresariais atua com foco em eficiência energética, qualidade de energia e proteção de sistemas elétricos, apoiando operações que sofrem com distorções, perdas e sensibilidade de equipamentos.",
+      "Seu portfólio se destaca pelos filtros capacitivos certificados e pela proposta de unir proteção elétrica, economia de energia e maior estabilidade operacional em plantas industriais e estruturas empresariais.",
     ],
     products: [
       {
-        title: "Filtros Capacitivos Lumilight",
+        title: "Filtros capacitivos certificados",
         description:
-          "Equipamento eletrônico em alto padrão tecnológico que identifica e desvia para o aterramento os transientes elétricos que causam distúrbios, queimas e perdas de produtividade.",
+          "Soluções voltadas à correção e ao condicionamento da energia para proteger máquinas, eletrônicos e infraestrutura crítica.",
       },
       {
-        title: "Instalação trifásica em paralelo",
+        title: "Proteção e estabilidade elétrica",
         description:
-          "Instalação segura em paralelo à rede sem necessidade de interrupção da operação, seguindo todas as normas e procedimentos técnicos.",
+          "Aplicações pensadas para reduzir impactos de distorções harmônicas, proteger a operação e ampliar a confiabilidade do sistema elétrico.",
+      },
+      {
+        title: "Eficiência energética",
+        description:
+          "Projetos orientados à redução de desperdícios energéticos e ao ganho econômico sem perder robustez operacional.",
+      },
+      {
+        title: "Soluções empresariais integradas",
+        description:
+          "Combinação entre leitura técnica do cenário elétrico, proposta de proteção e direcionamento para aumento de produtividade.",
       },
     ],
     services: [
       {
-        title: "Instalação por profissionais homologados",
+        title: "Diagnóstico consultivo",
         description:
-          "Instalação realizada por equipe certificada pelo fabricante, com aterramento adequado (ideal ≤ 5 Ω, aceitável ≤ 10 Ω) e conformidade técnica.",
+          "Leitura do contexto energético e operacional para entender onde a instabilidade elétrica impacta disponibilidade, consumo e risco.",
       },
       {
-        title: "Monitoramento de resultados e ROI",
+        title: "Aplicação orientada a resultado",
         description:
-          "Acompanhamento dos ganhos após instalação: perspectiva de payback em 10 meses e ROI médio mensal de 10% do valor investido.",
+          "Recomendação de soluções para reduzir perdas, proteger ativos e apoiar metas de produtividade com mais previsibilidade elétrica.",
       },
       {
-        title: "Garantia de 10 anos",
+        title: "Apoio comercial técnico",
         description:
-          "Suporte de longo prazo com garantia estendida, refletindo a confiabilidade e durabilidade dos equipamentos Lumilight.",
+          "Encaminhamento com contexto para operações que precisam justificar investimento por desempenho, proteção e economia.",
       },
     ],
     sectors: [
-      "Indústria — maquinários, motores e equipamentos eletrônicos",
-      "Comércio e serviços com alta demanda elétrica",
-      "Agronegócio e armazéns",
-      "Saúde, hospitais e ambientes críticos",
+      "Indústrias com sensibilidade a distorções e falhas elétricas",
+      "Operações com máquinas, automação e eletrônicos críticos",
+      "Empresas com meta de economia de energia e confiabilidade",
+      "Plantas industriais e estruturas empresariais de alta demanda elétrica",
     ],
     differentiators: [
-      "Certificado por INMETRO, INPI, WIPO, ABNT, ISO 9001, UL Certified, BNDES e Eletrobras",
-      "Perspectiva de payback em 10 meses com ROI médio de 10% ao mês",
-      "10 anos de garantia nos equipamentos instalados",
-      "Distribuidora oficial Lumilight do Brasil com equipe homologada pelo fabricante",
+      "Posicionamento centrado em eficiência energética e qualidade de energia",
+      "Portfólio com filtros capacitivos certificados",
+      "Proposta comercial conectada a proteção elétrica, economia e produtividade",
+      "Atuação em cenários em que falha elétrica compromete máquinas e eletrônicos críticos",
+    ],
+    idealFor: [
+      "Operações com quebras, instabilidades ou sensibilidade elétrica recorrente",
+      "Projetos que precisam justificar eficiência energética com ganho operacional",
+      "Compradores técnicos que buscam proteção elétrica e estabilidade da planta",
     ],
     seoDescription:
-      "Conheça a Ardiri: Filtros Capacitivos Lumilight certificados para proteção de equipamentos, economia de energia e aumento de produtividade com payback em 10 meses.",
+      "Conheça a Ardiri: filtros capacitivos, qualidade de energia, proteção elétrica e soluções para eficiência e produtividade industrial.",
+  },
+  autoplast: {
+    heroDescription:
+      "Fabricante de lubrificantes especiais e aditivos industriais de alta performance com PTFE e MoS2, voltados à redução de atrito, desgaste e falhas mecânicas.",
+    overviewTitle: "Lubrificação especial quando o desgaste mecânico vira custo de operação",
+    overviewParagraphs: [
+      "A Autoplast atua com aditivos e lubrificantes especiais para aplicações industriais e automotivas, com forte presença em soluções de alto desempenho para redução de atrito e proteção de componentes.",
+      "Seu portfólio combina compostos com PTFE, MoS2 e formulações específicas para redutores, sistemas hidráulicos, compressores, motores, graxas e sprays, sempre com a proposta de aumentar vida útil e confiabilidade mecânica.",
+    ],
+    products: [
+      {
+        title: "Lubrificantes especiais",
+        description:
+          "Linhas para aplicações que exigem proteção superior contra atrito, desgaste, aquecimento e perda de eficiência mecânica.",
+      },
+      {
+        title: "Aditivos com PTFE e MoS2",
+        description:
+          "Formulações voltadas a formar película protetiva, reduzir contato metal-metal e ampliar a durabilidade dos sistemas.",
+      },
+      {
+        title: "Soluções para redutores, hidráulicos e compressores",
+        description:
+          "Produtos específicos para conjuntos mecânicos sujeitos a carga, calor, contaminação e necessidade de lubrificação mais confiável.",
+      },
+      {
+        title: "Sprays, graxas e óleos de aplicação",
+        description:
+          "Portfólio complementar para manutenção, proteção e aumento da vida útil em diferentes contextos industriais.",
+      },
+    ],
+    services: [
+      {
+        title: "Leitura da aplicação mecânica",
+        description:
+          "Apoio para identificar pontos de atrito, desgaste, ruído, vibração ou falha prematura no conjunto mecânico.",
+      },
+      {
+        title: "Recomendação por condição operacional",
+        description:
+          "Direcionamento do produto conforme tipo de equipamento, regime de carga, temperatura e objetivo de proteção.",
+      },
+      {
+        title: "Apoio comercial orientado a confiabilidade",
+        description:
+          "Encaminhamento para aplicações que precisam reduzir parada, manutenção corretiva e substituição recorrente de componentes.",
+      },
+    ],
+    sectors: [
+      "Indústrias com redutores, bombas, compressores e sistemas hidráulicos",
+      "Manutenção industrial e confiabilidade mecânica",
+      "Operações com motores, engrenagens e componentes sujeitos a desgaste",
+      "Aplicações que exigem lubrificação especial e proteção prolongada",
+    ],
+    differentiators: [
+      "Foco em lubrificantes e aditivos especiais de alta performance",
+      "Aplicações com PTFE e MoS2 para redução de atrito e desgaste",
+      "Portfólio voltado à proteção mecânica e aumento de vida útil",
+      "Posicionamento claro para reduzir falhas, ruído, vibração e custo de manutenção",
+    ],
+    idealFor: [
+      "Equipamentos com desgaste mecânico recorrente e alto custo de parada",
+      "Times de manutenção que precisam elevar vida útil de conjuntos críticos",
+      "Cenários em que lubrificação especial reduz atrito, ruído e vibração",
+    ],
+    seoDescription:
+      "Conheça a Autoplast: lubrificantes especiais, aditivos industriais, PTFE, MoS2 e soluções para reduzir atrito e desgaste mecânico.",
   },
   solofil: {
     heroDescription:
@@ -187,6 +208,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Atuação em controle do ar interior e emissões atmosféricas",
       "Parcerias tecnológicas internacionais e forte base técnica",
       "Portfólio que combina produto, serviço e diagnóstico especializado",
+    ],
+    idealFor: [
+      "Operações com controle de emissões e partículas",
+      "Ambientes críticos, salas limpas e HVAC",
+      "Demandas com necessidade de adequação regulatória",
     ],
     seoDescription:
       "Conheça a Solufil: mangas filtrantes, filtros de ar, serviços técnicos e soluções para controle da contaminação e da poluição do ar.",
@@ -250,6 +276,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Produção própria de hélices em fibra de carbono",
       "Combinação de fabricação, adaptação e consultoria técnica de performance",
     ],
+    idealFor: [
+      "Projetos que buscam eficiência energética",
+      "Aplicações com necessidade de retrofit em ventilação",
+      "Operações que exigem análise de performance do sistema",
+    ],
     seoDescription:
       "Conheça a Delta Jet: ventiladores industriais, hélices em fibra de carbono, sistemas completos de ventilação e consultoria técnica.",
   },
@@ -311,6 +342,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Fabricação própria de redutores, motores e inversores",
       "Presença em dezenas de países com serviços e distribuição",
       "Foco em eficiência, robustez, qualidade e flexibilidade de configuração",
+    ],
+    idealFor: [
+      "Projetos de acionamentos completos",
+      "Aplicações que exigem robustez e flexibilidade",
+      "Integração entre redutores, motores e inversores",
     ],
     seoDescription:
       "Conheça a NORD DRIVESYSTEMS: motorredutores, motores elétricos, redutores industriais e inversores com suporte técnico especializado.",
@@ -374,8 +410,80 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Rede de assistência técnica com mais de 300 parceiros",
       "Combinação entre inovação tecnológica, sustentabilidade e presença comercial nacional",
     ],
+    idealFor: [
+      "Aplicações com motores em baixa tensão",
+      "Demandas por automação, motores e redutores em conjunto",
+      "Compradores que valorizam capilaridade técnica nacional",
+    ],
     seoDescription:
       "Conheça a Mercosul Motores: motores elétricos monofásicos e trifásicos, automação, redutores e suporte técnico com cobertura nacional.",
+  },
+  "wmg-assistencia-tecnica": {
+    heroDescription:
+      "Assistência técnica industrial especializada em manutenção elétrica e eletrônica para máquinas, acionamentos, CNCs, IHMs, robôs e equipamentos multimarcas.",
+    overviewTitle: "Manutenção industrial para recuperar desempenho e reduzir custo de parada",
+    overviewParagraphs: [
+      "A WMG Assistência Técnica atua em manutenção elétrica e eletrônica industrial, com foco em diagnóstico, reparo e recuperação de equipamentos críticos para produção.",
+      "Com base em Taubaté/SP e atendimento nacional, a empresa trabalha com soluções preventivas e corretivas para inversores, soft-starters, servo-drives, PLCs, IHMs, CNCs, placas eletrônicas, fontes e outros sistemas industriais multimarcas.",
+    ],
+    products: [
+      {
+        title: "Manutenção de acionamentos industriais",
+        description:
+          "Reparo e recuperação de inversores de frequência, soft-starters, servo-drives e servo-motores de diversas marcas.",
+      },
+      {
+        title: "CNCs, PLCs e IHMs",
+        description:
+          "Suporte para comandos numéricos, controladores lógicos programáveis, interfaces homem-máquina e touch pendants.",
+      },
+      {
+        title: "Placas, fontes e eletrônica industrial",
+        description:
+          "Manutenção de placas eletrônicas, fontes, módulos e componentes elétricos e eletrônicos aplicados a máquinas e processos.",
+      },
+      {
+        title: "Retrofitting e adequações",
+        description:
+          "Atualização, adaptação, nacionalização de componentes e melhorias em máquinas e equipamentos industriais.",
+      },
+    ],
+    services: [
+      {
+        title: "Preventiva e corretiva",
+        description:
+          "Atendimento em laboratório e em campo para reduzir falhas, recuperar desempenho e ampliar a disponibilidade operacional.",
+      },
+      {
+        title: "Paradas programadas",
+        description:
+          "Apoio em manutenção preventiva de máquinas e equipamentos para diminuir risco de quebra e estabilizar a produção.",
+      },
+      {
+        title: "Diagnóstico técnico e recuperação",
+        description:
+          "Levantamento de falhas, análise técnica e substituição de componentes com foco em reduzir custo de manutenção e troca de equipamentos.",
+      },
+    ],
+    sectors: [
+      "Máquinas e equipamentos industriais",
+      "Automação e controle industrial",
+      "Linhas produtivas com acionamentos e CNCs",
+      "Operações que exigem manutenção elétrica e eletrônica multimarcas",
+    ],
+    differentiators: [
+      "Foco em manutenção elétrica e eletrônica industrial preventiva e corretiva",
+      "Atendimento nacional com base em Taubaté, São Paulo",
+      "Capacidade de atuar em campo e em laboratório",
+      "Portfólio multimarcas para acionamentos, CNCs, IHMs, PLCs e placas eletrônicas",
+    ],
+    idealFor: [
+      "Paradas programadas e corretivas de alta criticidade",
+      "Recuperação de eletrônica industrial multimarcas",
+      "Demandas por diagnóstico técnico em campo e laboratório",
+    ],
+    seoDescription:
+      "Conheça a WMG Assistência Técnica: manutenção elétrica e eletrônica industrial para inversores, servo drives, CNCs, IHMs, PLCs, placas e fontes.",
   },
 };
 

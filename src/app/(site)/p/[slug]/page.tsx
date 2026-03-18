@@ -1,239 +1,29 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
-import { BlockRenderer } from "@/components/blocks/BlockRenderer";
-import { COMPANY_OPTIONS, buildContactHref, getCompanyBySlug } from "@/lib/lead-context";
+import { HiArrowRight, HiCheckCircle } from "react-icons/hi";
 import { getCompanyPageDetail } from "@/data/companyDetails";
+import {
+  buildContactHref,
+  getCompanyBySlug,
+  getIntentDescription,
+  getIntentLabel,
+  getSolutionHref,
+} from "@/lib/lead-context";
 
-interface PageBlock {
-  id: string;
-  type: string;
-  content: Record<string, unknown>;
-  order: number;
-  active: boolean;
-}
-
-interface DynamicPageData {
-  id: string;
-  name: string;
-  slug: string;
-  title: string | null;
-  description: string | null;
-  metaTitle: string | null;
-  metaDescription: string | null;
-  metaKeywords: string | null;
-  ogImage: string | null;
-  published: boolean;
-  blocks: PageBlock[];
-}
-
-function getFallbackCompanyPage(slug: string): DynamicPageData | null {
+function getCompanyPageData(slug: string) {
   const company = getCompanyBySlug(slug);
-  if (!company) return null;
-  const detail = getCompanyPageDetail(company.slug);
+  const detail = getCompanyPageDetail(slug);
 
-  const contatoLink = buildContactHref({
-    assunto: "consultoria-catalogo",
-    empresa: company.slug,
-    origem: company.ctaSource,
-  });
-
-  const overviewParagraphs = detail?.overviewParagraphs || [company.teaser];
-  const sectors = detail?.sectors || [
-    "Aplicações industriais",
-    "Suporte comercial consultivo",
-    "Encaminhamento técnico e comercial",
-  ];
-  const differentiators = detail?.differentiators || [
-    "Atendimento consultivo",
-    "Catálogo técnico sob demanda",
-    "Apoio no primeiro contato comercial",
-  ];
-  const products = detail?.products || [
-    {
-      title: "Catálogo técnico",
-      description: `Conheça a linha de soluções da ${company.name} no material técnico disponível para consulta.`,
-    },
-    {
-      title: "Soluções por aplicação",
-      description: "Apoio para entender quais produtos fazem mais sentido para a sua operação.",
-    },
-    {
-      title: "Suporte comercial inicial",
-      description: "Encaminhamento com mais contexto para cotação, dúvidas e próximos passos.",
-    },
-  ];
-  const services = detail?.services || [
-    {
-      title: "Leitura de cenário",
-      description: "Apoio para traduzir a demanda e definir o melhor caminho comercial.",
-    },
-    {
-      title: "Encaminhamento orientado",
-      description: "Primeiro atendimento com mais clareza técnica e comercial.",
-    },
-    {
-      title: "Acesso a portfólio",
-      description: "Abertura do contato com suporte ao catálogo e à especificação inicial.",
-    },
-  ];
-  const overviewHtml = [
-    ...overviewParagraphs.map((paragraph) => `<p>${paragraph}</p>`),
-    `<p><strong>Setores e aplicações:</strong> ${sectors.join(", ")}.</p>`,
-    `<p><strong>Diferenciais:</strong> ${differentiators.join("; ")}.</p>`,
-  ].join("\n\n");
-
-  const blocks: PageBlock[] = [
-    {
-      id: `fallback-hero-${company.slug}`,
-      type: "hero",
-      order: 0,
-      active: true,
-      content: {
-        badge: "Empresa Representada",
-        title: company.name,
-        subtitle: "Portfólio Comercial Elcio",
-        description:
-          detail?.heroDescription ||
-          "Soluções especializadas apresentadas com suporte comercial consultivo para facilitar especificação, comparação e primeiro contato.",
-        image: company.coverPublicPath,
-        button1Text: "Quero Consultoria + Catálogo",
-        button1Link: contatoLink,
-        button2Text: "Baixar Catálogo",
-        button2Link: company.pdfPublicPath,
-        overlay: 58,
-        align: "left",
-      },
-    },
-    {
-      id: `fallback-text-${company.slug}`,
-      type: "text",
-      order: 1,
-      active: true,
-      content: {
-        subtitle: "Sobre a Empresa",
-        title: detail?.overviewTitle || `Por que ${company.name}?`,
-        content: overviewHtml,
-        align: "left",
-        background: "white",
-      },
-    },
-    {
-      id: `fallback-features-${company.slug}`,
-      type: "features",
-      order: 2,
-      active: true,
-      content: {
-        subtitle: "Principais Produtos",
-        title: `O que a ${company.name} entrega`,
-        columns: products.length >= 4 ? 4 : 3,
-        items: products.map((item) => ({
-          icon: "star",
-          title: item.title,
-          description: item.description,
-        })),
-      },
-    },
-    {
-      id: `fallback-services-${company.slug}`,
-      type: "features",
-      order: 3,
-      active: true,
-      content: {
-        subtitle: "Serviços e Suporte",
-        title: "Como essa empresa apoia a operação",
-        columns: services.length >= 4 ? 4 : 3,
-        items: services.map((item) => ({
-          icon: "star",
-          title: item.title,
-          description: item.description,
-        })),
-      },
-    },
-    {
-      id: `fallback-cards-${company.slug}`,
-      type: "cards",
-      order: 4,
-      active: true,
-      content: {
-        subtitle: "Apoio Comercial",
-        title: "Setores, diferenciais e próximos passos",
-        columns: 3,
-        cards: [
-          {
-            image: company.coverPublicPath,
-            title: "Catálogo técnico",
-            description: `Baixe o catálogo ${company.fileName} para consultar linhas, aplicações e escopo técnico.`,
-            link: company.pdfPublicPath,
-          },
-          {
-            image: company.logoPublicPath,
-            title: "Diferenciais comerciais",
-            description: differentiators.join("; "),
-            link: contatoLink,
-          },
-          {
-            image: company.coverPublicPath,
-            title: "Setores e aplicações",
-            description: sectors.join(", "),
-            link: "/marcas",
-          },
-        ],
-      },
-    },
-    {
-      id: `fallback-cta-${company.slug}`,
-      type: "cta",
-      order: 5,
-      active: true,
-      content: {
-        title: `Falar sobre ${company.name}`,
-        description:
-          "Inicie o primeiro contato com Elcio para receber catálogo, tirar dúvidas e avançar com consultoria comercial.",
-        buttonText: "Solicitar Consultoria + Catálogo",
-        buttonLink: contatoLink,
-        background: "black",
-      },
-    },
-  ];
+  if (!company || !detail) {
+    return null;
+  }
 
   return {
-    id: `fallback-page-${company.slug}`,
-    name: company.name,
-    slug: company.slug,
-    title: `${company.name} | Representação Comercial Elcio`,
-    description: company.teaser,
-    metaTitle: `${company.name} | Consultoria + Catálogo`,
-    metaDescription:
-      detail?.seoDescription ||
-      `${company.teaser} Solicite consultoria comercial e catálogo técnico com o Elcio.`,
-    metaKeywords: COMPANY_OPTIONS.map((option) => option.name).join(", "),
-    ogImage: company.coverPublicPath,
-    published: true,
-    blocks,
+    company,
+    detail,
   };
-}
-
-async function getPageBySlug(slug: string): Promise<DynamicPageData | null> {
-  try {
-    const page = await prisma.page.findUnique({
-      where: { slug },
-      include: {
-        blocks: {
-          where: { active: true },
-          orderBy: { order: "asc" },
-        },
-      },
-    });
-
-    if (!page || !page.published) {
-      return getFallbackCompanyPage(slug);
-    }
-
-    return page as DynamicPageData;
-  } catch {
-    return getFallbackCompanyPage(slug);
-  }
 }
 
 export async function generateMetadata({
@@ -242,33 +32,26 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getPageBySlug(slug);
+  const data = getCompanyPageData(slug);
 
-  if (!page) {
+  if (!data) {
     return {
       title: "Página não encontrada",
       description: "A página solicitada não foi encontrada.",
     };
   }
 
-  const title = page.metaTitle || page.title || page.name;
-  const description =
-    page.metaDescription ||
-    page.description ||
-    `Conheça ${page.name} e solicite consultoria comercial com catálogo técnico.`;
-  const keywords = page.metaKeywords
-    ? page.metaKeywords.split(",").map((item) => item.trim()).filter(Boolean)
-    : undefined;
+  const { company, detail } = data;
 
   return {
-    title,
-    description,
-    keywords,
+    title: `${company.name} | Hub B2B Elcio`,
+    description: detail.seoDescription,
+    keywords: [...company.solutionTypes, ...company.primaryApplications, ...company.comparisonTags],
     openGraph: {
-      title,
-      description,
+      title: `${company.name} | Hub B2B Elcio`,
+      description: detail.seoDescription,
       type: "website",
-      images: page.ogImage ? [{ url: page.ogImage }] : undefined,
+      images: [{ url: company.coverPublicPath }],
     },
   };
 }
@@ -279,11 +62,217 @@ export default async function DynamicPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const page = await getPageBySlug(slug);
+  const data = getCompanyPageData(slug);
 
-  if (!page) {
+  if (!data) {
     notFound();
   }
 
-  return <BlockRenderer blocks={page.blocks} />;
+  const { company, detail } = data;
+  const primaryIntent = company.buyerIntents[0];
+
+  return (
+    <>
+      <section className="relative overflow-hidden bg-[#07111f] pt-40 pb-24 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(245,158,11,0.18),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(56,189,248,0.15),_transparent_34%)]" />
+        <div className="absolute inset-0 opacity-20">
+          <Image src={company.coverPublicPath} alt="" fill priority className="object-cover" />
+        </div>
+
+        <div className="site-container relative z-10">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+            <div className="max-w-4xl">
+              <span className="inline-block rounded-full border border-white/15 bg-white/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-amber-300">
+                {company.segment.replace(/-/g, " ")}
+              </span>
+              <h1 className="mt-6 text-4xl font-black leading-tight md:text-6xl">{company.name}</h1>
+              <p className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-200">
+                {detail.heroDescription}
+              </p>
+
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <Link
+                  href={buildContactHref({
+                    intent: primaryIntent,
+                    empresa: company.slug,
+                    origem: `${company.ctaSource}-hero`,
+                  })}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-7 py-4 text-base font-bold text-white transition-colors hover:bg-amber-600"
+                >
+                  {getIntentLabel(primaryIntent)}
+                  <HiArrowRight className="h-5 w-5" />
+                </Link>
+                <a
+                  href={company.pdfPublicPath}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-xl border border-white/30 px-7 py-4 text-base font-bold text-white transition-colors hover:bg-white hover:text-[#07111f]"
+                >
+                  Ver catálogo técnico
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-white/10 bg-white/6 p-6 backdrop-blur-sm">
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-300">
+                Quando faz sentido falar com esta empresa
+              </p>
+              <div className="mt-6 space-y-3">
+                {detail.idealFor.map((item) => (
+                  <div key={item} className="rounded-2xl border border-white/10 bg-black/10 p-4">
+                    <p className="text-sm leading-relaxed text-slate-100">{item}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 rounded-2xl border border-white/10 bg-black/10 p-4">
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-400">
+                  Melhor intenção de entrada
+                </p>
+                <p className="mt-2 text-sm font-semibold text-white">{getIntentLabel(primaryIntent)}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                  {getIntentDescription(primaryIntent)}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-24">
+        <div className="site-container grid gap-14 lg:grid-cols-[1fr_1fr]">
+          <div>
+            <span className="site-badge">Posicionamento</span>
+            <h2 className="site-heading mt-4">{detail.overviewTitle}</h2>
+            <div className="mt-6 space-y-4 text-base leading-relaxed text-slate-600">
+              {detail.overviewParagraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+              Sinais de aderência
+            </p>
+            <div className="mt-6 space-y-3">
+              {company.primaryApplications.map((application) => (
+                <div key={application} className="flex items-start gap-3 rounded-2xl bg-white px-4 py-4">
+                  <HiCheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-500" />
+                  <p className="text-sm text-slate-700">{application}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 py-24">
+        <div className="site-container grid gap-6 lg:grid-cols-2">
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+            <span className="site-badge">Principais entregas</span>
+            <h2 className="mt-4 text-3xl font-black text-[#0a1d37]">O que esta empresa entrega</h2>
+            <div className="mt-8 grid gap-4">
+              {detail.products.map((item) => (
+                <div key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <h3 className="text-lg font-black text-[#0a1d37]">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+            <span className="site-badge">Serviços e suporte</span>
+            <h2 className="mt-4 text-3xl font-black text-[#0a1d37]">Como a operação é apoiada</h2>
+            <div className="mt-8 grid gap-4">
+              {detail.services.map((item) => (
+                <div key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <h3 className="text-lg font-black text-[#0a1d37]">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="bg-white py-24">
+        <div className="site-container grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <article className="rounded-[2rem] border border-slate-200 bg-[#07111f] p-8 text-white shadow-sm">
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-300">
+              Diferenciais
+            </p>
+            <div className="mt-6 space-y-3">
+              {detail.differentiators.map((item) => (
+                <div key={item} className="rounded-2xl border border-white/10 bg-white/6 px-4 py-4">
+                  <p className="text-sm leading-relaxed text-slate-100">{item}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+              Setores e comparação
+            </p>
+            <h2 className="mt-4 text-3xl font-black text-[#0a1d37]">
+              Onde esta empresa entra no hub e com quem comparar
+            </h2>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {detail.sectors.map((sector) => (
+                <span
+                  key={sector}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                >
+                  {sector}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5">
+              <p className="text-sm font-semibold text-slate-500">Cluster principal</p>
+              <Link
+                href={getSolutionHref(company.segment)}
+                className="mt-2 inline-flex items-center gap-2 text-lg font-black text-[#0a1d37] hover:text-amber-600"
+              >
+                Explorar {company.segment.replace(/-/g, " ")}
+                <HiArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="bg-[#07111f] py-24 text-white">
+        <div className="site-container grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
+          <div>
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-300">
+              Próximo passo
+            </span>
+            <h2 className="mt-4 text-3xl font-black md:text-5xl">
+              O contato com {company.name} já pode sair com intenção e contexto.
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-300 md:text-lg">
+              Em vez de abrir uma conversa genérica, o hub prepara a intenção correta, preserva a
+              empresa de interesse e mantém o fluxo alinhado ao problema do comprador.
+            </p>
+          </div>
+
+          <div className="rounded-[2rem] border border-white/10 bg-white/6 p-8 backdrop-blur-sm">
+            <Link
+              href={buildContactHref({
+                intent: primaryIntent,
+                empresa: company.slug,
+                origem: `${company.ctaSource}-cta`,
+              })}
+              className="inline-flex w-full items-center justify-between rounded-2xl bg-amber-500 px-5 py-4 font-bold text-white transition-colors hover:bg-amber-600"
+            >
+              {getIntentLabel(primaryIntent)}
+              <HiArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

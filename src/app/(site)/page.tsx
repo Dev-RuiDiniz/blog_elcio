@@ -1,206 +1,311 @@
 import Link from "next/link";
 import Image from "next/image";
-import { HiArrowRight, HiOutlineMail, HiOutlinePhone, HiOutlineLocationMarker, HiCheckCircle } from "react-icons/hi";
-import { COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
+import { HiArrowRight, HiOutlineCheckCircle, HiOutlineLocationMarker, HiOutlinePhone, HiOutlineSparkles } from "react-icons/hi";
+import {
+  COMPANY_COUNT,
+  COMPANY_OPTIONS,
+  HUB_INTENT_OPTIONS,
+  HUB_SEGMENTS,
+  buildContactHref,
+  buildWhatsappHref,
+  getCompaniesBySegment,
+  getSolutionHref,
+} from "@/lib/lead-context";
 
 const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
-
-// Logos com composição branca precisam de fundo escuro para garantir visibilidade
-const DARK_BG_LOGO_SLUGS = ["fecial", "mercosul-motores"];
+const highlightCompanies = orderedCompanies.slice(0, 3);
 
 const methodSteps = [
   {
-    title: "Triagem da Demanda",
-    description: "Você informa seu cenário técnico e comercial para estruturar o primeiro direcionamento.",
+    title: "Você entra pelo problema, não pela marca",
+    description:
+      "O hub organiza o portfólio por necessidade comercial e técnica para reduzir ruído logo na primeira conversa.",
   },
   {
-    title: "Consultoria Inicial",
-    description: "Elcio compara opções entre as empresas representadas e orienta a melhor abordagem.",
+    title: "Elcio qualifica e compara opções",
+    description:
+      "A triagem central identifica qual empresa, combinação de empresas ou próximo passo faz mais sentido para o contexto.",
   },
   {
-    title: "Encaminhamento Comercial",
-    description: "Sua demanda segue para o canal correto com mais contexto e velocidade de atendimento.",
+    title: "A conversa já chega com direção",
+    description:
+      "O contato segue com contexto, intenção e material técnico alinhado ao que o comprador realmente precisa.",
   },
 ];
 
-const aboutBullets = [
-  "Representação B2B com foco em ferramentas, filtração e acionamentos industriais.",
-  "Um único ponto de contato para 6 empresas especializadas.",
-  "Triagem técnica e consultiva antes do encaminhamento comercial.",
+const signals = [
+  "7 empresas com perfis complementares",
+  "Entrada única para descobrir, comparar e acionar a empresa certa",
+  "Portfólio organizado por solução, aplicação e intenção de compra",
 ];
 
 const counters = [
-  { value: "6", label: "Empresas Representadas" },
-  { value: "1", label: "Ponto Único de Contato" },
-  { value: "B2B", label: "Foco Industrial" },
-  { value: "SP", label: "Taubaté – São Paulo" },
+  { value: String(COMPANY_COUNT), label: "Empresas no hub" },
+  { value: String(HUB_SEGMENTS.length), label: "Clusters de solução" },
+  { value: "1", label: "Canal de entrada" },
+  { value: "B2B", label: "Foco industrial" },
+];
+
+const buyerQuestions = [
+  "Qual empresa atende melhor qualidade de energia, lubrificação especial ou manutenção industrial?",
+  "Quem faz mais sentido para filtragem, ventilação, motores e acionamentos?",
+  "Como comparar opções antes de abrir o contato comercial?",
 ];
 
 export default function Home() {
   return (
     <>
-      {/* ===== 1. HERO ===== */}
-      <section className="relative min-h-screen flex items-center justify-center text-center px-4 overflow-hidden pt-40">
-        <div className="absolute inset-0 z-0 bg-[#0a1d37]" />
-        <div className="absolute inset-0 z-0 opacity-15">
+      <section className="relative overflow-hidden bg-[#07111f] pt-40 pb-24 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(245,158,11,0.18),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(56,189,248,0.16),_transparent_34%)]" />
+        <div className="absolute inset-0 opacity-20">
           <Image
-            src="/images/empresas/dormer-pramet/cover.jpg"
+            src={orderedCompanies[0]?.coverPublicPath || "/images/empresas/ardiri/cover.png"}
             alt=""
             fill
-            className="object-cover"
             priority
+            className="object-cover"
           />
         </div>
-        <div className="relative z-10 max-w-4xl mx-auto pb-20">
-          <span className="inline-block text-amber-400 font-bold uppercase tracking-widest text-sm mb-6">
-            Representação Comercial B2B
-          </span>
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-            Elcio conecta sua demanda à empresa certa.
-          </h1>
-          <p className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Atendimento consultivo para reduzir ruído comercial, acelerar o primeiro contato e direcionar o catálogo técnico mais aderente ao seu contexto.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href={buildContactHref({ assunto: "consultoria-catalogo", origem: "home-hero" })}
-              className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-transform hover:scale-105"
-            >
-              Solicitar Consultoria + Catálogo
-              <HiArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              href="/marcas"
-              className="border-2 border-white text-white hover:bg-white hover:text-[#0a1d37] px-8 py-4 rounded-lg font-bold transition-all"
-            >
-              Conhecer as 6 empresas
-            </Link>
+
+        <div className="site-container relative z-10">
+          <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+            <div className="max-w-4xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-amber-300">
+                <HiOutlineSparkles className="h-4 w-4" />
+                Hub B2B de Soluções Industriais
+              </span>
+              <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight md:text-6xl">
+                Descubra, compare e acione a empresa industrial certa em um único ponto de entrada.
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg leading-relaxed text-slate-200 md:text-xl">
+                O hub reúne 7 empresas complementares para transformar uma dúvida comercial em
+                direção prática: você entra pela necessidade, compara caminhos e sai com contato,
+                catálogo e encaminhamento técnico mais claros.
+              </p>
+
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <Link
+                  href="/marcas"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-7 py-4 text-base font-bold text-white transition-colors hover:bg-amber-600"
+                >
+                  Comparar empresas e soluções
+                  <HiArrowRight className="h-5 w-5" />
+                </Link>
+                <Link
+                  href={buildContactHref({
+                    intent: "entender-melhor-opcao",
+                    origem: "home-hero-hub",
+                  })}
+                  className="inline-flex items-center justify-center rounded-xl border border-white/30 px-7 py-4 text-base font-bold text-white transition-colors hover:bg-white hover:text-[#07111f]"
+                >
+                  Quero ajuda para escolher
+                </Link>
+              </div>
+
+              <ul className="mt-8 grid gap-3 text-sm text-slate-200 md:grid-cols-3">
+                {signals.map((signal) => (
+                  <li key={signal} className="rounded-2xl border border-white/10 bg-white/6 px-4 py-4">
+                    {signal}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-[2rem] border border-white/10 bg-white/6 p-6 backdrop-blur-sm">
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-300">
+                O que o comprador precisa responder
+              </p>
+              <div className="mt-6 space-y-4">
+                {buyerQuestions.map((question, index) => (
+                  <div key={question} className="rounded-2xl border border-white/10 bg-black/10 p-5">
+                    <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                      Pergunta {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <p className="mt-2 text-base font-medium leading-relaxed text-white">{question}</p>
+                  </div>
+                ))}
+              </div>
+              <a
+                href={buildWhatsappHref({
+                  intent: "entender-melhor-opcao",
+                  origem: "home-hero-whatsapp",
+                  extraMessage: "Preciso de orientação para entender a empresa ideal.",
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-white/20 px-5 py-4 text-sm font-bold text-white transition-colors hover:bg-white/10"
+              >
+                Falar pelo WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ===== 2. SOBRE ===== */}
-      <section className="py-20 px-4 md:px-10 max-w-7xl mx-auto" id="sobre">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Esquerda: Card claro com stats + foto à direita */}
-          <div className="relative">
-            {/* Decoração de fundo */}
-            <div className="absolute -top-4 -left-4 w-24 h-24 bg-amber-500/20 rounded-lg -z-10" />
-
-            {/* Card principal */}
-            <div className="bg-slate-100 rounded-xl shadow-2xl overflow-hidden flex min-h-[340px]">
-
-              {/* Lado esquerdo: Badge ER + stats */}
-              <div className="flex flex-col justify-between p-8 flex-1">
-                <div className="w-14 h-14 rounded-full border-2 border-[#0a1d37] flex items-center justify-center text-base font-bold text-[#0a1d37] mb-6 flex-shrink-0">
-                  ER
-                </div>
-                <div className="space-y-5">
-                  <div>
-                    <p className="text-4xl font-black text-amber-500 leading-none">6</p>
-                    <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Empresas representadas</p>
-                  </div>
-                  <div>
-                    <p className="text-4xl font-black text-[#0a1d37] leading-none">1</p>
-                    <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Ponto único de contato</p>
-                  </div>
-                  <div>
-                    <p className="text-4xl font-black text-amber-500 leading-none">B2B</p>
-                    <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Foco industrial</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Lado direito: Foto da equipe — 50% do card */}
-              <div className="relative w-1/2 flex-shrink-0">
-                <Image
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&q=80"
-                  alt="Equipe de representação comercial"
-                  fill
-                  className="object-cover object-center"
-                />
-                {/* Gradiente suave para integrar com o fundo cinza */}
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-100/40 to-transparent" />
-              </div>
+      <section className="border-y border-slate-200 bg-white py-16">
+        <div className="site-container grid grid-cols-2 gap-8 text-center lg:grid-cols-4">
+          {counters.map((counter) => (
+            <div key={counter.label}>
+              <p className="text-4xl font-black text-[#0a1d37] md:text-5xl">{counter.value}</p>
+              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                {counter.label}
+              </p>
             </div>
+          ))}
+        </div>
+      </section>
 
-            {/* Badge flutuante */}
-            <div className="absolute -bottom-5 -right-5 bg-amber-500 px-5 py-3 rounded-lg shadow-xl hidden lg:flex items-center gap-2">
-              <HiOutlineLocationMarker className="text-white w-4 h-4" />
-              <p className="text-white font-bold text-sm">Taubaté – SP</p>
-            </div>
-          </div>
-
-          {/* Direita: Texto */}
-          <div>
-            <span className="text-amber-500 font-bold uppercase tracking-widest text-sm">Sobre o Serviço</span>
-            <h2 className="text-3xl md:text-4xl font-black text-[#0a1d37] mt-2 mb-6">
-              Sua demanda em boas mãos
+      <section className="bg-slate-50 py-24">
+        <div className="site-container">
+          <div className="max-w-3xl">
+            <span className="site-badge">Como funciona o hub</span>
+            <h2 className="site-heading mt-4">
+              A entrada é única, mas a decisão passa por intenção, solução e aderência.
             </h2>
-            <p className="text-slate-600 mb-8 leading-relaxed">
-              Atuamos como o braço consultivo entre sua necessidade técnica e as empresas representadas. Nossa missão é triar a demanda, orientar o catálogo mais aderente e encaminhar o contato com velocidade.
+            <p className="site-copy mt-5">
+              Em vez de obrigar o usuário a conhecer previamente cada marca, o hub organiza o
+              portfólio para responder primeiro ao cenário do comprador e depois encaminhar a
+              empresa certa.
             </p>
-            <ul className="space-y-4">
-              {aboutBullets.map((bullet) => (
-                <li key={bullet} className="flex items-start gap-3">
-                  <HiCheckCircle className="text-amber-500 w-6 h-6 flex-shrink-0 mt-0.5" />
-                  <span className="font-medium text-slate-800">{bullet}</span>
-                </li>
-              ))}
-            </ul>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {methodSteps.map((step, index) => (
+              <article
+                key={step.title}
+                className="rounded-[1.75rem] border border-slate-200 bg-white p-8 shadow-sm"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a1d37] text-lg font-black text-white">
+                  {index + 1}
+                </div>
+                <h3 className="mt-5 text-2xl font-black text-[#0a1d37]">{step.title}</h3>
+                <p className="mt-3 text-slate-600 leading-relaxed">{step.description}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ===== 3. EMPRESAS REPRESENTADAS (dark) ===== */}
-      <section className="bg-[#0a1d37] py-20 px-4 md:px-10" id="empresas">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-amber-400 font-bold uppercase tracking-widest text-sm">Portfólio</span>
-            <h2 className="text-3xl md:text-4xl font-black text-white mt-2">
-              Empresas Representadas
-            </h2>
+      <section className="bg-white py-24">
+        <div className="site-container">
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <span className="site-badge">Clusters de solução</span>
+              <h2 className="site-heading mt-4">
+                O hub agrupa as 7 empresas por necessidade real de compra.
+              </h2>
+              <p className="site-copy mt-4">
+                Cada cluster abaixo organiza empresas com foco semelhante para acelerar a
+                descoberta, a comparação e o próximo passo comercial.
+              </p>
+            </div>
+            <Link href="/marcas" className="site-button-secondary">
+              Ver todas as empresas
+            </Link>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {orderedCompanies.map((company) => (
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {HUB_SEGMENTS.map((segment) => {
+              const companies = getCompaniesBySegment(segment.slug);
+
+              return (
+                <article
+                  key={segment.slug}
+                  className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 shadow-sm"
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+                    {segment.label}
+                  </p>
+                  <h3 className="mt-3 text-3xl font-black text-[#0a1d37]">{segment.title}</h3>
+                  <p className="mt-4 text-slate-600 leading-relaxed">{segment.shortDescription}</p>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {companies.map((company) => (
+                      <span
+                        key={company.slug}
+                        className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                      >
+                        {company.name}
+                      </span>
+                    ))}
+                  </div>
+
+                  <Link
+                    href={getSolutionHref(segment.slug)}
+                    className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0a1d37] transition-colors hover:text-amber-600"
+                  >
+                    Explorar este cluster
+                    <HiArrowRight className="h-4 w-4" />
+                  </Link>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#0a1d37] py-24 text-white">
+        <div className="site-container">
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-300">
+                Empresas em destaque
+              </span>
+              <h2 className="mt-4 text-3xl font-black leading-tight md:text-5xl">
+                Três exemplos do portfólio que o hub organiza para você.
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-300 md:text-lg">
+                Cada empresa agora entra em uma lógica de solução e comparação, e não apenas como
+                página isolada.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {highlightCompanies.map((company) => (
               <article
                 key={company.slug}
-                className="bg-slate-100 border border-slate-200 p-8 rounded-xl hover:bg-white hover:shadow-lg transition-all group flex flex-col"
+                className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/6 backdrop-blur-sm"
               >
-                {/* Fundo adaptativo: escuro para logos de composição branca, branco para os demais */}
-                <div className={`${DARK_BG_LOGO_SLUGS.includes(company.slug) ? "bg-[#0a1d37]" : "bg-white"} rounded-lg border border-slate-200 shadow-sm p-3 mb-6 flex items-center justify-center h-16 flex-shrink-0`}>
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={company.logoPublicPath}
-                      alt={`Logo da ${company.name}`}
-                      fill
-                      className="object-contain object-center"
-                    />
-                  </div>
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <Image
+                    src={company.coverPublicPath}
+                    alt={`Capa da ${company.name}`}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/20 to-transparent" />
                 </div>
-                <h3 className="text-xl font-bold text-[#0a1d37] mb-3">{company.name}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed flex-1">{company.teaser}</p>
-                <div className="mt-6 flex flex-col gap-2 border-t border-slate-200 pt-4">
-                  <Link
-                    href={`/p/${company.slug}`}
-                    className="text-sm text-amber-500 hover:text-amber-600 font-semibold flex items-center gap-1 transition-colors"
-                  >
-                    Ver página da empresa <HiArrowRight className="w-4 h-4" />
-                  </Link>
-                  <Link
-                    href={buildContactHref({ assunto: "consultoria-catalogo", empresa: company.slug, origem: "home-empresas" })}
-                    className="text-sm text-slate-500 hover:text-[#0a1d37] transition-colors"
-                  >
-                    Abrir atendimento
-                  </Link>
-                  <a
-                    href={company.pdfPublicPath}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-slate-400 hover:text-slate-600 transition-colors"
-                  >
-                    Baixar catálogo técnico
-                  </a>
+                <div className="p-8">
+                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-300">
+                    {company.segment.replace(/-/g, " ")}
+                  </p>
+                  <h3 className="mt-3 text-2xl font-black">{company.name}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-300">{company.teaser}</p>
+
+                  <ul className="mt-6 space-y-2">
+                    {company.primaryApplications.slice(0, 3).map((application) => (
+                      <li key={application} className="flex items-start gap-2 text-sm text-slate-200">
+                        <HiOutlineCheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-300" />
+                        <span>{application}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-8 flex flex-col gap-3">
+                    <Link
+                      href={`/p/${company.slug}`}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-amber-600"
+                    >
+                      Ver página da empresa
+                    </Link>
+                    <Link
+                      href={getSolutionHref(company.segment)}
+                      className="inline-flex items-center justify-center rounded-xl border border-white/15 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-white/10"
+                    >
+                      Comparar dentro do cluster
+                    </Link>
+                  </div>
                 </div>
               </article>
             ))}
@@ -208,168 +313,102 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== 4. MÉTODO / POR QUE NÓS ===== */}
-      <section className="py-20 px-4 md:px-10 max-w-7xl mx-auto" id="metodo">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="order-2 lg:order-1">
-            <span className="text-amber-500 font-bold uppercase tracking-widest text-sm">Método de Atendimento</span>
-            <h2 className="text-3xl md:text-4xl font-black text-[#0a1d37] mt-2 mb-8">
-              Processo comercial em três etapas
+      <section className="bg-white py-24">
+        <div className="site-container">
+          <div className="max-w-3xl">
+            <span className="site-badge">Intenções de entrada</span>
+            <h2 className="site-heading mt-4">
+              O CTA deixa de ser genérico e passa a começar pela intenção de compra.
             </h2>
-            <div className="space-y-8">
-              {methodSteps.map((step, i) => (
-                <div key={step.title} className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-amber-500 rounded-lg flex items-center justify-center text-white font-black text-lg shadow-md">
-                    {i + 1}
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-[#0a1d37] mb-1">{step.title}</h4>
-                    <p className="text-slate-600 text-sm leading-relaxed">{step.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <p className="site-copy mt-4">
+              O hub trabalha com três entradas controladas para capturar o contexto certo e melhorar
+              a qualificação antes do encaminhamento comercial.
+            </p>
           </div>
 
-          <div className="order-1 lg:order-2">
-            <div className="bg-[#0a1d37]/5 rounded-xl p-10 border border-[#0a1d37]/10">
-              <p className="text-xs uppercase tracking-widest text-slate-500 mb-3 font-bold">Prova de Valor</p>
-              <h3 className="text-2xl font-black text-[#0a1d37] mb-4">
-                Menos ruído, mais clareza para avançar no comercial
-              </h3>
-              <p className="text-slate-600 text-sm leading-relaxed mb-8">
-                A proposta é simplificar sua jornada de decisão e reduzir retrabalho no primeiro contato com fornecedores industriais.
-              </p>
-              <div className="space-y-3">
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {HUB_INTENT_OPTIONS.map((intent) => (
+              <article key={intent.value} className="site-card p-8">
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+                  Intenção
+                </p>
+                <h3 className="mt-3 text-2xl font-black text-[#0a1d37]">{intent.label}</h3>
+                <p className="mt-3 text-slate-600 leading-relaxed">{intent.description}</p>
                 <Link
-                  href={buildContactHref({ assunto: "consultoria-catalogo", origem: "home-metodo" })}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-bold transition-colors"
+                  href={buildContactHref({
+                    intent: intent.value,
+                    origem: `home-intent-${intent.value}`,
+                  })}
+                  className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#0a1d37] hover:text-amber-600"
                 >
-                  Iniciar Consultoria <HiArrowRight className="w-4 h-4" />
+                  Iniciar por esta intenção
+                  <HiArrowRight className="h-4 w-4" />
                 </Link>
-                <a
-                  href={buildWhatsappHref({ origem: "home-metodo" })}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 border-2 border-[#0a1d37] text-[#0a1d37] hover:bg-[#0a1d37] hover:text-white px-6 py-3 rounded-lg font-bold transition-all"
-                >
-                  Falar no WhatsApp
-                </a>
-              </div>
-            </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ===== 5. CONTADORES ===== */}
-      <section className="bg-[#0a1d37]/5 py-16 border-y border-[#0a1d37]/10">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-          {counters.map((c) => (
-            <div key={c.label}>
-              <p className="text-4xl md:text-5xl font-black text-[#0a1d37] mb-2">{c.value}</p>
-              <p className="text-sm font-semibold text-slate-500 uppercase tracking-tighter">{c.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ===== 6. CAROUSEL DE LOGOS ===== */}
-      <section className="py-14 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <p className="text-center text-slate-400 text-sm font-bold uppercase tracking-widest mb-10">
-            Marcas Representadas
-          </p>
-          <div className="overflow-hidden relative">
-            <div className="logo-carousel-track">
-              {[...orderedCompanies, ...orderedCompanies].map((company, idx) => (
-                <div key={`${company.slug}-${idx}`} className="logo-carousel-item">
-                  <div className={`${DARK_BG_LOGO_SLUGS.includes(company.slug) ? "bg-[#0a1d37] rounded px-2 py-1" : ""}`}>
-                    <Image
-                      src={company.logoPublicPath}
-                      alt={`Logo da ${company.name}`}
-                      width={140}
-                      height={48}
-                      className="h-10 w-auto object-contain grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== 7. CTA / CONTATO (dark) ===== */}
-      <section className="bg-[#0a1d37] py-20 px-4 md:px-10" id="contato">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+      <section className="bg-slate-50 py-24">
+        <div className="site-container grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div>
-            <h2 className="text-4xl font-black text-white mb-6 leading-tight">
-              Pronto para direcionar sua demanda industrial?
+            <span className="site-badge">Próximo passo</span>
+            <h2 className="site-heading mt-4">
+              Se a dúvida é “qual empresa atende meu caso?”, o primeiro passo começa aqui.
             </h2>
-            <p className="text-slate-300 mb-10 text-lg leading-relaxed">
-              Entre em contato e descubra qual das 6 empresas representadas tem o catálogo técnico mais aderente ao seu contexto.
+            <p className="site-copy mt-5">
+              O contato agora parte do problema, da intenção e do contexto. Isso evita encaminhamento
+              disperso e melhora a qualidade comercial da conversa desde o início.
             </p>
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white flex-shrink-0">
-                  <HiOutlineMail className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-400 uppercase font-bold">E-mail</p>
-                  <a href="mailto:vendas@raemtools.com.br" className="text-white font-bold hover:text-amber-400 transition-colors">
-                    vendas@raemtools.com.br
-                  </a>
-                </div>
+
+            <div className="mt-8 space-y-4 text-slate-700">
+              <div className="flex items-center gap-3">
+                <HiOutlinePhone className="h-5 w-5 text-amber-500" />
+                <span>+55 12 98873-7347</span>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white flex-shrink-0">
-                  <HiOutlinePhone className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-400 uppercase font-bold">WhatsApp / Telefone</p>
-                  <a href="tel:+5512988737347" className="text-white font-bold hover:text-amber-400 transition-colors">
-                    +55 12 98873-7347
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white flex-shrink-0">
-                  <HiOutlineLocationMarker className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-400 uppercase font-bold">Localização</p>
-                  <p className="text-white font-bold">Taubaté – São Paulo, SP</p>
-                </div>
+              <div className="flex items-center gap-3">
+                <HiOutlineLocationMarker className="h-5 w-5 text-amber-500" />
+                <span>Taubaté - SP</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 p-8 md:p-10 rounded-2xl">
-            <h3 className="text-2xl font-bold text-white mb-2">Fale Conosco</h3>
-            <p className="text-slate-400 text-sm mb-8">
-              Escolha a forma mais rápida de iniciar o atendimento consultivo.
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+              Entradas rápidas
             </p>
-            <div className="flex flex-col gap-4">
-              <Link
-                href={buildContactHref({ assunto: "consultoria-catalogo", origem: "home-contato" })}
-                className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 px-8 rounded-lg transition-colors shadow-lg text-center text-lg flex items-center justify-center gap-2"
-              >
-                Consultoria + Catálogo <HiArrowRight className="w-5 h-5" />
-              </Link>
-              <a
-                href={buildWhatsappHref({ origem: "home-contato" })}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-4 px-8 rounded-lg transition-colors text-center text-lg"
-              >
-                Falar no WhatsApp
-              </a>
+            <div className="mt-6 grid gap-4">
               <Link
                 href="/marcas"
-                className="w-full text-slate-400 hover:text-white font-medium py-3 text-center text-sm transition-colors underline underline-offset-4"
+                className="inline-flex items-center justify-between rounded-2xl border border-slate-200 px-5 py-4 font-semibold text-[#0a1d37] transition-colors hover:bg-slate-50"
               >
-                Ver todas as 6 empresas →
+                Explorar o hub por empresa e cluster
+                <HiArrowRight className="h-4 w-4" />
               </Link>
+              <Link
+                href={buildContactHref({
+                  intent: "entender-melhor-opcao",
+                  origem: "home-cta-central",
+                })}
+                className="inline-flex items-center justify-between rounded-2xl bg-[#0a1d37] px-5 py-4 font-semibold text-white transition-colors hover:bg-[#112948]"
+              >
+                Quero entender a melhor opção
+                <HiArrowRight className="h-4 w-4" />
+              </Link>
+              <a
+                href={buildWhatsappHref({
+                  intent: "solicitar-contato-comercial",
+                  origem: "home-cta-whatsapp",
+                  extraMessage: "Quero abrir um contato comercial com contexto.",
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-between rounded-2xl border border-slate-200 px-5 py-4 font-semibold text-[#0a1d37] transition-colors hover:bg-slate-50"
+              >
+                Falar no WhatsApp
+                <HiArrowRight className="h-4 w-4" />
+              </a>
             </div>
           </div>
         </div>

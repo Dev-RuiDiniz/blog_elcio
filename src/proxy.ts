@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const COMPANY_SLUG_REDIRECTS: Record<string, string> = {
-  "/p/dest-dormer-pramet": "/p/dormer-pramet",
   "/p/solufil": "/p/solofil",
   "/p/f1300": "/p/nord-drivesystems",
   "/p/apresenta": "/p/mercosul-motores",

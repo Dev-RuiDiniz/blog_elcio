@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { COMPANY_OPTIONS, buildContactHref } from "@/lib/lead-context";
+import { COMPANY_COUNT, COMPANY_OPTIONS, buildContactHref } from "@/lib/lead-context";
 
 interface SeedBlock {
   type: string;
@@ -177,7 +177,7 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-      message: "Páginas das 6 empresas criadas/atualizadas com sucesso.",
+      message: `Páginas das ${COMPANY_COUNT} empresas criadas/atualizadas com sucesso.`,
       companies: results,
     });
   } catch (error) {
