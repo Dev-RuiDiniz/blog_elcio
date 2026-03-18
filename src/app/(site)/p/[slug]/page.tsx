@@ -9,7 +9,6 @@ import {
   getCompanyBySlug,
   getIntentDescription,
   getIntentLabel,
-  getRelatedCompanies,
   getSolutionHref,
 } from "@/lib/lead-context";
 
@@ -24,7 +23,6 @@ function getCompanyPageData(slug: string) {
   return {
     company,
     detail,
-    relatedCompanies: getRelatedCompanies(company.slug, 3),
   };
 }
 
@@ -70,7 +68,7 @@ export default async function DynamicPage({
     notFound();
   }
 
-  const { company, detail, relatedCompanies } = data;
+  const { company, detail } = data;
   const primaryIntent = company.buyerIntents[0];
 
   return (
@@ -245,64 +243,6 @@ export default async function DynamicPage({
         </div>
       </section>
 
-      <section className="bg-slate-50 py-24">
-        <div className="site-container">
-          <div className="max-w-3xl">
-            <span className="site-badge">Compare com outras empresas</span>
-            <h2 className="site-heading mt-4">
-              Se esta não for a única opção, o hub mostra caminhos complementares para avançar.
-            </h2>
-            <p className="site-copy mt-4">
-              Estas empresas ajudam a comparar abordagens complementares, proximidade de aplicação
-              ou próximos passos relacionados a {company.name} dentro do hub.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {relatedCompanies.map((relatedCompany) => (
-              <article
-                key={relatedCompany.slug}
-                className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm"
-              >
-                <div className="relative aspect-[16/10]">
-                  <Image
-                    src={relatedCompany.coverPublicPath}
-                    alt={`Capa da ${relatedCompany.name}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-8">
-                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
-                    {relatedCompany.segment.replace(/-/g, " ")}
-                  </p>
-                  <h3 className="mt-3 text-2xl font-black text-[#0a1d37]">{relatedCompany.name}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-600">{relatedCompany.teaser}</p>
-                  <div className="mt-8 flex flex-col gap-3">
-                    <Link
-                      href={`/p/${relatedCompany.slug}`}
-                      className="inline-flex items-center justify-center rounded-xl bg-[#0a1d37] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#112948]"
-                    >
-                      Ver página da empresa
-                    </Link>
-                    <Link
-                      href={buildContactHref({
-                        intent: "entender-melhor-opcao",
-                        empresa: relatedCompany.slug,
-                        origem: `${company.slug}-compare-${relatedCompany.slug}`,
-                      })}
-                      className="inline-flex items-center justify-center rounded-xl border border-slate-300 px-5 py-3 text-sm font-bold text-[#0a1d37] transition-colors hover:bg-slate-50"
-                    >
-                      Comparar com contexto
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="bg-[#07111f] py-24 text-white">
         <div className="site-container grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
           <div>
@@ -319,39 +259,17 @@ export default async function DynamicPage({
           </div>
 
           <div className="rounded-[2rem] border border-white/10 bg-white/6 p-8 backdrop-blur-sm">
-            <div className="grid gap-4">
-              <Link
-                href={buildContactHref({
-                  intent: primaryIntent,
-                  empresa: company.slug,
-                  origem: `${company.ctaSource}-cta`,
-                })}
-                className="inline-flex items-center justify-between rounded-2xl bg-amber-500 px-5 py-4 font-bold text-white transition-colors hover:bg-amber-600"
-              >
-                {getIntentLabel(primaryIntent)}
-                <HiArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href={buildContactHref({
-                  intent: "entender-melhor-opcao",
-                  empresa: company.slug,
-                  origem: `${company.ctaSource}-cta-compare`,
-                })}
-                className="inline-flex items-center justify-between rounded-2xl border border-white/20 px-5 py-4 font-bold text-white transition-colors hover:bg-white/10"
-              >
-                Comparar dentro do hub
-                <HiArrowRight className="h-4 w-4" />
-              </Link>
-              <a
-                href={company.pdfPublicPath}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-between rounded-2xl border border-white/20 px-5 py-4 font-bold text-white transition-colors hover:bg-white/10"
-              >
-                Baixar catálogo técnico
-                <HiArrowRight className="h-4 w-4" />
-              </a>
-            </div>
+            <Link
+              href={buildContactHref({
+                intent: primaryIntent,
+                empresa: company.slug,
+                origem: `${company.ctaSource}-cta`,
+              })}
+              className="inline-flex w-full items-center justify-between rounded-2xl bg-amber-500 px-5 py-4 font-bold text-white transition-colors hover:bg-amber-600"
+            >
+              {getIntentLabel(primaryIntent)}
+              <HiArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
