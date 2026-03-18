@@ -18,7 +18,6 @@ export const COMPANY_CARD_CONTAINER_CLASS =
 export const COMPANY_CARD_IMAGE_CLASS = "object-contain p-3 md:p-4";
 
 const LEGACY_COMPANY_SLUGS: Record<string, string> = {
-  "dest-dormer-pramet": "dormer-pramet",
   solufil: "solofil",
   f1300: "nord-drivesystems",
   apresenta: "mercosul-motores",
@@ -26,25 +25,25 @@ const LEGACY_COMPANY_SLUGS: Record<string, string> = {
 
 export const COMPANY_OPTIONS: CompanyOption[] = [
   {
-    slug: "dormer-pramet",
-    name: "Dormer Pramet",
-    fileName: "Dormer_Pramet.pdf",
-    pdfPublicPath: "/catalogos/dormer-pramet.pdf",
-    logoPublicPath: "/images/empresas/dormer-pramet/logo.svg",
-    coverPublicPath: "/images/empresas/dormer-pramet/cover.jpg",
-    teaser: "Ferramentas de corte para furação, fresamento, torneamento e rosqueamento com foco em produtividade.",
-    ctaSource: "empresa-dormer-pramet",
+    slug: "autoplast",
+    name: "Autoplast Motores",
+    fileName: "Autoplast.pdf",
+    pdfPublicPath: "/catalogos/autoplast.pdf",
+    logoPublicPath: "/images/empresas/autoplast/logo.svg",
+    coverPublicPath: "/images/empresas/autoplast/cover.jpg",
+    teaser: "Fabricante de aditivos e lubrificantes especiais de alta performance com PTFE e MoS2 para redução de atrito em equipamentos mecânicos industriais.",
+    ctaSource: "empresa-autoplast",
     order: 1,
   },
   {
-    slug: "fecial",
-    name: "Fecial",
-    fileName: "Fecial.pdf",
-    pdfPublicPath: "/catalogos/fecial.pdf",
-    logoPublicPath: "/images/empresas/fecial/logo.png",
-    coverPublicPath: "/images/empresas/fecial/cover.jpg",
-    teaser: "Ferramentas especiais para usinagem, com foco em insertos, mandrilamento e projetos sob medida.",
-    ctaSource: "empresa-fecial",
+    slug: "ardiri",
+    name: "Ardiri",
+    fileName: "Ardiri.pdf",
+    pdfPublicPath: "/catalogos/ardiri.pdf",
+    logoPublicPath: "/images/empresas/ardiri/logo.svg",
+    coverPublicPath: "/images/empresas/ardiri/cover.jpg",
+    teaser: "Soluções empresariais em qualidade de energia com Filtros Capacitivos certificados para proteção de equipamentos, produtividade e economia de energia elétrica.",
+    ctaSource: "empresa-ardiri",
     order: 2,
   },
   {
