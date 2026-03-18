@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { HiArrowRight, HiOutlineMail, HiOutlinePhone, HiOutlineLocationMarker, HiCheckCircle } from "react-icons/hi";
-import { COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
+import { COMPANY_COUNT, COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
 
@@ -25,12 +25,12 @@ const methodSteps = [
 
 const aboutBullets = [
   "Representação B2B com foco em ferramentas, filtração e acionamentos industriais.",
-  "Um único ponto de contato para 6 empresas especializadas.",
+  `Um único ponto de contato para ${COMPANY_COUNT} empresas especializadas.`,
   "Triagem técnica e consultiva antes do encaminhamento comercial.",
 ];
 
 const counters = [
-  { value: "6", label: "Empresas Representadas" },
+  { value: String(COMPANY_COUNT), label: "Empresas Representadas" },
   { value: "1", label: "Ponto Único de Contato" },
   { value: "B2B", label: "Foco Industrial" },
   { value: "SP", label: "Taubaté – São Paulo" },
@@ -69,11 +69,11 @@ export default function Home() {
               Solicitar Consultoria + Catálogo
               <HiArrowRight className="w-5 h-5" />
             </Link>
-            <Link
+              <Link
               href="/marcas"
               className="border-2 border-white text-white hover:bg-white hover:text-[#0a1d37] px-8 py-4 rounded-lg font-bold transition-all"
             >
-              Conhecer as 6 empresas
+              Conhecer as {COMPANY_COUNT} empresas
             </Link>
           </div>
         </div>
@@ -97,7 +97,7 @@ export default function Home() {
                 </div>
                 <div className="space-y-5">
                   <div>
-                    <p className="text-4xl font-black text-amber-500 leading-none">6</p>
+                    <p className="text-4xl font-black text-amber-500 leading-none">{COMPANY_COUNT}</p>
                     <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Empresas representadas</p>
                   </div>
                   <div>
@@ -307,7 +307,7 @@ export default function Home() {
               Pronto para direcionar sua demanda industrial?
             </h2>
             <p className="text-slate-300 mb-10 text-lg leading-relaxed">
-              Entre em contato e descubra qual das 6 empresas representadas tem o catálogo técnico mais aderente ao seu contexto.
+              Entre em contato e descubra qual das empresas representadas tem o catálogo técnico mais aderente ao seu contexto.
             </p>
             <div className="space-y-6">
               <div className="flex items-center gap-4">
@@ -368,7 +368,7 @@ export default function Home() {
                 href="/marcas"
                 className="w-full text-slate-400 hover:text-white font-medium py-3 text-center text-sm transition-colors underline underline-offset-4"
               >
-                Ver todas as 6 empresas →
+                Ver todas as {COMPANY_COUNT} empresas →
               </Link>
             </div>
           </div>

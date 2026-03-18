@@ -11,6 +11,7 @@ import {
   COMPANY_CARD_IMAGE_CLASS,
   COMPANY_CARD_IMAGE_QUALITY,
   COMPANY_CARD_IMAGE_SIZES,
+  COMPANY_COUNT,
   COMPANY_OPTIONS,
   buildContactHref,
   getCompanyCatalogHref,
@@ -66,9 +67,9 @@ export default function MarcasPage() {
                   </span>
                 ))}
               </h1>
-              <p className="text-slate-200 text-lg leading-relaxed mb-8 max-w-3xl">
+                <p className="text-slate-200 text-lg leading-relaxed mb-8 max-w-3xl">
                 {(heroBlock.description as string) ||
-                  "Conheça as 6 empresas do portfólio de representação comercial do Elcio e encontre a opção ideal para abrir sua conversa comercial."}
+                  `Conheça as ${COMPANY_COUNT} empresas do portfólio de representação comercial do Elcio e encontre a opção ideal para abrir sua conversa comercial.`}
               </p>
               <Button
                 size="lg"

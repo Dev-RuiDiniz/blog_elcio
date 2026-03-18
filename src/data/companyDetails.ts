@@ -387,6 +387,68 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
     seoDescription:
       "Conheça a Mercosul Motores: motores elétricos monofásicos e trifásicos, automação, redutores e suporte técnico com cobertura nacional.",
   },
+  "wmg-assistencia-tecnica": {
+    heroDescription:
+      "Assistência técnica industrial especializada em manutenção elétrica e eletrônica para máquinas, acionamentos, CNCs, IHMs, robôs e equipamentos multimarcas.",
+    overviewTitle: "Manutenção industrial para recuperar desempenho e reduzir custo de parada",
+    overviewParagraphs: [
+      "A WMG Assistência Técnica atua em manutenção elétrica e eletrônica industrial, com foco em diagnóstico, reparo e recuperação de equipamentos críticos para produção.",
+      "Com base em Taubaté/SP e atendimento nacional, a empresa trabalha com soluções preventivas e corretivas para inversores, soft-starters, servo-drives, PLCs, IHMs, CNCs, placas eletrônicas, fontes e outros sistemas industriais multimarcas.",
+    ],
+    products: [
+      {
+        title: "Manutenção de acionamentos industriais",
+        description:
+          "Reparo e recuperação de inversores de frequência, soft-starters, servo-drives e servo-motores de diversas marcas.",
+      },
+      {
+        title: "CNCs, PLCs e IHMs",
+        description:
+          "Suporte para comandos numéricos, controladores lógicos programáveis, interfaces homem-máquina e touch pendants.",
+      },
+      {
+        title: "Placas, fontes e eletrônica industrial",
+        description:
+          "Manutenção de placas eletrônicas, fontes, módulos e componentes elétricos e eletrônicos aplicados a máquinas e processos.",
+      },
+      {
+        title: "Retrofitting e adequações",
+        description:
+          "Atualização, adaptação, nacionalização de componentes e melhorias em máquinas e equipamentos industriais.",
+      },
+    ],
+    services: [
+      {
+        title: "Preventiva e corretiva",
+        description:
+          "Atendimento em laboratório e em campo para reduzir falhas, recuperar desempenho e ampliar a disponibilidade operacional.",
+      },
+      {
+        title: "Paradas programadas",
+        description:
+          "Apoio em manutenção preventiva de máquinas e equipamentos para diminuir risco de quebra e estabilizar a produção.",
+      },
+      {
+        title: "Diagnóstico técnico e recuperação",
+        description:
+          "Levantamento de falhas, análise técnica e substituição de componentes com foco em reduzir custo de manutenção e troca de equipamentos.",
+      },
+    ],
+    sectors: [
+      "Máquinas e equipamentos industriais",
+      "Automação e controle industrial",
+      "Linhas produtivas com acionamentos e CNCs",
+      "Operações que exigem manutenção elétrica e eletrônica multimarcas",
+    ],
+    differentiators: [
+      "Foco em manutenção elétrica e eletrônica industrial preventiva e corretiva",
+      "Atendimento nacional com base em Taubaté, São Paulo",
+      "Capacidade de atuar em campo e em laboratório",
+      "Portfólio multimarcas para acionamentos, CNCs, IHMs, PLCs e placas eletrônicas",
+    ],
+    seoDescription:
+      "Conheça a WMG Assistência Técnica: manutenção elétrica e eletrônica industrial para inversores, servo drives, CNCs, IHMs, PLCs, placas e fontes.",
+  },
 };
 
 export function getCompanyPageDetail(slug?: string | null): CompanyPageDetail | null {

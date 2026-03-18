@@ -7,7 +7,7 @@ import {
   HiOutlineMail,
   HiOutlinePhone,
 } from "react-icons/hi";
-import { COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
+import { COMPANY_COUNT, COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
 const DARK_BG_LOGO_SLUGS = ["fecial", "mercosul-motores"];
@@ -32,12 +32,12 @@ const pillars = [
 
 const highlights = [
   "Atendimento B2B com foco em demanda industrial.",
-  "Representação comercial com 6 empresas no portfólio.",
+  `Representação comercial com ${COMPANY_COUNT} empresas no portfólio.`,
   "Agilidade para abrir consultoria, catálogo e primeiro contato.",
 ];
 
 const counters = [
-  { value: "6", label: "Empresas representadas" },
+  { value: String(COMPANY_COUNT), label: "Empresas representadas" },
   { value: "1", label: "Canal consultivo inicial" },
   { value: "B2B", label: "Atendimento comercial" },
   { value: "SP", label: "Base em Taubaté" },
@@ -104,7 +104,7 @@ export default function SobrePage() {
                 </div>
                 <div className="bg-[#0a1d37] p-8 flex flex-col justify-between">
                   <div>
-                    <p className="text-4xl font-black text-amber-400">6</p>
+                    <p className="text-4xl font-black text-amber-400">{COMPANY_COUNT}</p>
                     <p className="mt-2 text-sm uppercase tracking-[0.2em] text-slate-300">
                       Empresas no portfólio
                     </p>

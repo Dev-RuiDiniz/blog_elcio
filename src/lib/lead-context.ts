@@ -91,7 +91,21 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     ctaSource: "empresa-mercosul-motores",
     order: 6,
   },
+  {
+    slug: "wmg-assistencia-tecnica",
+    name: "WMG Assistência Técnica",
+    fileName: "WMG Assistência Técnica.pdf",
+    pdfPublicPath: "/catalogos/wmg-assistencia-tecnica.pdf",
+    logoPublicPath: "/images/empresas/wmg-assistencia-tecnica/logo.png",
+    coverPublicPath: "/images/empresas/wmg-assistencia-tecnica/cover.jpg",
+    teaser:
+      "Manutenção elétrica e eletrônica industrial para inversores, servo drives, CNCs, IHMs, PLCs e equipamentos multimarcas.",
+    ctaSource: "empresa-wmg-assistencia-tecnica",
+    order: 7,
+  },
 ];
+
+export const COMPANY_COUNT = COMPANY_OPTIONS.length;
 
 export function normalizeCompanySlug(value?: string | null): string {
   if (!value) return "";
