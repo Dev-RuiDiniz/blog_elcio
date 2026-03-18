@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
-import { HiArrowRight } from "react-icons/hi";
+import { HiArrowRight, HiOutlineSearch } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   COMPANY_CARD_CONTAINER_CLASS,
   COMPANY_CARD_IMAGE_CLASS,
@@ -13,163 +13,275 @@ import {
   COMPANY_CARD_IMAGE_SIZES,
   COMPANY_COUNT,
   COMPANY_OPTIONS,
+  HUB_INTENT_OPTIONS,
+  HUB_SEGMENTS,
+  type HubSegment,
   buildContactHref,
   getCompanyCatalogHref,
+  getIntentLabel,
+  getSolutionHref,
 } from "@/lib/lead-context";
 
-interface PageBlock {
-  id: string;
-  type: string;
-  content: Record<string, unknown>;
-  order: number;
-  active: boolean;
-}
+const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
 
 export default function MarcasPage() {
-  const [blocks, setBlocks] = useState<PageBlock[]>([]);
-  const brandsRef = useRef(null);
-  const brandsInView = useInView(brandsRef, { once: true, margin: "-80px" });
-  const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
+  const [search, setSearch] = useState("");
+  const [segment, setSegment] = useState<HubSegment | "all">("all");
 
-  const heroBlock = blocks.find((block) => block.type === "brands-hero")?.content || {};
-  const sectionBlock = blocks.find((block) => block.type === "brands-section")?.content || {};
-  const partnershipBlock = blocks.find((block) => block.type === "brands-partnership")?.content || {};
-  const ctaBlock = blocks.find((block) => block.type === "brands-cta")?.content || {};
+  const filteredCompanies = useMemo(() => {
+    const query = search.trim().toLowerCase();
 
-  useEffect(() => {
-    fetch("/api/pages/marcas")
-      .then((response) => response.json())
-      .then((data) => setBlocks(data.page?.blocks || []))
-      .catch(() => {});
-  }, []);
+    return orderedCompanies.filter((company) => {
+      const matchesSegment = segment === "all" || company.segment === segment;
+      const matchesSearch =
+        !query ||
+        company.name.toLowerCase().includes(query) ||
+        company.teaser.toLowerCase().includes(query) ||
+        company.solutionTypes.some((type) => type.toLowerCase().includes(query)) ||
+        company.primaryApplications.some((application) => application.toLowerCase().includes(query));
 
-  const titleParts = ((heroBlock.title as string) || "Empresas|Representadas|por Elcio").split("|");
+      return matchesSegment && matchesSearch;
+    });
+  }, [search, segment]);
 
   return (
     <>
-      <section className="relative overflow-hidden pt-40 pb-20 lg:pb-28 bg-[#0a1d37] text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.22),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.08),_transparent_30%)]" />
+      <section className="relative overflow-hidden bg-[#07111f] pt-40 pb-24 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(245,158,11,0.2),_transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(56,189,248,0.16),_transparent_34%)]" />
         <div className="site-container relative z-10">
           <div className="max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
-                {(heroBlock.badge as string) || "Empresas Representadas"}
-              </span>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
-                {titleParts.map((part, index) => (
-                  <span key={`${part}-${index}`}>
-                    {part}
-                    {index < titleParts.length - 1 && <br />}
-                  </span>
-                ))}
-              </h1>
-                <p className="text-slate-200 text-lg leading-relaxed mb-8 max-w-3xl">
-                {(heroBlock.description as string) ||
-                  `Conheça as ${COMPANY_COUNT} empresas do portfólio de representação comercial do Elcio e encontre a opção ideal para abrir sua conversa comercial.`}
-              </p>
-              <Button
-                size="lg"
-                className="bg-amber-500 text-white hover:bg-amber-600 transition-all duration-300 group"
-                asChild
-              >
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-300">
+              Hub B2B de Empresas
+            </span>
+            <h1 className="mt-5 text-4xl font-black leading-tight md:text-6xl">
+              Compare as {COMPANY_COUNT} empresas por solução, aplicação e intenção de compra.
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-slate-200">
+              Esta página deixa de ser só um catálogo de logos e passa a operar como o núcleo do hub:
+              você filtra por cluster de solução, lê quando falar com cada empresa e entra no contato já
+              com contexto.
+            </p>
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <Button className="bg-amber-500 text-white hover:bg-amber-600" asChild>
                 <Link
                   href={buildContactHref({
-                    assunto: "consultoria-catalogo",
+                    intent: "entender-melhor-opcao",
                     origem: "marcas-hub-hero",
                   })}
                 >
-                  {(heroBlock.buttonText as string) || "Quero Consultoria + Catálogo"}
-                  <HiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  Quero ajuda para comparar
                 </Link>
               </Button>
               <Button
-                size="lg"
                 variant="outline"
-                className="ml-3 border-white text-white bg-transparent hover:bg-white hover:text-[#0a1d37]"
+                className="border-white text-white bg-transparent hover:bg-white hover:text-[#07111f]"
                 asChild
               >
-                <Link href="/sobre">Conhecer o Elcio</Link>
+                <Link href="/sobre">Entender como o hub opera</Link>
               </Button>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section ref={brandsRef} className="py-24 bg-white">
+      <section className="bg-white py-24">
         <div className="site-container">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={brandsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55 }}
-            className="text-center mb-14"
-          >
-            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-500 mb-4">
-              {(sectionBlock.badge as string) || "Portfólio"}
-            </span>
-            <h2 className="text-4xl md:text-5xl font-black text-[#0a1d37]">
-              {(sectionBlock.title as string) || "Empresas representadas"}
-            </h2>
-          </motion.div>
+          <div className="grid gap-6 rounded-[2rem] border border-slate-200 bg-slate-50 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+                Descoberta guiada
+              </p>
+              <h2 className="mt-3 text-3xl font-black text-[#0a1d37]">
+                Comece pela necessidade, não pela marca.
+              </h2>
+              <p className="mt-3 max-w-2xl text-slate-600">
+                Filtre por cluster de solução ou pesquise palavras como usinagem, filtragem,
+                motores, acionamentos ou manutenção eletrônica.
+              </p>
+            </div>
+            <div className="relative">
+              <HiOutlineSearch className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+              <Input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Pesquisar por empresa, aplicação ou solução"
+                className="h-13 rounded-xl border-slate-200 bg-white pl-12"
+              />
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {orderedCompanies.map((company, index) => (
-              <motion.article
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => setSegment("all")}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                segment === "all"
+                  ? "bg-[#0a1d37] text-white"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              Todas as soluções
+            </button>
+            {HUB_SEGMENTS.map((item) => (
+              <button
+                key={item.slug}
+                type="button"
+                onClick={() => setSegment(item.slug)}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  segment === item.slug
+                    ? "bg-[#0a1d37] text-white"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 py-24">
+        <div className="site-container">
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <span className="site-badge">Leitura por cluster</span>
+              <h2 className="site-heading mt-4">
+                Quando falar com cada grupo de empresas do portfólio.
+              </h2>
+              <p className="site-copy mt-4">
+                Cada cluster abaixo organiza rapidamente o tipo de cenário em que faz mais sentido
+                abrir a conversa.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 grid gap-6 xl:grid-cols-2">
+            {HUB_SEGMENTS.map((item) => {
+              const companies = orderedCompanies.filter((company) => company.segment === item.slug);
+              return (
+                <article key={item.slug} className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+                  <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+                    <div className="max-w-xl">
+                      <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+                        {item.label}
+                      </p>
+                      <h3 className="mt-3 text-3xl font-black text-[#0a1d37]">{item.title}</h3>
+                      <p className="mt-4 text-slate-600 leading-relaxed">{item.description}</p>
+                    </div>
+                    <Link
+                      href={getSolutionHref(item.slug)}
+                      className="inline-flex items-center gap-2 text-sm font-bold text-[#0a1d37] hover:text-amber-600"
+                    >
+                      Ver página do cluster
+                      <HiArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {item.idealFor.map((signal) => (
+                      <span
+                        key={signal}
+                        className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700"
+                      >
+                        {signal}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-8 grid gap-4 md:grid-cols-2">
+                    {companies.map((company) => (
+                      <div key={company.slug} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <p className="text-sm font-black text-[#0a1d37]">{company.name}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600">{company.teaser}</p>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-24">
+        <div className="site-container">
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <span className="site-badge">Empresas do hub</span>
+              <h2 className="site-heading mt-4">
+                Resultado da filtragem: {filteredCompanies.length} empresa(s).
+              </h2>
+              <p className="site-copy mt-4">
+                Cada card agora mostra não apenas a empresa, mas o cluster, aplicações principais e a
+                melhor ação para continuar a jornada.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            {filteredCompanies.map((company) => (
+              <article
                 key={company.slug}
-                initial={{ opacity: 0, y: 28 }}
-                animate={brandsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="h-full flex flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
+                className="flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className={COMPANY_CARD_CONTAINER_CLASS}>
                   <Image
                     src={company.coverPublicPath}
                     alt={`Imagem oficial da ${company.name}`}
                     fill
-                    priority={index < 2}
                     quality={COMPANY_CARD_IMAGE_QUALITY}
                     sizes={COMPANY_CARD_IMAGE_SIZES}
                     className={COMPANY_CARD_IMAGE_CLASS}
                   />
-                  <div className="absolute top-4 left-4 rounded-lg bg-white/95 px-3 py-2 shadow-sm">
-                    <Image
-                      src={company.logoPublicPath}
-                      alt={`Logo da ${company.name}`}
-                      width={120}
-                      height={36}
-                      className="h-6 w-auto object-contain"
-                    />
+                  <div className="absolute left-4 top-4 rounded-full bg-[#07111f] px-3 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-amber-300">
+                    {company.segment.replace(/-/g, " ")}
                   </div>
                 </div>
-                <div className="p-8 flex flex-col flex-1">
-                  <span className="text-[11px] uppercase tracking-[0.24em] text-amber-600 font-bold mb-3">
-                    Empresa {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="text-2xl font-black text-[#0a1d37] mb-3">
-                    {company.name}
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-1">
-                    {company.teaser}
-                  </p>
-                  <div className="flex flex-col gap-3">
+
+                <div className="flex flex-1 flex-col p-8">
+                  <h3 className="text-2xl font-black text-[#0a1d37]">{company.name}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">{company.teaser}</p>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {company.solutionTypes.slice(0, 3).map((type) => (
+                      <span
+                        key={type}
+                        className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700"
+                      >
+                        {type}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-slate-500">
+                      Melhor entrada
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-[#0a1d37]">
+                      {getIntentLabel(company.buyerIntents[0])}
+                    </p>
+                  </div>
+
+                  <div className="mt-8 flex flex-col gap-3">
                     <Button className="bg-amber-500 text-white hover:bg-amber-600" asChild>
                       <Link href={`/p/${company.slug}`}>
                         Ver página da empresa
-                        <HiArrowRight className="ml-2 w-4 h-4" />
+                        <HiArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button variant="outline" className="border-[#0a1d37] text-[#0a1d37] hover:bg-[#0a1d37] hover:text-white" asChild>
+                    <Button
+                      variant="outline"
+                      className="border-[#0a1d37] text-[#0a1d37] hover:bg-[#0a1d37] hover:text-white"
+                      asChild
+                    >
                       <Link
                         href={buildContactHref({
-                          assunto: "consultoria-catalogo",
+                          intent: company.buyerIntents[0],
                           empresa: company.slug,
-                          origem: `${company.ctaSource}-marcas-grid`,
+                          origem: `${company.ctaSource}-marcas-hub`,
                         })}
                       >
-                        Solicitar consultoria
+                        Abrir com contexto
                       </Link>
                     </Button>
                     <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100" asChild>
@@ -179,70 +291,44 @@ export default function MarcasPage() {
                     </Button>
                   </div>
                 </div>
-              </motion.article>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-slate-50">
+      <section className="bg-[#0a1d37] py-24 text-white">
         <div className="site-container">
-          <div className="max-w-4xl mx-auto text-center">
-            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-500 mb-4">
-              {(partnershipBlock.badge as string) || "Atendimento Comercial"}
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black text-[#0a1d37] mb-6">
-              {(partnershipBlock.title as string) || "Centralize seu primeiro contato"}
-            </h2>
-            <p className="text-slate-600 text-lg leading-relaxed">
-              {(partnershipBlock.description as string) ||
-                "Com o Elcio, você inicia o contato comercial de forma orientada, comparando opções entre empresas representadas e acelerando a tomada de decisão."}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24 bg-[#0a1d37] text-white">
-        <div className="site-container text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
-          >
-            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
-              Próximo passo
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black mb-6">
-              {(ctaBlock.title as string) || "Pronto para avançar com sua demanda?"}
-            </h2>
-            <p className="text-slate-300 max-w-2xl mx-auto mb-8">
-              {(ctaBlock.description as string) ||
-                "Clique abaixo e inicie sua conversa com o CTA oficial: consultoria comercial + catálogo técnico."}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="bg-amber-500 text-white hover:bg-amber-600" asChild>
-                <Link
-                  href={buildContactHref({
-                    assunto: "consultoria-catalogo",
-                    origem: "marcas-hub-cta",
-                  })}
-                >
-                  {(ctaBlock.buttonText as string) || "Solicitar Consultoria + Catálogo"}
-                </Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white bg-transparent hover:bg-white hover:text-[#0a1d37]"
-                asChild
-              >
-                <Link href={(ctaBlock.secondaryLink as string) || "/sobre"}>
-                  {(ctaBlock.secondaryButtonText as string) || "Conhecer o Elcio"}
-                </Link>
-              </Button>
+          <div className="grid gap-10 lg:grid-cols-[1fr_1fr]">
+            <div>
+              <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-300">
+                Intenções do hub
+              </span>
+              <h2 className="mt-4 text-3xl font-black md:text-5xl">
+                O próximo passo muda conforme a intenção comercial.
+              </h2>
+              <p className="mt-5 text-base leading-relaxed text-slate-300 md:text-lg">
+                O hub consolida três entradas controladas para reduzir contatos genéricos e melhorar
+                a triagem antes do encaminhamento.
+              </p>
             </div>
-          </motion.div>
+
+            <div className="grid gap-4">
+              {HUB_INTENT_OPTIONS.map((intent) => (
+                <Link
+                  key={intent.value}
+                  href={buildContactHref({
+                    intent: intent.value,
+                    origem: `marcas-intent-${intent.value}`,
+                  })}
+                  className="rounded-[1.5rem] border border-white/10 bg-white/6 p-5 transition-colors hover:bg-white/10"
+                >
+                  <p className="text-sm font-black text-white">{intent.label}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">{intent.description}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </>

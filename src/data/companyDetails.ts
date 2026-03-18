@@ -11,6 +11,7 @@ export interface CompanyPageDetail {
   services: CompanyDetailItem[];
   sectors: string[];
   differentiators: string[];
+  idealFor: string[];
   seoDescription: string;
 }
 
@@ -74,6 +75,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Portfólio unificado que combina ferramentas rotativas e indexáveis",
       "Suporte para diferentes materiais, operações e níveis de criticidade",
     ],
+    idealFor: [
+      "Quem precisa de portfólio amplo para usinagem",
+      "Operações de furação, fresamento, torneamento e rosqueamento",
+      "Compras técnicas que querem previsibilidade e suporte de aplicação",
+    ],
     seoDescription:
       "Conheça a Dormer Pramet: ferramentas de corte para furação, fresamento, torneamento e rosqueamento com suporte técnico e foco em produtividade.",
   },
@@ -135,6 +141,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Mais de 30 anos de atuação em ferramentas especiais",
       "Mais de 1.250.000 ferramentas especiais entregues",
       "Processos apoiados por ISO 9001, laboratório e parque fabril com retíficas CNC e células robotizadas",
+    ],
+    idealFor: [
+      "Demandas fora do catálogo padrão",
+      "Projetos com geometrias e tolerâncias específicas",
+      "Times de processo que precisam de solução dedicada",
     ],
     seoDescription:
       "Conheça a Fecial: ferramentas especiais para usinagem, insertos, lâminas, fresamento, rosqueamento e projetos personalizados.",
@@ -198,6 +209,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Parcerias tecnológicas internacionais e forte base técnica",
       "Portfólio que combina produto, serviço e diagnóstico especializado",
     ],
+    idealFor: [
+      "Operações com controle de emissões e partículas",
+      "Ambientes críticos, salas limpas e HVAC",
+      "Demandas com necessidade de adequação regulatória",
+    ],
     seoDescription:
       "Conheça a Solufil: mangas filtrantes, filtros de ar, serviços técnicos e soluções para controle da contaminação e da poluição do ar.",
   },
@@ -259,6 +275,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Projetos com ganhos energéticos reportados na ordem de 30%",
       "Produção própria de hélices em fibra de carbono",
       "Combinação de fabricação, adaptação e consultoria técnica de performance",
+    ],
+    idealFor: [
+      "Projetos que buscam eficiência energética",
+      "Aplicações com necessidade de retrofit em ventilação",
+      "Operações que exigem análise de performance do sistema",
     ],
     seoDescription:
       "Conheça a Delta Jet: ventiladores industriais, hélices em fibra de carbono, sistemas completos de ventilação e consultoria técnica.",
@@ -322,6 +343,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Presença em dezenas de países com serviços e distribuição",
       "Foco em eficiência, robustez, qualidade e flexibilidade de configuração",
     ],
+    idealFor: [
+      "Projetos de acionamentos completos",
+      "Aplicações que exigem robustez e flexibilidade",
+      "Integração entre redutores, motores e inversores",
+    ],
     seoDescription:
       "Conheça a NORD DRIVESYSTEMS: motorredutores, motores elétricos, redutores industriais e inversores com suporte técnico especializado.",
   },
@@ -384,6 +410,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Rede de assistência técnica com mais de 300 parceiros",
       "Combinação entre inovação tecnológica, sustentabilidade e presença comercial nacional",
     ],
+    idealFor: [
+      "Aplicações com motores em baixa tensão",
+      "Demandas por automação, motores e redutores em conjunto",
+      "Compradores que valorizam capilaridade técnica nacional",
+    ],
     seoDescription:
       "Conheça a Mercosul Motores: motores elétricos monofásicos e trifásicos, automação, redutores e suporte técnico com cobertura nacional.",
   },
@@ -445,6 +476,11 @@ export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
       "Atendimento nacional com base em Taubaté, São Paulo",
       "Capacidade de atuar em campo e em laboratório",
       "Portfólio multimarcas para acionamentos, CNCs, IHMs, PLCs e placas eletrônicas",
+    ],
+    idealFor: [
+      "Paradas programadas e corretivas de alta criticidade",
+      "Recuperação de eletrônica industrial multimarcas",
+      "Demandas por diagnóstico técnico em campo e laboratório",
     ],
     seoDescription:
       "Conheça a WMG Assistência Técnica: manutenção elétrica e eletrônica industrial para inversores, servo drives, CNCs, IHMs, PLCs, placas e fontes.",

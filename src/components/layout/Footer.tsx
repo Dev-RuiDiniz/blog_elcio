@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaInstagram, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import { HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
-import { COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
+import { HUB_SEGMENTS, buildContactHref, buildWhatsappHref, getSolutionHref } from "@/lib/lead-context";
 
 const linkGroups = [
   {
@@ -17,10 +17,10 @@ const linkGroups = [
     ],
   },
   {
-    title: "Empresas",
-    links: COMPANY_OPTIONS.map((company) => ({
-      href: `/p/${company.slug}`,
-      label: company.name,
+    title: "Soluções",
+    links: HUB_SEGMENTS.slice(0, 4).map((segment) => ({
+      href: getSolutionHref(segment.slug),
+      label: segment.label,
     })),
   },
   {
@@ -38,11 +38,7 @@ const linkGroups = [
   },
 ];
 
-const socialLinks = [
-  { href: "https://example.com", icon: FaInstagram, label: "Instagram" },
-  { href: "https://example.com", icon: FaLinkedinIn, label: "LinkedIn" },
-  { href: buildWhatsappHref({ origem: "footer-social" }), icon: FaWhatsapp, label: "WhatsApp" },
-];
+const socialLinks = [{ href: buildWhatsappHref({ origem: "footer-social" }), icon: FaWhatsapp, label: "WhatsApp" }];
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -63,7 +59,7 @@ export function Footer() {
               </div>
               <h3 className="text-xl font-black mb-3">Elcio Representação Comercial</h3>
               <p className="text-slate-300 text-sm leading-relaxed max-w-sm mb-8">
-                Representação comercial B2B com atendimento consultivo para direcionar sua demanda à empresa mais aderente.
+                Hub B2B com entrada única para comparar empresas, soluções industriais e próximos passos comerciais.
               </p>
 
               <div className="space-y-3">

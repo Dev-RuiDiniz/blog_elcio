@@ -1,25 +1,17 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  HiOutlineMail,
-  HiOutlinePhone,
-  HiOutlineLocationMarker,
-  HiOutlineDownload,
-  HiOutlineChat,
-  HiOutlineCalendar,
-  HiArrowRight,
-} from "react-icons/hi";
+import { HiArrowRight, HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -29,399 +21,292 @@ import {
 } from "@/components/ui/select";
 import {
   COMPANY_OPTIONS,
+  HUB_INTENT_OPTIONS,
   buildContactHref,
   buildWhatsappHref,
+  getCompanyBySlug,
   getCompanyNameFromSlug,
+  getIntentDescription,
+  getIntentLabel,
+  getSolutionHref,
   normalizeCompanySlug,
+  normalizeIntent,
 } from "@/lib/lead-context";
 
 const NONE_VALUE = "none";
-const DEFAULT_SUBJECT = "consultoria-catalogo";
-const ALLOWED_SUBJECTS = new Set([
-  "consultoria-catalogo",
-  "catalogo",
-  "orcamento",
-  "duvidas",
-  "visita",
-  "outros",
-]);
 
-function normalizeAssunto(value?: string | null): string {
-  if (!value) return DEFAULT_SUBJECT;
-  const normalized = value.trim().toLowerCase();
-  return ALLOWED_SUBJECTS.has(normalized) ? normalized : DEFAULT_SUBJECT;
-}
-
-const contactSchema = z.object({
+const formSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
   email: z.string().email("E-mail inválido"),
   phone: z.string().min(10, "Telefone inválido"),
   city: z.string().optional(),
   companySlug: z.string().optional(),
-  subject: z.string().min(1, "Selecione um assunto"),
+  intent: z.string().min(1, "Selecione a intenção"),
+  businessType: z.string().optional(),
   message: z.string().min(10, "Mensagem deve ter pelo menos 10 caracteres"),
 });
 
-const catalogSchema = z.object({
-  name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-  email: z.string().email("E-mail inválido"),
-  phone: z.string().min(10, "Telefone inválido"),
-  city: z.string().optional(),
-  companySlug: z.string().optional(),
-  businessType: z.string().optional(),
-});
+type FormData = z.infer<typeof formSchema>;
 
-type ContactFormData = z.infer<typeof contactSchema>;
-type CatalogFormData = z.infer<typeof catalogSchema>;
-
-const contactOptions = [
-  {
-    icon: HiOutlineDownload,
-    title: "Receber Catálogo",
-    description: "Receba o catálogo e entenda rapidamente as soluções disponíveis.",
-    action: "catalog",
-  },
-  {
-    icon: HiOutlineChat,
-    title: "Consultoria Comercial",
-    description: "Converse com o Elcio para direcionar a melhor opção para sua demanda.",
-    action: "contact",
-  },
-  {
-    icon: HiOutlineCalendar,
-    title: "Primeiro Atendimento",
-    description: "Inicie o contato agora para avançar com próximos passos e orçamento.",
-    action: "contact",
-  },
-];
-
-function ContatoContent() {
+function ContactContent() {
   const searchParams = useSearchParams();
-  const assuntoParam = normalizeAssunto(searchParams.get("assunto"));
-  const empresaParam = normalizeCompanySlug(searchParams.get("empresa"));
-  const origemParam = (searchParams.get("origem") || "contato").trim() || "contato";
-  const originContext =
-    origemParam === "contato" || origemParam.startsWith("contato-")
-      ? origemParam
-      : `contato-${origemParam}`;
-  const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
+  const companyParam = normalizeCompanySlug(searchParams.get("empresa"));
+  const originParam = (searchParams.get("origem") || "contato-hub").trim() || "contato-hub";
+  const intentParam = normalizeIntent(searchParams.get("intent") || searchParams.get("assunto"));
 
-  const [activeForm, setActiveForm] = useState<"contact" | "catalog">(
-    assuntoParam === "catalogo" ? "catalog" : "contact"
-  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const contactForm = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
+  const orderedCompanies = useMemo(
+    () => [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order),
+    []
+  );
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       phone: "",
       city: "",
-      companySlug: empresaParam || "",
-      subject: assuntoParam === "catalogo" ? DEFAULT_SUBJECT : assuntoParam,
+      companySlug: companyParam || "",
+      intent: intentParam,
+      businessType: "",
       message: "",
     },
   });
 
-  const catalogForm = useForm<CatalogFormData>({
-    resolver: zodResolver(catalogSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      city: "",
-      companySlug: empresaParam || "",
-      businessType: "",
-    },
-  });
-
   useEffect(() => {
-    if (assuntoParam === "catalogo") {
-      setActiveForm("catalog");
-      contactForm.setValue("subject", DEFAULT_SUBJECT);
-    }
-    if (assuntoParam !== "catalogo") {
-      setActiveForm("contact");
-      contactForm.setValue("subject", assuntoParam);
-    }
-  }, [assuntoParam, contactForm]);
+    if (!companyParam) return;
+    form.setValue("companySlug", companyParam);
+  }, [companyParam, form]);
 
-  useEffect(() => {
-    if (!empresaParam) return;
-    contactForm.setValue("companySlug", empresaParam);
-    catalogForm.setValue("companySlug", empresaParam);
-  }, [empresaParam, contactForm, catalogForm]);
-
-  const selectedCompanySlug = normalizeCompanySlug(
-    activeForm === "contact"
-      ? contactForm.watch("companySlug")
-      : catalogForm.watch("companySlug")
-  );
-
+  const selectedCompanySlug = normalizeCompanySlug(form.watch("companySlug"));
+  const selectedCompany = getCompanyBySlug(selectedCompanySlug);
   const selectedCompanyName = getCompanyNameFromSlug(selectedCompanySlug);
-
-  const onContactSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true);
-    try {
-      const companySlug = normalizeCompanySlug(data.companySlug) || empresaParam;
-      const companyName = getCompanyNameFromSlug(companySlug);
-      const normalizedSubject = normalizeAssunto(data.subject);
-      const interestType = normalizedSubject === "catalogo" ? DEFAULT_SUBJECT : normalizedSubject;
-      const source = `Formulário Contato - ${originContext}`;
-
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          source,
-          companySlug,
-          companyName,
-          interestType,
-          originPage: originContext,
-          message: `Assunto: ${interestType}\nCidade: ${data.city || "Não informada"}\nEmpresa: ${companyName || "Não informada"}\n\n${data.message}`,
-        }),
-      });
-
-      if (!response.ok) throw new Error("Erro ao enviar");
-      setSubmitSuccess(true);
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Erro ao enviar mensagem. Tente novamente.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const onCatalogSubmit = async (data: CatalogFormData) => {
-    setIsSubmitting(true);
-    try {
-      const companySlug = normalizeCompanySlug(data.companySlug) || empresaParam;
-      const companyName = getCompanyNameFromSlug(companySlug);
-      const source = `Formulário Catálogo - ${originContext}`;
-
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          source,
-          companySlug,
-          companyName,
-          interestType: DEFAULT_SUBJECT,
-          originPage: originContext,
-          message: `Tipo de Negócio: ${data.businessType || "Não informado"}\nCidade: ${data.city || "Não informada"}\nEmpresa: ${companyName || "Não informada"}\n\nSolicitou catálogo com apoio comercial.`,
-        }),
-      });
-
-      if (!response.ok) throw new Error("Erro ao enviar");
-      setSubmitSuccess(true);
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Erro ao enviar. Tente novamente.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const selectedIntent = normalizeIntent(form.watch("intent"));
 
   const whatsappHref = buildWhatsappHref({
-    assunto: DEFAULT_SUBJECT,
+    intent: selectedIntent,
     empresa: selectedCompanySlug,
-    origem: originContext,
+    origem: originParam,
     extraMessage: selectedCompanyName
-      ? `Gostaria de atendimento para ${selectedCompanyName}.`
-      : "Gostaria de atendimento comercial.",
+      ? `Quero avançar com ${selectedCompanyName} no hub B2B.`
+      : "Preciso de ajuda para entender a melhor empresa.",
   });
+
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    try {
+      const normalizedCompany = normalizeCompanySlug(data.companySlug);
+      const normalizedIntent = normalizeIntent(data.intent);
+      const companyName = getCompanyNameFromSlug(normalizedCompany);
+
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          source: `Hub B2B - ${originParam}`,
+          companySlug: normalizedCompany,
+          companyName,
+          interestType: normalizedIntent,
+          originPage: originParam,
+          message: [
+            `Intenção: ${getIntentLabel(normalizedIntent)}`,
+            `Empresa: ${companyName || "Não definida"}`,
+            `Cidade: ${data.city || "Não informada"}`,
+            `Tipo de negócio: ${data.businessType || "Não informado"}`,
+            "",
+            data.message,
+          ].join("\n"),
+        }),
+      });
+
+      if (!response.ok) throw new Error("Erro ao enviar");
+
+      setSubmitSuccess(true);
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao enviar sua solicitação. Tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
-      <section className="relative overflow-hidden pt-40 pb-20 px-4 md:px-10">
-        <div className="absolute inset-0 bg-[#0a1d37]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.22),_transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(255,255,255,0.08),_transparent_30%)]" />
+      <section className="relative overflow-hidden bg-[#07111f] pt-40 pb-24 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(245,158,11,0.18),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(56,189,248,0.16),_transparent_34%)]" />
         <div className="site-container relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl"
-          >
-            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-400 mb-4">
-              Consultoria + Catálogo
+          <div className="max-w-4xl">
+            <span className="inline-block text-sm font-bold uppercase tracking-[0.24em] text-amber-300">
+              Central de Qualificação
             </span>
-            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-              Primeiro Contato Comercial
+            <h1 className="mt-5 text-4xl font-black leading-tight md:text-6xl">
+              Abra o contato com intenção clara, empresa sugerida e mais contexto comercial.
             </h1>
-            <p className="max-w-3xl text-lg text-slate-200 leading-relaxed">
-              Centralize o atendimento com o Elcio para receber catálogo técnico,
-              orientação comercial e encaminhamento rápido da sua demanda.
+            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-slate-200">
+              Esta página passa a funcionar como a entrada do hub B2B: primeiro a intenção, depois
+              a empresa ideal e então o encaminhamento mais aderente.
             </p>
-            {(empresaParam || originContext !== "contato") && (
-              <p className="text-sm text-slate-300 mt-4">
-                Contexto: {selectedCompanyName || "Empresa não definida"} | Origem: {originContext}
-              </p>
-            )}
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="site-button-primary">
-                Falar no WhatsApp
-                <HiArrowRight className="w-4 h-4" />
-              </a>
-              <Link
-                href={buildContactHref({
-                  assunto: DEFAULT_SUBJECT,
-                  empresa: selectedCompanySlug,
-                  origem: `${originContext}-hero`,
-                })}
-                className="site-button-secondary-inverse"
-              >
-                Reforçar contexto no formulário
-              </Link>
+            <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-300">
+              <span className="rounded-full border border-white/10 bg-white/6 px-4 py-2">
+                Intenção: {getIntentLabel(selectedIntent)}
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/6 px-4 py-2">
+                Empresa: {selectedCompanyName || "Ainda não definida"}
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/6 px-4 py-2">
+                Origem: {originParam}
+              </span>
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="py-12 bg-slate-50">
-        <div className="site-container">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {contactOptions.map((option, index) => (
-              <motion.button
-                key={option.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: index * 0.08 }}
-                onClick={() => {
-                  setActiveForm(option.action === "catalog" ? "catalog" : "contact");
-                  setSubmitSuccess(false);
-                }}
-                className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all group hover:-translate-y-1 hover:border-amber-400 hover:shadow-lg"
-              >
-                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-amber-100 text-amber-600 group-hover:bg-[#0a1d37] group-hover:text-white transition-all">
-                  <option.icon className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-[#0a1d37] mb-1">{option.title}</h3>
-                  <p className="text-slate-500 text-sm">{option.description}</p>
-                </div>
-              </motion.button>
-            ))}
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-white">
-        <div className="site-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-            <motion.div
-              initial={{ opacity: 0, x: -24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.55 }}
-            >
-              <div className="flex flex-wrap gap-3 mb-8">
-                <button
-                  onClick={() => {
-                    setActiveForm("contact");
-                    setSubmitSuccess(false);
-                  }}
-                  className={`px-5 sm:px-6 py-3 text-sm font-medium transition-all w-full sm:w-auto ${
-                    activeForm === "contact"
-                      ? "bg-[#0a1d37] text-white"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                  }`}
-                >
-                  Consultoria Comercial
-                </button>
-                <button
-                  onClick={() => {
-                    setActiveForm("catalog");
-                    setSubmitSuccess(false);
-                  }}
-                  className={`px-5 sm:px-6 py-3 text-sm font-medium transition-all w-full sm:w-auto ${
-                    activeForm === "catalog"
-                      ? "bg-[#0a1d37] text-white"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                  }`}
-                >
-                  Receber Catálogo
-                </button>
+      <section className="bg-white py-24">
+        <div className="site-container grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="space-y-6">
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+                Intenção selecionada
+              </p>
+              <h2 className="mt-3 text-3xl font-black text-[#0a1d37]">{getIntentLabel(selectedIntent)}</h2>
+              <p className="mt-4 text-slate-600 leading-relaxed">{getIntentDescription(selectedIntent)}</p>
+            </div>
+
+            {selectedCompany && (
+              <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-600">
+                  Empresa já em contexto
+                </p>
+                <h3 className="mt-3 text-2xl font-black text-[#0a1d37]">{selectedCompany.name}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">{selectedCompany.teaser}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {selectedCompany.solutionTypes.slice(0, 3).map((type) => (
+                    <span
+                      key={type}
+                      className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700"
+                    >
+                      {type}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-6 flex flex-col gap-3">
+                  <Link href={`/p/${selectedCompany.slug}`} className="text-sm font-bold text-[#0a1d37] hover:text-amber-600">
+                    Ver página da empresa
+                  </Link>
+                  <Link href={getSolutionHref(selectedCompany.segment)} className="text-sm font-medium text-slate-600 hover:text-[#0a1d37]">
+                    Explorar cluster relacionado
+                  </Link>
+                </div>
               </div>
+            )}
 
-              {submitSuccess ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-12 text-center"
+            <div className="rounded-[2rem] border border-slate-200 bg-[#07111f] p-8 text-white shadow-sm">
+              <h3 className="text-2xl font-black">Fluxo recomendado do hub</h3>
+              <div className="mt-6 space-y-3 text-sm text-slate-300">
+                <p>1. Escolha a intenção comercial.</p>
+                <p>2. Selecione a empresa quando já tiver um caminho preferido.</p>
+                <p>3. Envie o contexto para o encaminhamento sair com mais direção.</p>
+              </div>
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-amber-500 px-5 py-4 font-bold text-white transition-colors hover:bg-amber-600"
+              >
+                Falar no WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
+            {submitSuccess ? (
+              <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-12 text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-500 text-white">
+                  <HiArrowRight className="h-8 w-8" />
+                </div>
+                <h2 className="mt-6 text-3xl font-black text-[#0a1d37]">Solicitação enviada</h2>
+                <p className="mt-4 text-slate-600">
+                  Recebemos sua intenção e o contexto do hub. O retorno seguirá com mais direção
+                  comercial.
+                </p>
+                <Button
+                  className="mt-8 bg-[#0a1d37] text-white hover:bg-[#112948]"
+                  onClick={() => setSubmitSuccess(false)}
                 >
-                  <div className="w-16 h-16 mx-auto mb-6 bg-amber-500 text-white rounded-full flex items-center justify-center">
-                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-black text-[#0a1d37] mb-3">
-                    Solicitação Enviada
-                  </h3>
-                  <p className="text-slate-600 mb-6">
-                    Recebemos seus dados e retornaremos com o primeiro atendimento em breve.
-                  </p>
-                  <Button
-                    onClick={() => setSubmitSuccess(false)}
-                    variant="outline"
-                    className="border-[#0a1d37] text-[#0a1d37] hover:bg-[#0a1d37] hover:text-white"
-                  >
-                    Enviar nova solicitação
-                  </Button>
-                </motion.div>
-              ) : activeForm === "contact" ? (
-                <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-6 rounded-[1.75rem] border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="name">Nome completo *</Label>
-                      <Input id="name" {...contactForm.register("name")} className="mt-2 h-12" placeholder="Seu nome" />
-                      {contactForm.formState.errors.name && (
-                        <p className="text-red-500 text-sm mt-1">{contactForm.formState.errors.name.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <Label htmlFor="email">E-mail *</Label>
-                      <Input id="email" type="email" {...contactForm.register("email")} className="mt-2 h-12" placeholder="seu@email.com" />
-                      {contactForm.formState.errors.email && (
-                        <p className="text-red-500 text-sm mt-1">{contactForm.formState.errors.email.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="phone">Telefone/WhatsApp *</Label>
-                      <Input id="phone" {...contactForm.register("phone")} className="mt-2 h-12" placeholder="(11) 99999-9999" />
-                      {contactForm.formState.errors.phone && (
-                        <p className="text-red-500 text-sm mt-1">{contactForm.formState.errors.phone.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <Label htmlFor="city">Cidade</Label>
-                      <Input id="city" {...contactForm.register("city")} className="mt-2 h-12" placeholder="São Paulo, SP" />
-                    </div>
-                  </div>
-
+                  Enviar nova solicitação
+                </Button>
+              </div>
+            ) : (
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm"
+              >
+                <div className="grid gap-6 sm:grid-cols-2">
                   <div>
-                    <Label>Empresa de Interesse</Label>
+                    <Label htmlFor="name">Nome completo *</Label>
+                    <Input id="name" {...form.register("name")} className="mt-2 h-12" />
+                    {form.formState.errors.name && (
+                      <p className="mt-1 text-sm text-red-500">{form.formState.errors.name.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="email">E-mail *</Label>
+                    <Input id="email" type="email" {...form.register("email")} className="mt-2 h-12" />
+                    {form.formState.errors.email && (
+                      <p className="mt-1 text-sm text-red-500">{form.formState.errors.email.message}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <div>
+                    <Label htmlFor="phone">Telefone/WhatsApp *</Label>
+                    <Input id="phone" {...form.register("phone")} className="mt-2 h-12" />
+                    {form.formState.errors.phone && (
+                      <p className="mt-1 text-sm text-red-500">{form.formState.errors.phone.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="city">Cidade</Label>
+                    <Input id="city" {...form.register("city")} className="mt-2 h-12" />
+                  </div>
+                </div>
+
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <div>
+                    <Label>Intenção comercial *</Label>
+                    <Select value={form.watch("intent")} onValueChange={(value) => form.setValue("intent", value)}>
+                      <SelectTrigger className="mt-2 h-12">
+                        <SelectValue placeholder="Selecione a intenção" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {HUB_INTENT_OPTIONS.map((intent) => (
+                          <SelectItem key={intent.value} value={intent.value}>
+                            {intent.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label>Empresa de interesse</Label>
                     <Select
-                      value={contactForm.watch("companySlug") || NONE_VALUE}
+                      value={form.watch("companySlug") || NONE_VALUE}
                       onValueChange={(value) =>
-                        contactForm.setValue("companySlug", value === NONE_VALUE ? "" : value)
+                        form.setValue("companySlug", value === NONE_VALUE ? "" : value)
                       }
                     >
                       <SelectTrigger className="mt-2 h-12">
                         <SelectValue placeholder="Selecione uma empresa (opcional)" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value={NONE_VALUE}>Não definir agora</SelectItem>
+                        <SelectItem value={NONE_VALUE}>Ainda não sei</SelectItem>
                         {orderedCompanies.map((company) => (
                           <SelectItem key={company.slug} value={company.slug}>
                             {company.name}
@@ -430,226 +315,81 @@ function ContatoContent() {
                       </SelectContent>
                     </Select>
                   </div>
-
-                  <div>
-                    <Label>Assunto *</Label>
-                    <Select
-                      value={contactForm.watch("subject")}
-                      onValueChange={(value) => contactForm.setValue("subject", value)}
-                    >
-                      <SelectTrigger className="mt-2 h-12">
-                        <SelectValue placeholder="Selecione um assunto" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="consultoria-catalogo">Consultoria + Catálogo</SelectItem>
-                        <SelectItem value="orcamento">Solicitar Orçamento</SelectItem>
-                        <SelectItem value="duvidas">Dúvidas Técnicas</SelectItem>
-                        <SelectItem value="visita">Agendar Reunião</SelectItem>
-                        <SelectItem value="outros">Outros</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {contactForm.formState.errors.subject && (
-                      <p className="text-red-500 text-sm mt-1">{contactForm.formState.errors.subject.message}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <Label htmlFor="message">Mensagem *</Label>
-                    <Textarea
-                      id="message"
-                      {...contactForm.register("message")}
-                      className="mt-2 min-h-[150px]"
-                      placeholder="Conte brevemente seu objetivo e contexto."
-                    />
-                    {contactForm.formState.errors.message && (
-                      <p className="text-red-500 text-sm mt-1">{contactForm.formState.errors.message.message}</p>
-                    )}
-                  </div>
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full bg-amber-500 text-white hover:bg-amber-600"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Enviando..." : "Solicitar Consultoria"}
-                  </Button>
-                </form>
-              ) : (
-                <form onSubmit={catalogForm.handleSubmit(onCatalogSubmit)} className="space-y-6 rounded-[1.75rem] border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="cat-name">Nome completo *</Label>
-                      <Input id="cat-name" {...catalogForm.register("name")} className="mt-2 h-12" placeholder="Seu nome" />
-                      {catalogForm.formState.errors.name && (
-                        <p className="text-red-500 text-sm mt-1">{catalogForm.formState.errors.name.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <Label htmlFor="cat-email">E-mail *</Label>
-                      <Input id="cat-email" type="email" {...catalogForm.register("email")} className="mt-2 h-12" placeholder="seu@email.com" />
-                      {catalogForm.formState.errors.email && (
-                        <p className="text-red-500 text-sm mt-1">{catalogForm.formState.errors.email.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="cat-phone">Telefone/WhatsApp *</Label>
-                      <Input id="cat-phone" {...catalogForm.register("phone")} className="mt-2 h-12" placeholder="(11) 99999-9999" />
-                      {catalogForm.formState.errors.phone && (
-                        <p className="text-red-500 text-sm mt-1">{catalogForm.formState.errors.phone.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <Label htmlFor="cat-city">Cidade</Label>
-                      <Input id="cat-city" {...catalogForm.register("city")} className="mt-2 h-12" placeholder="São Paulo, SP" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label>Empresa de Interesse</Label>
-                    <Select
-                      value={catalogForm.watch("companySlug") || NONE_VALUE}
-                      onValueChange={(value) =>
-                        catalogForm.setValue("companySlug", value === NONE_VALUE ? "" : value)
-                      }
-                    >
-                      <SelectTrigger className="mt-2 h-12">
-                        <SelectValue placeholder="Selecione uma empresa (opcional)" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value={NONE_VALUE}>Não definir agora</SelectItem>
-                        {orderedCompanies.map((company) => (
-                          <SelectItem key={company.slug} value={company.slug}>
-                            {company.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="businessType">Tipo de Negócio</Label>
-                    <Select
-                      value={catalogForm.watch("businessType") || NONE_VALUE}
-                      onValueChange={(value) =>
-                        catalogForm.setValue("businessType", value === NONE_VALUE ? "" : value)
-                      }
-                    >
-                      <SelectTrigger className="mt-2 h-12">
-                        <SelectValue placeholder="Selecione o tipo" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value={NONE_VALUE}>Não informar</SelectItem>
-                        <SelectItem value="industria">Indústria</SelectItem>
-                        <SelectItem value="distribuidor">Distribuidor</SelectItem>
-                        <SelectItem value="integrador">Integrador</SelectItem>
-                        <SelectItem value="engenharia">Engenharia</SelectItem>
-                        <SelectItem value="outros">Outros</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full bg-amber-500 text-white hover:bg-amber-600"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Enviando..." : "Receber Catálogo"}
-                  </Button>
-
-                  <p className="text-xs text-slate-500 text-center">
-                    Ao enviar, você concorda em receber contato comercial para continuidade do atendimento.
-                  </p>
-                </form>
-              )}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-            >
-              <div className="site-card-dark p-6 sm:p-8 lg:p-12 h-full">
-                <h2 className="text-2xl font-black mb-8">
-                  Canal Comercial
-                </h2>
-
-                <div className="space-y-8">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/10 text-amber-400">
-                      <HiOutlinePhone className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium mb-1">Telefone / WhatsApp</h3>
-                      <a href="tel:+5512988737347" className="text-slate-300 hover:text-white transition-colors">
-                        +55 12 98873-7347
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/10 text-amber-400">
-                      <HiOutlineMail className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium mb-1">E-mail</h3>
-                      <a
-                        href="mailto:vendas@raemtools.com.br"
-                        className="text-slate-300 hover:text-white transition-colors"
-                      >
-                        vendas@raemtools.com.br
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/10 text-amber-400">
-                      <HiOutlineLocationMarker className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium mb-1">Atendimento</h3>
-                      <p className="text-slate-300">
-                        Taubaté - SP
-                        <br />
-                        Comercial remoto e sob agendamento
-                      </p>
-                    </div>
-                  </div>
                 </div>
 
-                <div className="mt-12 pt-8 border-t border-white/10">
-                  <h3 className="font-medium mb-4">Fluxo recomendado</h3>
-                  <div className="space-y-2 text-slate-300 text-sm">
-                    <p>1. Informe empresa e contexto</p>
-                    <p>2. Receba catálogo e direcionamento</p>
-                    <p>3. Avance para proposta comercial</p>
-                  </div>
+                <div>
+                  <Label htmlFor="businessType">Tipo de negócio</Label>
+                  <Input
+                    id="businessType"
+                    {...form.register("businessType")}
+                    className="mt-2 h-12"
+                    placeholder="Indústria, distribuidor, engenharia, integrador..."
+                  />
                 </div>
 
-                <div className="mt-12 space-y-3">
-                  <Button size="lg" className="w-full bg-amber-500 text-white hover:bg-amber-600" asChild>
-                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                      Falar no WhatsApp
-                    </a>
-                  </Button>
-                  <Button size="lg" variant="outline" className="w-full border-white/30 text-white bg-transparent hover:bg-white/10" asChild>
+                <div>
+                  <Label htmlFor="message">Contexto da demanda *</Label>
+                  <Textarea
+                    id="message"
+                    {...form.register("message")}
+                    className="mt-2 min-h-[160px]"
+                    placeholder="Explique a necessidade, aplicação, urgência, equipamento ou objetivo comercial."
+                  />
+                  {form.formState.errors.message && (
+                    <p className="mt-1 text-sm text-red-500">{form.formState.errors.message.message}</p>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full bg-amber-500 text-white hover:bg-amber-600"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Enviando..." : "Enviar com contexto"}
+                </Button>
+
+                <div className="grid gap-4 border-t border-slate-200 pt-6 sm:grid-cols-3">
+                  {HUB_INTENT_OPTIONS.map((intent) => (
                     <Link
+                      key={intent.value}
                       href={buildContactHref({
-                        assunto: DEFAULT_SUBJECT,
+                        intent: intent.value,
                         empresa: selectedCompanySlug,
-                        origem: `${originContext}-sidebar`,
+                        origem: `contato-switch-${intent.value}`,
                       })}
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100"
                     >
-                      Reabrir com contexto
+                      {intent.label}
                     </Link>
-                  </Button>
+                  ))}
                 </div>
-              </div>
-            </motion.div>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 py-20">
+        <div className="site-container grid gap-6 md:grid-cols-3">
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
+            <HiOutlinePhone className="h-6 w-6 text-amber-500" />
+            <p className="mt-4 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Telefone</p>
+            <a href="tel:+5512988737347" className="mt-2 block text-lg font-black text-[#0a1d37]">
+              +55 12 98873-7347
+            </a>
+          </div>
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
+            <HiOutlineMail className="h-6 w-6 text-amber-500" />
+            <p className="mt-4 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">E-mail</p>
+            <a href="mailto:vendas@raemtools.com.br" className="mt-2 block text-lg font-black text-[#0a1d37]">
+              vendas@raemtools.com.br
+            </a>
+          </div>
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
+            <HiOutlineLocationMarker className="h-6 w-6 text-amber-500" />
+            <p className="mt-4 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Base</p>
+            <p className="mt-2 text-lg font-black text-[#0a1d37]">Taubaté - SP</p>
           </div>
         </div>
       </section>
@@ -660,7 +400,7 @@ function ContatoContent() {
 export default function ContatoPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-white" />}>
-      <ContatoContent />
+      <ContactContent />
     </Suspense>
   );
 }

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contato Comercial | Elcio",
+  title: "Central de Qualificação | Elcio",
   description:
-    "Solicite consultoria + catálogo com o Elcio e receba atendimento comercial orientado para a sua demanda.",
+    "Abra o contato pelo hub B2B do Elcio com intenção, empresa e contexto comercial mais claros.",
   openGraph: {
-    title: "Contato Comercial | Elcio",
+    title: "Central de Qualificação | Elcio",
     description:
-      "Solicite consultoria + catálogo com o Elcio e receba atendimento comercial orientado para a sua demanda.",
+      "Abra o contato pelo hub B2B do Elcio com intenção, empresa e contexto comercial mais claros.",
     type: "website",
   },
 };

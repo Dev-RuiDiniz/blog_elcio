@@ -18,8 +18,8 @@ const navLinks = [
 
 const ctaButtons = [
   {
-    label: "Consultoria + Catálogo",
-    href: buildContactHref({ assunto: "consultoria-catalogo", origem: "header" }),
+    label: "Explorar Hub",
+    href: "/marcas",
     variant: "outline" as const,
   },
   {
@@ -55,7 +55,7 @@ export function Header() {
   const pathname = usePathname();
 
   const hasDarkHeroAtTop =
-    pathname === "/marcas" || pathname.startsWith("/p/");
+    pathname === "/marcas" || pathname.startsWith("/p/") || pathname.startsWith("/solucoes/");
   const showDarkElements = isScrolled || !hasDarkHeroAtTop;
 
   useEffect(() => {
