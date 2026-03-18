@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { COMPANY_COUNT } from "@/lib/lead-context";
 
 export const metadata: Metadata = {
-  title: "Hub de Empresas | Elcio",
+  title: "Empresas e Soluções | Elcio Hub B2B",
   description:
-    `Explore o hub B2B com ${COMPANY_COUNT} empresas industriais, filtros por solução e entrada comercial orientada por contexto.`,
+    `Explore o hub B2B com ${COMPANY_COUNT} empresas industriais, filtros por solução, comparação orientada e entrada comercial com contexto.`,
   openGraph: {
-    title: "Hub de Empresas | Elcio",
+    title: "Empresas e Soluções | Elcio Hub B2B",
     description:
-      `Explore o hub B2B com ${COMPANY_COUNT} empresas industriais, filtros por solução e entrada comercial orientada por contexto.`,
+      `Explore o hub B2B com ${COMPANY_COUNT} empresas industriais, filtros por solução, comparação orientada e entrada comercial com contexto.`,
     type: "website",
   },
 };

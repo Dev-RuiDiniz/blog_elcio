@@ -10,12 +10,12 @@ interface SeoSiteConfig {
 }
 
 const baseConfig: SeoSiteConfig = {
-  title: "Elcio Hub B2B | 7 empresas, comparação e encaminhamento comercial",
+  title: "Elcio Hub B2B | Descubra, compare e acione a empresa industrial certa",
   description:
-    "Hub B2B para descobrir, comparar e acionar 7 empresas industriais por solução, intenção de compra e contexto comercial.",
+    "Hub B2B para descobrir, comparar e acionar 7 empresas industriais por solução, aplicação e contexto comercial.",
   favicon: "/favicon.ico",
   keywords:
-    "elcio, hub b2b, representacao comercial, consultoria comercial, catalogo tecnico, empresas industriais, comparacao de fornecedores",
+    "elcio, hub b2b, representacao comercial, comparacao de empresas industriais, catalogo tecnico, qualidade de energia, lubrificacao especial",
 };
 
 const seoMap: Record<SeoKey, SeoSiteConfig> = { elcio: baseConfig };

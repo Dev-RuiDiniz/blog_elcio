@@ -85,35 +85,19 @@ export const HUB_INTENT_OPTIONS: BuyerIntentOption[] = [
 
 export const HUB_SEGMENTS: HubSegmentDefinition[] = [
   {
-    slug: "usinagem",
-    label: "Usinagem",
-    title: "Soluções para usinagem",
-    description:
-      "Ferramentas e processos para furação, fresamento, torneamento, rosqueamento e ganho de produtividade em operações metalmecânicas.",
-    shortDescription: "Ferramentas e suporte para produtividade em usinagem.",
-    heroTitle: "Usinagem com mais previsibilidade comercial e técnica",
-    heroDescription:
-      "Encontre empresas voltadas à seleção de ferramentas, aplicações especiais e apoio consultivo para operações de usinagem.",
-    idealFor: [
-      "Engenharia de processo",
-      "Produção metalmecânica",
-      "Moldes, matrizes e manutenção industrial",
-    ],
-  },
-  {
     slug: "ferramentas-especiais",
     label: "Ferramentas especiais",
-    title: "Ferramentas especiais sob aplicação",
+    title: "Soluções especiais sob aplicação",
     description:
-      "Empresas com foco em projetos fora do padrão, geometrias dedicadas, repetibilidade e integração com a necessidade do processo.",
-    shortDescription: "Projetos especiais para operações fora do padrão.",
-    heroTitle: "Quando a ferramenta padrão não resolve",
+      "Empresas com foco em demandas fora do padrão, proteção mecânica, lubrificação especial e soluções que exigem leitura dedicada da aplicação.",
+    shortDescription: "Projetos e produtos especiais para cenários fora do padrão.",
+    heroTitle: "Quando a solução padrão não resolve",
     heroDescription:
-      "Compare empresas que atuam com soluções especiais, insertos dedicados e projetos para exigências de tolerância, acabamento e ganho de ciclo.",
+      "Compare empresas voltadas a aplicações especiais, lubrificação de alta performance e necessidades que exigem aderência técnica acima do catálogo básico.",
     idealFor: [
-      "Demandas fora do catálogo padrão",
-      "Insertos e ferramentas dedicadas",
-      "Projetos com tolerâncias e geometrias específicas",
+      "Demandas fora do padrão comercial",
+      "Proteção mecânica e lubrificação de alta performance",
+      "Projetos que exigem leitura técnica específica da aplicação",
     ],
   },
   {
@@ -229,7 +213,7 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     solutionTypes: ["lubrificantes especiais", "aditivos industriais", "PTFE", "MoS2", "proteção mecânica"],
     primaryApplications: ["redução de atrito e desgaste", "lubrificação industrial crítica", "aumento de vida útil de componentes"],
     buyerIntents: ["entender-melhor-opcao", "solicitar-contato-comercial", "receber-catalogo"],
-    comparisonTags: ["lubrificação", "proteção mecânica", "redução de atrito", "vida útil"],
+    comparisonTags: ["lubrificação", "proteção mecânica", "manutenção industrial", "vida útil"],
   },
   {
     slug: "solofil",

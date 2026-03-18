@@ -250,10 +250,11 @@ export default async function DynamicPage({
           <div className="max-w-3xl">
             <span className="site-badge">Compare com outras empresas</span>
             <h2 className="site-heading mt-4">
-              Se esta não for a única opção, o hub mostra os caminhos mais próximos.
+              Se esta não for a única opção, o hub mostra caminhos complementares para avançar.
             </h2>
             <p className="site-copy mt-4">
-              Estas empresas compartilham cluster, aplicações ou sinais de comparação com {company.name}.
+              Estas empresas ajudam a comparar abordagens complementares, proximidade de aplicação
+              ou próximos passos relacionados a {company.name} dentro do hub.
             </p>
           </div>
 

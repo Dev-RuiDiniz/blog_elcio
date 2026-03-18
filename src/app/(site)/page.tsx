@@ -35,8 +35,8 @@ const methodSteps = [
 
 const signals = [
   "7 empresas com perfis complementares",
-  "Entrada única para descoberta, comparação e contato",
-  "Portfólio organizado por solução, setor e intenção de compra",
+  "Entrada única para descobrir, comparar e acionar a empresa certa",
+  "Portfólio organizado por solução, aplicação e intenção de compra",
 ];
 
 const counters = [
@@ -47,9 +47,9 @@ const counters = [
 ];
 
 const buyerQuestions = [
-  "Quem atende melhor uma necessidade de usinagem ou ferramenta especial?",
-  "Qual empresa faz mais sentido para filtragem, ventilação, motores ou acionamentos?",
-  "Quando a demanda é compra de solução e quando é manutenção técnica industrial?",
+  "Qual empresa atende melhor qualidade de energia, lubrificação especial ou manutenção industrial?",
+  "Quem faz mais sentido para filtragem, ventilação, motores e acionamentos?",
+  "Como comparar opções antes de abrir o contato comercial?",
 ];
 
 export default function Home() {
@@ -59,7 +59,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(245,158,11,0.18),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(56,189,248,0.16),_transparent_34%)]" />
         <div className="absolute inset-0 opacity-20">
           <Image
-            src="/images/empresas/wmg-assistencia-tecnica/cover.jpg"
+            src={orderedCompanies[0]?.coverPublicPath || "/images/empresas/ardiri/cover.png"}
             alt=""
             fill
             priority
@@ -75,12 +75,12 @@ export default function Home() {
                 Hub B2B de Soluções Industriais
               </span>
               <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight md:text-6xl">
-                Descubra qual das 7 empresas do portfólio atende melhor a sua demanda.
+                Descubra, compare e acione a empresa industrial certa em um único ponto de entrada.
               </h1>
               <p className="mt-6 max-w-3xl text-lg leading-relaxed text-slate-200 md:text-xl">
-                O site agora opera como um hub de descoberta, comparação e encaminhamento comercial.
-                Você entra pela necessidade, compara caminhos e sai com contato, catálogo e direção
-                técnica mais claros.
+                O hub reúne 7 empresas complementares para transformar uma dúvida comercial em
+                direção prática: você entra pela necessidade, compara caminhos e sai com contato,
+                catálogo e encaminhamento técnico mais claros.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -88,7 +88,7 @@ export default function Home() {
                   href="/marcas"
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-7 py-4 text-base font-bold text-white transition-colors hover:bg-amber-600"
                 >
-                  Explorar o hub
+                  Comparar empresas e soluções
                   <HiArrowRight className="h-5 w-5" />
                 </Link>
                 <Link

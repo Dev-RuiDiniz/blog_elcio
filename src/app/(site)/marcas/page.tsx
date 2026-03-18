@@ -95,8 +95,8 @@ export default function MarcasPage() {
                 Comece pela necessidade, não pela marca.
               </h2>
               <p className="mt-3 max-w-2xl text-slate-600">
-                Filtre por cluster de solução ou pesquise palavras como usinagem, filtragem,
-                motores, acionamentos ou manutenção eletrônica.
+                Filtre por cluster de solução ou pesquise termos como qualidade de energia,
+                lubrificação especial, filtragem, motores, acionamentos ou manutenção eletrônica.
               </p>
             </div>
             <div className="relative">
@@ -104,7 +104,7 @@ export default function MarcasPage() {
               <Input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Pesquisar por empresa, aplicação ou solução"
+                placeholder="Pesquisar por empresa, aplicação, solução ou dor técnica"
                 className="h-13 rounded-xl border-slate-200 bg-white pl-12"
               />
             </div>

@@ -10,7 +10,7 @@ import {
 import { COMPANY_COUNT, COMPANY_OPTIONS, buildContactHref, buildWhatsappHref } from "@/lib/lead-context";
 
 const orderedCompanies = [...COMPANY_OPTIONS].sort((a, b) => a.order - b.order);
-const DARK_BG_LOGO_SLUGS = ["fecial", "mercosul-motores"];
+const DARK_BG_LOGO_SLUGS = ["ardiri", "mercosul-motores"];
 
 const pillars = [
   {
@@ -50,7 +50,7 @@ export default function SobrePage() {
         <div className="absolute inset-0 bg-[#0a1d37]" />
         <div className="absolute inset-0 opacity-15">
           <Image
-            src={orderedCompanies[0]?.coverPublicPath || "/images/empresas/dormer-pramet/cover.jpg"}
+            src={orderedCompanies[0]?.coverPublicPath || "/images/empresas/ardiri/cover.png"}
             alt=""
             fill
             priority
@@ -183,8 +183,8 @@ export default function SobrePage() {
               O portfólio que o Elcio conecta ao mercado
             </h2>
             <p className="mx-auto max-w-3xl site-copy">
-              A atuação comercial passa por empresas com foco em ferramentas, filtragem, acionamentos
-              e soluções industriais complementares.
+              A atuação comercial passa por empresas com foco em qualidade de energia, lubrificação
+              especial, filtragem, acionamentos, motores e manutenção industrial.
             </p>
           </div>
 

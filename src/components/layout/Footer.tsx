@@ -28,7 +28,7 @@ const linkGroups = [
     links: [
       {
         href: buildContactHref({ assunto: "consultoria-catalogo", origem: "footer" }),
-        label: "Consultoria + Catálogo",
+        label: "Comparar e qualificar",
       },
       {
         href: buildWhatsappHref({ origem: "footer" }),

@@ -18,7 +18,7 @@ const navLinks = [
 
 const ctaButtons = [
   {
-    label: "Explorar Hub",
+    label: "Comparar empresas",
     href: "/marcas",
     variant: "outline" as const,
   },
