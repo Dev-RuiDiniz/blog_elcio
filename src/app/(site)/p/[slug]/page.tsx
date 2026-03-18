@@ -106,9 +106,10 @@ export default async function DynamicPage({
                   href={company.pdfPublicPath}
                   target="_blank"
                   rel="noopener noreferrer"
+                  download
                   className="inline-flex items-center justify-center rounded-xl border border-white/30 px-7 py-4 text-base font-bold text-white transition-colors hover:bg-white hover:text-[#07111f]"
                 >
-                  Ver catálogo técnico
+                  Baixar catálogo técnico
                 </a>
               </div>
             </div>
