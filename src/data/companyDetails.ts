@@ -16,139 +16,139 @@ export interface CompanyPageDetail {
 }
 
 export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
-  "dormer-pramet": {
+  ardiri: {
     heroDescription:
-      "Fornecedor global de ferramentas de corte e serviços relacionados, com portfólio integrado para furação, fresamento, torneamento, rosqueamento e sistemas de fixação para usinagem.",
-    overviewTitle: "Ferramentas de corte para produtividade e previsibilidade",
+      "Soluções para qualidade de energia e proteção elétrica com filtros capacitivos certificados, voltadas a reduzir perdas, proteger ativos e elevar a eficiência industrial.",
+    overviewTitle: "Qualidade de energia como alavanca de proteção e produtividade",
     overviewParagraphs: [
-      "A Dormer Pramet atua globalmente no fornecimento de ferramentas de corte para a indústria metalmecânica, unificando as marcas Dormer e Pramet em uma oferta completa para usinagem.",
-      "No Brasil, a marca combina ferramentas rotativas e indexáveis para operações de furação, fresamento, torneamento e rosqueamento, incluindo linhas para manutenção industrial, engenharia geral, moldes e matrizes e aplicações mais exigentes.",
+      "A Ardiri Soluções Empresariais atua com foco em eficiência energética, qualidade de energia e proteção de sistemas elétricos, apoiando operações que sofrem com distorções, perdas e sensibilidade de equipamentos.",
+      "Seu portfólio se destaca pelos filtros capacitivos certificados e pela proposta de unir proteção elétrica, economia de energia e maior estabilidade operacional em plantas industriais e estruturas empresariais.",
     ],
     products: [
       {
-        title: "Furação e holemaking",
+        title: "Filtros capacitivos certificados",
         description:
-          "Brocas em HSS e metal duro, linhas de alto desempenho, furação profunda, brocas intercambiáveis, escareadores, alargadores e brocas de centro.",
+          "Soluções voltadas à correção e ao condicionamento da energia para proteger máquinas, eletrônicos e infraestrutura crítica.",
       },
       {
-        title: "Fresamento sólido e indexável",
+        title: "Proteção e estabilidade elétrica",
         description:
-          "Fresas de topo, faceamento, esquadrejamento, alto avanço, cópia, interpolação de rosca e usinagem para moldes e matrizes.",
+          "Aplicações pensadas para reduzir impactos de distorções harmônicas, proteger a operação e ampliar a confiabilidade do sistema elétrico.",
       },
       {
-        title: "Torneamento e canal",
+        title: "Eficiência energética",
         description:
-          "Ferramentas e insertos ISO para torneamento externo e interno, corte, canal, rosqueamento e abertura de rasgo de chaveta.",
+          "Projetos orientados à redução de desperdícios energéticos e ao ganho econômico sem perder robustez operacional.",
       },
       {
-        title: "Rosqueamento e sistemas",
+        title: "Soluções empresariais integradas",
         description:
-          "Machos, fresas de rosca, sistemas de mandrilamento e acessórios para atender desde manutenção até produção seriada.",
+          "Combinação entre leitura técnica do cenário elétrico, proposta de proteção e direcionamento para aumento de produtividade.",
       },
     ],
     services: [
       {
-        title: "Suporte técnico de aplicação",
+        title: "Diagnóstico consultivo",
         description:
-          "Apoio para seleção de ferramenta, definição de geometria e recomendação de processo conforme material, operação e meta de produtividade.",
+          "Leitura do contexto energético e operacional para entender onde a instabilidade elétrica impacta disponibilidade, consumo e risco.",
       },
       {
-        title: "Portfólio MRO e engenharia geral",
+        title: "Aplicação orientada a resultado",
         description:
-          "Oferta ampla para manutenção, reparo e operação, com ferramentas para holemaking, threading, milling, reaming, countersinking e deburring.",
+          "Recomendação de soluções para reduzir perdas, proteger ativos e apoiar metas de produtividade com mais previsibilidade elétrica.",
       },
       {
-        title: "Soluções especiais",
+        title: "Apoio comercial técnico",
         description:
-          "Capacidade de apoiar demandas específicas com ferramentas e configurações adaptadas ao cenário de usinagem do cliente.",
+          "Encaminhamento com contexto para operações que precisam justificar investimento por desempenho, proteção e economia.",
       },
     ],
     sectors: [
-      "Engenharia geral e manutenção industrial",
-      "Moldes e matrizes",
-      "Ferroviário, energia e aeroespacial",
-      "Produção seriada e usinagem pesada",
+      "Indústrias com sensibilidade a distorções e falhas elétricas",
+      "Operações com máquinas, automação e eletrônicos críticos",
+      "Empresas com meta de economia de energia e confiabilidade",
+      "Plantas industriais e estruturas empresariais de alta demanda elétrica",
     ],
     differentiators: [
-      "Mais de 100 anos de experiência acumulada em ferramentas de corte",
-      "Presença global em mais de 100 mercados",
-      "Portfólio unificado que combina ferramentas rotativas e indexáveis",
-      "Suporte para diferentes materiais, operações e níveis de criticidade",
+      "Posicionamento centrado em eficiência energética e qualidade de energia",
+      "Portfólio com filtros capacitivos certificados",
+      "Proposta comercial conectada a proteção elétrica, economia e produtividade",
+      "Atuação em cenários em que falha elétrica compromete máquinas e eletrônicos críticos",
     ],
     idealFor: [
-      "Quem precisa de portfólio amplo para usinagem",
-      "Operações de furação, fresamento, torneamento e rosqueamento",
-      "Compras técnicas que querem previsibilidade e suporte de aplicação",
+      "Operações com quebras, instabilidades ou sensibilidade elétrica recorrente",
+      "Projetos que precisam justificar eficiência energética com ganho operacional",
+      "Compradores técnicos que buscam proteção elétrica e estabilidade da planta",
     ],
     seoDescription:
-      "Conheça a Dormer Pramet: ferramentas de corte para furação, fresamento, torneamento e rosqueamento com suporte técnico e foco em produtividade.",
+      "Conheça a Ardiri: filtros capacitivos, qualidade de energia, proteção elétrica e soluções para eficiência e produtividade industrial.",
   },
-  fecial: {
+  autoplast: {
     heroDescription:
-      "Especialista em ferramentas especiais para usinagem, com forte atuação em insertos, lâminas, fresamento, rosqueamento, mandrilamento e projetos sob medida.",
-    overviewTitle: "Usinagem especial quando o processo precisa sair do convencional",
+      "Fabricante de lubrificantes especiais e aditivos industriais de alta performance com PTFE e MoS2, voltados à redução de atrito, desgaste e falhas mecânicas.",
+    overviewTitle: "Lubrificação especial quando o desgaste mecânico vira custo de operação",
     overviewParagraphs: [
-      "A Fecial é uma fabricante brasileira de ferramentas especiais para usinagem, com histórico consolidado em soluções personalizadas para ganho de produtividade, repetibilidade e acabamento.",
-      "A empresa atua em projetos que exigem geometrias específicas, tolerâncias estreitas e integração entre engenharia, fabricação e controle de qualidade, apoiando clientes em demandas que vão além das ferramentas padrão.",
+      "A Autoplast atua com aditivos e lubrificantes especiais para aplicações industriais e automotivas, com forte presença em soluções de alto desempenho para redução de atrito e proteção de componentes.",
+      "Seu portfólio combina compostos com PTFE, MoS2 e formulações específicas para redutores, sistemas hidráulicos, compressores, motores, graxas e sprays, sempre com a proposta de aumentar vida útil e confiabilidade mecânica.",
     ],
     products: [
       {
-        title: "Insertos especiais",
+        title: "Lubrificantes especiais",
         description:
-          "Insertos complexos, com tolerâncias estreitas, geometria, perfil e fixação definidos de acordo com a necessidade do projeto.",
+          "Linhas para aplicações que exigem proteção superior contra atrito, desgaste, aquecimento e perda de eficiência mecânica.",
       },
       {
-        title: "Lâminas e acabamento de furos",
+        title: "Aditivos com PTFE e MoS2",
         description:
-          "Lâminas para alargadores em metal duro, com foco em estabilidade dimensional, concentricidade e rugosidade controlada.",
+          "Formulações voltadas a formar película protetiva, reduzir contato metal-metal e ampliar a durabilidade dos sistemas.",
       },
       {
-        title: "Fresamento, torneamento e rosqueamento",
+        title: "Soluções para redutores, hidráulicos e compressores",
         description:
-          "Fresas intercambiáveis, soluções para torneamento CNC e multitarefa, rosqueamento especial, fresamento de módulo e canal para chaveta.",
+          "Produtos específicos para conjuntos mecânicos sujeitos a carga, calor, contaminação e necessidade de lubrificação mais confiável.",
       },
       {
-        title: "Mandrilamento, furação e projetos especiais",
+        title: "Sprays, graxas e óleos de aplicação",
         description:
-          "Barras de mandrilar, suportes, cápsulas, brocas sob aplicação e ferramentas desenvolvidas para operações específicas.",
+          "Portfólio complementar para manutenção, proteção e aumento da vida útil em diferentes contextos industriais.",
       },
     ],
     services: [
       {
-        title: "Engenharia de aplicação",
+        title: "Leitura da aplicação mecânica",
         description:
-          "Equipe técnica e de engenharia dedicada ao desenvolvimento de processos de usinagem personalizados para cada necessidade.",
+          "Apoio para identificar pontos de atrito, desgaste, ruído, vibração ou falha prematura no conjunto mecânico.",
       },
       {
-        title: "Acompanhamento de desempenho",
+        title: "Recomendação por condição operacional",
         description:
-          "Suporte para validar funcionamento, estabilidade, repetibilidade e durabilidade das ferramentas no processo produtivo.",
+          "Direcionamento do produto conforme tipo de equipamento, regime de carga, temperatura e objetivo de proteção.",
       },
       {
-        title: "Otimização de produtividade",
+        title: "Apoio comercial orientado a confiabilidade",
         description:
-          "Projetos voltados a reduzir tempo de máquina, melhorar acabamento e aumentar a eficiência da operação.",
+          "Encaminhamento para aplicações que precisam reduzir parada, manutenção corretiva e substituição recorrente de componentes.",
       },
     ],
     sectors: [
-      "Usinagem seriada e produção industrial",
-      "Aplicações de rosqueamento especial e petróleo",
-      "Acabamento de furos, engrenagens e mandrilamento",
-      "Operações que exigem ferramenta fora do padrão",
+      "Indústrias com redutores, bombas, compressores e sistemas hidráulicos",
+      "Manutenção industrial e confiabilidade mecânica",
+      "Operações com motores, engrenagens e componentes sujeitos a desgaste",
+      "Aplicações que exigem lubrificação especial e proteção prolongada",
     ],
     differentiators: [
-      "Maior fabricante de inserto especial do Brasil, segundo a própria empresa",
-      "Mais de 30 anos de atuação em ferramentas especiais",
-      "Mais de 1.250.000 ferramentas especiais entregues",
-      "Processos apoiados por ISO 9001, laboratório e parque fabril com retíficas CNC e células robotizadas",
+      "Foco em lubrificantes e aditivos especiais de alta performance",
+      "Aplicações com PTFE e MoS2 para redução de atrito e desgaste",
+      "Portfólio voltado à proteção mecânica e aumento de vida útil",
+      "Posicionamento claro para reduzir falhas, ruído, vibração e custo de manutenção",
     ],
     idealFor: [
-      "Demandas fora do catálogo padrão",
-      "Projetos com geometrias e tolerâncias específicas",
-      "Times de processo que precisam de solução dedicada",
+      "Equipamentos com desgaste mecânico recorrente e alto custo de parada",
+      "Times de manutenção que precisam elevar vida útil de conjuntos críticos",
+      "Cenários em que lubrificação especial reduz atrito, ruído e vibração",
     ],
     seoDescription:
-      "Conheça a Fecial: ferramentas especiais para usinagem, insertos, lâminas, fresamento, rosqueamento e projetos personalizados.",
+      "Conheça a Autoplast: lubrificantes especiais, aditivos industriais, PTFE, MoS2 e soluções para reduzir atrito e desgaste mecânico.",
   },
   solofil: {
     heroDescription:
