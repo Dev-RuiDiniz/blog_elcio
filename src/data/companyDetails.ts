@@ -15,129 +15,119 @@ export interface CompanyPageDetail {
 }
 
 export const COMPANY_PAGE_DETAILS: Record<string, CompanyPageDetail> = {
-  "dormer-pramet": {
+  autoplast: {
     heroDescription:
-      "Fornecedor global de ferramentas de corte e serviços relacionados, com portfólio integrado para furação, fresamento, torneamento, rosqueamento e sistemas de fixação para usinagem.",
-    overviewTitle: "Ferramentas de corte para produtividade e previsibilidade",
+      "Fabricante brasileira de aditivos e lubrificantes especiais de alta performance com PTFE e MoS2, com mais de 30 anos no mercado, atuando na redução de atrito e proteção de equipamentos mecânicos em operações industriais.",
+    overviewTitle: "Lubrificação de alta performance que vai além do óleo convencional",
     overviewParagraphs: [
-      "A Dormer Pramet atua globalmente no fornecimento de ferramentas de corte para a indústria metalmecânica, unificando as marcas Dormer e Pramet em uma oferta completa para usinagem.",
-      "No Brasil, a marca combina ferramentas rotativas e indexáveis para operações de furação, fresamento, torneamento e rosqueamento, incluindo linhas para manutenção industrial, engenharia geral, moldes e matrizes e aplicações mais exigentes.",
+      "A Autoplast Motores está no mercado desde 1992, desenvolvendo aditivos e lubrificantes especiais com base em PTFE (Teflon®) e MoS2 para reduzir desgastes, ruído, vibração e prolongar a vida útil de equipamentos mecânicos.",
+      "Seus produtos tratam a superfície da zona de atrito, revestindo com lubrificante sólido que permanece no local como lubrificação de emergência, eliminando a partida a seco e protegendo contra oxidação mesmo em paradas prolongadas como entressafra.",
     ],
     products: [
       {
-        title: "Furação e holemaking",
+        title: "Graxas de alta performance",
         description:
-          "Brocas em HSS e metal duro, linhas de alto desempenho, furação profunda, brocas intercambiáveis, escareadores, alargadores e brocas de centro.",
+          "Graxas com PTFE e/ou MoS2 para mancais, rolamentos, engrenagens e guias — incluindo MPF, GATFB, NZG-1004T e MPFBI — para operar em ambientes com alta carga, umidade, temperatura ou contaminantes.",
       },
       {
-        title: "Fresamento sólido e indexável",
+        title: "Óleos e aditivos especiais",
         description:
-          "Fresas de topo, faceamento, esquadrejamento, alto avanço, cópia, interpolação de rosca e usinagem para moldes e matrizes.",
+          "Aditivos concentrados LCC-90, HD-68, ANTIGOTA-V400 e ANTIGOTA-V100 para redutores, sistemas hidráulicos, bombas e pneumática. Formam filme de PTFE que reduz desgaste e protege em paradas prolongadas.",
       },
       {
-        title: "Torneamento e canal",
+        title: "Sprays com PTFE e MoS2",
         description:
-          "Ferramentas e insertos ISO para torneamento externo e interno, corte, canal, rosqueamento e abertura de rasgo de chaveta.",
+          "AGBA, NZO SA, PTFE Powder Spray e PTFE+MoS2 Powder Spray para montagem mecânica, correntes, nórias e lubrificação seca — formando filme antiaderente e autolubrificante.",
       },
       {
-        title: "Rosqueamento e sistemas",
+        title: "AutoCleaning — preparação de superfície",
         description:
-          "Machos, fresas de rosca, sistemas de mandrilamento e acessórios para atender desde manutenção até produção seriada.",
+          "Produto para dissolver vernizes, borras e carbonizados de óleo sem agredir pintura ou borrachas nitrílicas, preparando a superfície para fixação do PTFE.",
       },
     ],
     services: [
+      {
+        title: "Diagnóstico e preparação de superfície",
+        description:
+          "Orientação sobre limpeza e preparo do circuito de lubrificação para garantir a adesão e eficácia do tratamento com PTFE.",
+      },
+      {
+        title: "Tratamento com PTFE e MoS2",
+        description:
+          "Aplicação dos produtos conforme a necessidade: graxas, óleos, aditivos ou sprays específicos para cada tipo de equipamento e condição operacional.",
+      },
       {
         title: "Suporte técnico de aplicação",
         description:
-          "Apoio para seleção de ferramenta, definição de geometria e recomendação de processo conforme material, operação e meta de produtividade.",
-      },
-      {
-        title: "Portfólio MRO e engenharia geral",
-        description:
-          "Oferta ampla para manutenção, reparo e operação, com ferramentas para holemaking, threading, milling, reaming, countersinking e deburring.",
-      },
-      {
-        title: "Soluções especiais",
-        description:
-          "Capacidade de apoiar demandas específicas com ferramentas e configurações adaptadas ao cenário de usinagem do cliente.",
+          "Orientação sobre taxas de aplicação, escolha do produto ideal e resultados esperados, com histórico de casos em usinas, colhedoras e equipamentos industriais.",
       },
     ],
     sectors: [
-      "Engenharia geral e manutenção industrial",
-      "Moldes e matrizes",
-      "Ferroviário, energia e aeroespacial",
-      "Produção seriada e usinagem pesada",
+      "Siderurgia e metalurgia",
+      "Agronegócio — usinas de açúcar e álcool, colhedoras e implementos",
+      "Cerâmica, têxtil e indústrias alimentícias",
+      "Frigoríficos, transporte e armazéns",
     ],
     differentiators: [
-      "Mais de 100 anos de experiência acumulada em ferramentas de corte",
-      "Presença global em mais de 100 mercados",
-      "Portfólio unificado que combina ferramentas rotativas e indexáveis",
-      "Suporte para diferentes materiais, operações e níveis de criticidade",
+      "No mercado desde 1992, com clientes em múltiplos segmentos industriais",
+      "PTFE com coeficiente de atrito entre 0,02 e 0,1 — equivalente a gelo/gelo",
+      "Redução comprovada de 57% em ruído e vibração em redutores de usina de açúcar",
+      "AutoCleaning dissolve verniz de óleo sem agredir pintura ou borrachas nitrílicas",
     ],
     seoDescription:
-      "Conheça a Dormer Pramet: ferramentas de corte para furação, fresamento, torneamento e rosqueamento com suporte técnico e foco em produtividade.",
+      "Conheça a Autoplast Motores: aditivos e lubrificantes especiais com PTFE e MoS2 para redução de atrito, proteção e aumento da vida útil de equipamentos industriais.",
   },
-  fecial: {
+  ardiri: {
     heroDescription:
-      "Especialista em ferramentas especiais para usinagem, com forte atuação em insertos, lâminas, fresamento, rosqueamento, mandrilamento e projetos sob medida.",
-    overviewTitle: "Usinagem especial quando o processo precisa sair do convencional",
+      "Soluções empresariais em qualidade de energia com Filtros Capacitivos certificados pelos principais institutos nacionais e internacionais, gerando proteção de equipamentos, aumento de produtividade e economia de energia elétrica com payback em 10 meses.",
+    overviewTitle: "Energia mais limpa que protege equipamentos e reduz custos",
     overviewParagraphs: [
-      "A Fecial é uma fabricante brasileira de ferramentas especiais para usinagem, com histórico consolidado em soluções personalizadas para ganho de produtividade, repetibilidade e acabamento.",
-      "A empresa atua em projetos que exigem geometrias específicas, tolerâncias estreitas e integração entre engenharia, fabricação e controle de qualidade, apoiando clientes em demandas que vão além das ferramentas padrão.",
+      "A Ardiri comercializa Filtros Capacitivos Lumilight que identificam distúrbios elétricos — distorções harmônicas, transitórios impulsivos, variações de tensão e espúrios — e os desviam para o aterramento, entregando energia mais limpa à rede interna.",
+      "Distribuidora oficial Lumilight do Brasil, a Ardiri instala os equipamentos em paralelo à rede por profissionais homologados pelo fabricante, garantindo proteção sem interrupção da operação e 10 anos de garantia.",
     ],
     products: [
       {
-        title: "Insertos especiais",
+        title: "Filtros Capacitivos Lumilight",
         description:
-          "Insertos complexos, com tolerâncias estreitas, geometria, perfil e fixação definidos de acordo com a necessidade do projeto.",
+          "Equipamento eletrônico em alto padrão tecnológico que identifica e desvia para o aterramento os transientes elétricos que causam distúrbios, queimas e perdas de produtividade.",
       },
       {
-        title: "Lâminas e acabamento de furos",
+        title: "Instalação trifásica em paralelo",
         description:
-          "Lâminas para alargadores em metal duro, com foco em estabilidade dimensional, concentricidade e rugosidade controlada.",
-      },
-      {
-        title: "Fresamento, torneamento e rosqueamento",
-        description:
-          "Fresas intercambiáveis, soluções para torneamento CNC e multitarefa, rosqueamento especial, fresamento de módulo e canal para chaveta.",
-      },
-      {
-        title: "Mandrilamento, furação e projetos especiais",
-        description:
-          "Barras de mandrilar, suportes, cápsulas, brocas sob aplicação e ferramentas desenvolvidas para operações específicas.",
+          "Instalação segura em paralelo à rede sem necessidade de interrupção da operação, seguindo todas as normas e procedimentos técnicos.",
       },
     ],
     services: [
       {
-        title: "Engenharia de aplicação",
+        title: "Instalação por profissionais homologados",
         description:
-          "Equipe técnica e de engenharia dedicada ao desenvolvimento de processos de usinagem personalizados para cada necessidade.",
+          "Instalação realizada por equipe certificada pelo fabricante, com aterramento adequado (ideal ≤ 5 Ω, aceitável ≤ 10 Ω) e conformidade técnica.",
       },
       {
-        title: "Acompanhamento de desempenho",
+        title: "Monitoramento de resultados e ROI",
         description:
-          "Suporte para validar funcionamento, estabilidade, repetibilidade e durabilidade das ferramentas no processo produtivo.",
+          "Acompanhamento dos ganhos após instalação: perspectiva de payback em 10 meses e ROI médio mensal de 10% do valor investido.",
       },
       {
-        title: "Otimização de produtividade",
+        title: "Garantia de 10 anos",
         description:
-          "Projetos voltados a reduzir tempo de máquina, melhorar acabamento e aumentar a eficiência da operação.",
+          "Suporte de longo prazo com garantia estendida, refletindo a confiabilidade e durabilidade dos equipamentos Lumilight.",
       },
     ],
     sectors: [
-      "Usinagem seriada e produção industrial",
-      "Aplicações de rosqueamento especial e petróleo",
-      "Acabamento de furos, engrenagens e mandrilamento",
-      "Operações que exigem ferramenta fora do padrão",
+      "Indústria — maquinários, motores e equipamentos eletrônicos",
+      "Comércio e serviços com alta demanda elétrica",
+      "Agronegócio e armazéns",
+      "Saúde, hospitais e ambientes críticos",
     ],
     differentiators: [
-      "Maior fabricante de inserto especial do Brasil, segundo a própria empresa",
-      "Mais de 30 anos de atuação em ferramentas especiais",
-      "Mais de 1.250.000 ferramentas especiais entregues",
-      "Processos apoiados por ISO 9001, laboratório e parque fabril com retíficas CNC e células robotizadas",
+      "Certificado por INMETRO, INPI, WIPO, ABNT, ISO 9001, UL Certified, BNDES e Eletrobras",
+      "Perspectiva de payback em 10 meses com ROI médio de 10% ao mês",
+      "10 anos de garantia nos equipamentos instalados",
+      "Distribuidora oficial Lumilight do Brasil com equipe homologada pelo fabricante",
     ],
     seoDescription:
-      "Conheça a Fecial: ferramentas especiais para usinagem, insertos, lâminas, fresamento, rosqueamento e projetos personalizados.",
+      "Conheça a Ardiri: Filtros Capacitivos Lumilight certificados para proteção de equipamentos, economia de energia e aumento de produtividade com payback em 10 meses.",
   },
   solofil: {
     heroDescription:
