@@ -159,7 +159,7 @@ export const COMPANY_OPTIONS: CompanyOption[] = [
     fileName: "Mercosul_motores.pdf",
     pdfPublicPath: "/catalogos/mercosul-motores.pdf",
     logoPublicPath: "/images/empresas/mercosul-motores/logo.svg",
-    coverPublicPath: "/images/empresas/mercosul-motores/cover.png",
+    coverPublicPath: "/images/empresas/mercosul-motores/cover.jpg",
     teaser: "Motores elétricos e soluções industriais com foco em baixa tensão, automação e redutores.",
     ctaSource: "empresa-mercosul-motores",
     order: 6,
