@@ -1,132 +1,241 @@
-# Blog Elcio - Site Comercial + Admin CRM (Next.js + Prisma)
+# Elcio Hub Industrial
 
-Site de apresentação comercial do Elcio com funil `Consultoria + Catálogo` e camada administrativa evoluída para mini-CRM operacional.
+Aplicacao Next.js que concentra o site comercial do Elcio, o hub de empresas industriais, o catalogo tecnico, o blog e um painel administrativo com CMS, CRM e configuracoes operacionais.
 
-## Contatos oficiais
+O projeto atende dois contextos no mesmo codigo:
 
-- E-mail: `vendas@raemtools.com.br`
-- WhatsApp: `+55 12 98873-7347`
-- Localidade: `Taubaté - SP`
+- Site publico com paginas institucionais, paginas de empresas, busca de produtos, blog e captacao de leads.
+- Backoffice autenticado para gestao de conteudo, catalogo, blog, layout, scripts, usuarios e operacao comercial.
 
-## Núcleo público
+## Escopo atual
 
-Rotas ativas:
-- `/`
-- `/marcas`
+### Site publico
+
+Principais areas publicas:
+
+- `/` home do hub B2B
+- `/marcas` vitrine das empresas e solucoes
+- `/p/[slug]` paginas individuais das empresas do portfolio
+- `/produtos` e `/produtos/[slug]` catalogo de produtos
+- `/blog`, `/blog/[slug]` e `/blog/categorias`
+- `/categorias`
+- `/solucoes/[slug]`
 - `/sobre`
-- `/p/[slug]` (6 empresas)
 - `/contato`
+- `/faq`
+- `/garantia`
+- `/manutencao`
 
-Rotas legadas públicas são redirecionadas para `/`.
+O hub hoje trabalha com 7 empresas mapeadas em [`src/lib/lead-context.ts`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/src/lib/lead-context.ts):
 
-## Camada administrativa (CRM)
+- Ardiri
+- Autoplast
+- Solofil
+- Delta Jet
+- NORD DRIVESYSTEMS
+- Mercosul Motores
+- WMG Assistencia Tecnica
 
-Módulos principais no dashboard:
+Fluxos publicos relevantes:
+
+- CTA para contato comercial, consultoria e download de catalogo
+- Captacao de leads pelo site
+- Integracao com Kommo para criacao de leads
+- Fallback por e-mail quando a integracao do CRM nao estiver disponivel
+- Redirecionamentos de slugs legados via [`src/proxy.ts`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/src/proxy.ts)
+
+### Backoffice
+
+Rotas administrativas principais:
+
+- `/login` e `/login/setup`
+- `/admin`
+- `/admin/home`
+- `/admin/banners`
+- `/admin/blog`
+- `/admin/cabecalho`
+- `/admin/catalogo`
+- `/admin/configuracoes`
+- `/admin/acesso`
 - `/admin/crm/contatos`
 - `/admin/crm/clientes`
 - `/admin/crm/chamadas`
 - `/admin/crm/agenda`
-- `/admin/acesso`
+- `/admin/editor/[pageId]`
 - `/admin/kommo`
+- `/admin/marcas`
+- `/admin/paginas`
+- `/admin/parceiros`
+- `/admin/produtos`
 - `/admin/relatorios`
+- `/admin/rodape`
+- `/admin/scripts`
 
-Funcionalidades administrativas entregues:
-- Cadastro e gestão de contatos
-- Gestão de clientes ativos por funil/status
-- Log completo de chamadas com follow-up automático
-- Agenda interna comercial
-- Gestão de acessos (ADMIN/SUPER_ADMIN)
-- Provisionamento dedicado do usuário do Elcio
-- Sincronização manual CRM local + Kommo (incremental/full)
+Capacidades atuais do painel:
+
+- Gestao de produtos, categorias, marcas, parceiros e catalogos
+- Gestao de banners, secoes da home, layout, cabecalho e rodape
+- Gestao de blog, categorias e tags
+- Editor visual/paginas dinamicas
+- CRM interno com contatos, clientes, chamadas e agenda
+- Relatorios com views e cliques
+- Gestao de usuarios administrativos
+- Configuracao da integracao com Kommo
+- Cadastro de scripts de terceiros por posicao no site
+- Upload de arquivos e imagens
 
 ## Stack
 
-- `next@16`, `react@19`, `typescript`
-- `tailwindcss@4`
-- `prisma` + `@prisma/client`
-- `iron-session`
-- `react-hook-form` + `zod`
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Prisma + PostgreSQL
+- iron-session para sessao admin
+- React Hook Form + Zod
+- TipTap para edicao rica
+- Vercel Blob para uploads
+- Nodemailer para fallback de leads por e-mail
 
-## Estrutura relevante
+## Estrutura principal
 
 ```text
 prisma/
-  schema.prisma             # Schema completo (público + admin + CRM)
+  schema.prisma
 src/
   app/
-    (site)/                 # Camada pública
-    admin/                  # Dashboard administrativo
-    api/                    # Endpoints públicos e admin
+    (site)/                  # rotas publicas
+    admin/                   # dashboard administrativo
+    api/                     # APIs publicas, auth e admin
+    login/                   # autenticacao do backoffice
+  components/                # UI publica e admin
+  contexts/                  # providers e temas
+  data/                      # conteudo estruturado e detalhes das empresas
   lib/
-    crm/                    # Camada de domínio CRM
-    lead-context.ts         # Metadados das empresas + contrato CTA
-    admin-auth.ts           # Guard de sessão/role para APIs admin
+    crm/                     # dominio do CRM interno
+    admin-auth.ts            # guardas do admin
+    lead-context.ts          # portfolio, CTAs e contexto comercial
+    prisma.ts                # cliente Prisma
 public/
-  catalogos/
-  images/empresas/
+  catalogos/                 # PDFs tecnicos do portfolio
+  images/                    # imagens fixas do site e das empresas
+  uploads/                   # uploads consumidos pelo CMS
+docs/                        # runbooks, arquitetura e materiais de apoio
+scripts/                     # scripts auxiliares de build
 ```
 
-## Setup local
+## Banco e modelos principais
 
-1. Instalar dependências:
+O schema Prisma cobre tanto o site quanto o backoffice. Entidades centrais:
+
+- `User`
+- `Product`
+- `Brand`
+- `Category`
+- `Partner`
+- `Catalog`
+- `Banner`
+- `BlogPost`, `BlogCategory`, `BlogTag`, `BlogComment`
+- `Page` e estruturas de layout/conteudo
+- `Contact`, `Client`, `CallLog`, `AgendaEvent`
+- `KommoSettings`
+- `PageView` e `Click`
+- `Script`
+
+Referencia: [`prisma/schema.prisma`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/prisma/schema.prisma)
+
+## Variaveis de ambiente
+
+Base minima para rodar o projeto:
+
+```env
+SESSION_SECRET=
+DATABASE_URL=
+BLOB_READ_WRITE_TOKEN=
+NEXT_PUBLIC_SITE_URL=http://localhost:3003
+FRONTEND_ONLY_DEPLOY=0
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USER=
+SMTP_PASS=
+LEAD_FALLBACK_TO=
+```
+
+Arquivo de exemplo: [`.env.example`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/.env.example)
+
+Observacoes:
+
+- `SESSION_SECRET` e obrigatorio para autenticacao admin.
+- `DATABASE_URL` precisa apontar para PostgreSQL.
+- `BLOB_READ_WRITE_TOKEN` e usado nos uploads.
+- As variaveis SMTP sao usadas como fallback quando o envio para Kommo falha ou nao esta configurado.
+- `FRONTEND_ONLY_DEPLOY=1` desabilita acesso ao admin/auth/upload no proxy e permite build de vitrine.
+
+## Como rodar localmente
+
+1. Instale as dependencias:
+
 ```bash
 pnpm install
 ```
 
-2. Configurar ambiente:
-- copiar `.env.example` para `.env`
-- preencher `DATABASE_URL`, `SESSION_SECRET` e variáveis de integração necessárias
+2. Configure o ambiente:
 
-3. Gerar Prisma Client:
+- copie [`.env.example`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/.env.example) para `.env`
+- preencha pelo menos `DATABASE_URL` e `SESSION_SECRET`
+
+3. Gere o client do Prisma:
+
 ```bash
 pnpm prisma generate
 ```
 
-4. Subir para testes:
+4. Rode em desenvolvimento:
+
 ```bash
 pnpm dev
 ```
 
-URL local: `http://localhost:3003`
+Aplicacao local: `http://localhost:3003`
 
-## Contratos do funil
+## Scripts disponiveis
 
-- CTA interno padronizado com: `assunto`, `empresa`, `origem`
-- Assunto padrão: `consultoria-catalogo`
-- Leads públicos: `/api/kommo/leads`
-- CRM admin:
-  - `/api/admin/crm/contacts`
-  - `/api/admin/crm/clients`
-  - `/api/admin/crm/calls`
-  - `/api/admin/crm/agenda`
-  - `/api/admin/crm/sync`
+- `pnpm dev` inicia o Next em `3003`
+- `pnpm build` executa `prisma generate` e `next build`
+- `pnpm build:vercel` executa `prisma generate`, `prisma migrate deploy` e `next build`
+- `pnpm build:frontend` faz build com defaults para deploy somente da vitrine
+- `pnpm start` sobe a aplicacao em modo de producao
+- `pnpm lint` executa o ESLint do projeto
 
-## Segurança admin
+Script de build frontend-only: [`scripts/build-frontend.mjs`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/scripts/build-frontend.mjs)
 
-- Sessão obrigatória para `/admin` e `/api/admin/*`
-- Roles válidas: `ADMIN` e `SUPER_ADMIN`
-- Hardening de login com:
-  - bloqueio por tentativas falhas
-  - validação de usuário ativo
-  - reset seguro por token (`/api/auth/forgot-password` + `/api/auth/reset-password`)
+## APIs em alto nivel
 
-## Dossiês de empresas
+Grupos principais expostos em [`src/app/api`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/src/app/api):
 
-- Arquivos em `docs/empresas/*.md`
-- Índice consolidado: `docs/empresas/README.md`
-- Empresas atuais do portfólio:
-  - `dormer-pramet`
-  - `fecial`
-  - `solofil`
-  - `deltajet`
-  - `nord-drivesystems`
-  - `mercosul-motores`
+- Publicas: banners, blog, brands, categories, home-sections, layout, pages, products, scripts
+- Leads: `/api/leads` e `/api/kommo/leads`
+- Auth: `/api/auth/*`
+- Admin: `/api/admin/*`
+- Upload: `/api/upload` e `/api/upload/client`
+- Seeds operacionais: `/api/seed-home` e `/api/seed-company-pages`
 
-## Scripts
+Mapa consolidado de rotas e endpoints: [`docs/ROTAS-E-APIS.md`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/docs/ROTAS-E-APIS.md)
 
-- `pnpm dev` -> `next dev -p 3003`
-- `pnpm build` -> `prisma generate && next build`
-- `pnpm run build:vercel` -> `prisma generate && prisma migrate deploy && next build`
-- `pnpm run build:frontend` -> build de vitrine sem depender de banco configurado
-- `pnpm start` -> produção
-- `pnpm lint` -> ESLint
+## Conteudo e ativos
+
+- Catalogos tecnicos em [`public/catalogos`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/public/catalogos)
+- Covers e logos das empresas em [`public/images/empresas`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/public/images/empresas)
+- Uploads dinamicos do CMS em [`public/uploads`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/public/uploads)
+- Dossies e referencias das empresas em [`docs/empresas`](/C:/Users/RUI%20FRANCISCO/Documents/GitHub/blog_elcio/docs/empresas)
+
+## Seguranca e comportamento
+
+- O acesso a `/admin` exige cookie de sessao.
+- APIs de administracao ficam sob `/api/admin/*`.
+- O proxy protege admin/login em cenarios frontend-only e aplica redirects de slugs legados.
+- O login possui fluxos de sessao, setup inicial e reset de senha.
+
+## Estado atual do repositório
+
+Este README descreve a realidade atual da aplicacao, mas o repositório ainda possui debitos tecnicos fora deste documento, especialmente avisos e erros de lint em areas administrativas antigas. Isso nao impede a manutencao de conteudo e ativos, mas precisa ser considerado antes de tratar o projeto como totalmente saneado.
